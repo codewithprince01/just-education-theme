@@ -62,6 +62,15 @@ const Header = () => {
                             Exams
                         </Link>
                         <Link
+                            href="/careers"
+                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/careers')
+                                    ? 'text-orange-400'
+                                    : 'text-white hover:text-orange-400'
+                                }`}
+                        >
+                            Careers
+                        </Link>
+                        <Link
                             href="/blog"
                             className={`text-sm font-semibold transition-all duration-300 ${isActive('/blog')
                                     ? 'text-orange-400'
@@ -173,6 +182,16 @@ const Header = () => {
                                     }`}
                             >
                                 Exams
+                            </Link>
+                            <Link
+                                href="/careers"
+                                onClick={toggleMobileMenu}
+                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/careers')
+                                        ? 'bg-orange-500 text-white'
+                                        : 'text-white hover:bg-[#0F4D73]'
+                                    }`}
+                            >
+                                Careers
                             </Link>
                             <Link
                                 href="/blog"

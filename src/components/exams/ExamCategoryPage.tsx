@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, LayoutGrid, List } from 'lucide-react';
 import Breadcrumbs from '../seo/Breadcrumbs';
 import {
     examCategories, exams, examSubCategories, examFilterGroups,
@@ -116,11 +116,80 @@ const ExamListCard = ({ exam }: { exam: Exam }) => (
     </div>
 );
 
+const ExamGridCard = ({ exam }: { exam: Exam }) => (
+    <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full">
+        <div>
+            {/* Top Badge/Status */}
+            <div className="flex items-center justify-between gap-2 mb-4">
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">
+                    {exam.examType}
+                </span>
+                {exam.statusBadge && (
+                    <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
+                        {exam.statusBadge}
+                    </span>
+                )}
+            </div>
+
+            {/* Logo and Title */}
+            <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center p-1.5 flex-shrink-0 overflow-hidden shadow-sm">
+                    <img src={exam.logo} alt={`${exam.name} logo`} className="w-full h-full object-contain" />
+                </div>
+                <div className="min-w-0">
+                    <h3 className="text-base font-bold text-[#0B3C5D] truncate hover:text-[#F57C00] transition-colors" title={exam.name}>
+                        {exam.name}
+                    </h3>
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide truncate" title={exam.fullName}>
+                        {exam.fullName}
+                    </p>
+                </div>
+            </div>
+
+            {/* Description */}
+            <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed mb-4">
+                {exam.description}
+            </p>
+
+            {/* Dates Grid */}
+            <div className="grid grid-cols-2 gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100 mb-4 text-xs">
+                <div className="col-span-2 border-b border-gray-200/60 pb-1.5 mb-0.5">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">application form</p>
+                    <p className="font-semibold text-blue-600 truncate">{exam.applicationForm}</p>
+                </div>
+                <div>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">examination</p>
+                    <p className="font-semibold text-teal-600 truncate">{exam.examDate}</p>
+                </div>
+                <div>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">result announce</p>
+                    <p className="font-semibold text-teal-600 truncate">{exam.resultAnnounce}</p>
+                </div>
+            </div>
+        </div>
+
+        {/* Footer actions */}
+        <div>
+            {/* Quick links */}
+            <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[11px] font-bold text-[#F57C00] uppercase tracking-wide mb-4 border-t border-gray-100 pt-3">
+                {['Pattern', 'Syllabus', 'Results'].map((label) => (
+                    <a key={label} href="#" className="hover:underline">{label}</a>
+                ))}
+            </div>
+            
+            <button className="w-full py-2 bg-[#F57C00] hover:bg-[#E67300] text-white text-xs font-bold rounded-lg shadow-sm transition-colors duration-300 cursor-pointer text-center">
+                Apply Now
+            </button>
+        </div>
+    </div>
+);
+
 const ExamCategoryPage = () => {
     const params = useParams();
     const examSlug = params?.examSlug as string;
     const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
     const [showAllSubCategories, setShowAllSubCategories] = useState(false);
+    const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
     const category = examCategories.find((c) => c.id === examSlug);
     const subCategories = examSubCategories[examSlug] || [];
@@ -179,7 +248,7 @@ const ExamCategoryPage = () => {
                     {/* Exam list */}
                     <main className="lg:col-span-3">
                         {subCategories.length > 0 && (
-                            <div className="bg-white rounded-xl border border-gray-200 p-4 mb-5 flex flex-wrap items-center gap-2">
+                            <div className="bg-white rounded-xl border border-gray-200 p-4 mb-4 flex flex-wrap items-center gap-2">
                                 {visibleSubCategories.map((sub) => (
                                     <button
                                         key={sub.id}
@@ -204,8 +273,47 @@ const ExamCategoryPage = () => {
                             </div>
                         )}
 
+                        {/* View Switcher Header */}
+                        <div className="flex items-center justify-between mb-4 bg-white p-3 rounded-xl border border-gray-200">
+                            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                {filteredExams.length} {filteredExams.length === 1 ? 'Exam' : 'Exams'} Available
+                            </span>
+                            <div className="flex items-center gap-1.5 bg-gray-100 p-1 rounded-lg">
+                                <button
+                                    onClick={() => setViewMode('list')}
+                                    className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
+                                        viewMode === 'list'
+                                            ? 'bg-white text-[#F57C00] shadow-sm'
+                                            : 'text-gray-400 hover:text-gray-600'
+                                    }`}
+                                    title="List View"
+                                >
+                                    <List className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={() => setViewMode('grid')}
+                                    className={`p-1.5 rounded-md transition-all duration-200 cursor-pointer ${
+                                        viewMode === 'grid'
+                                            ? 'bg-white text-[#F57C00] shadow-sm'
+                                            : 'text-gray-400 hover:text-gray-600'
+                                    }`}
+                                    title="Grid View"
+                                >
+                                    <LayoutGrid className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+
                         {filteredExams.length > 0 ? (
-                            filteredExams.map((exam) => <ExamListCard key={exam.id} exam={exam} />)
+                            viewMode === 'grid' ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {filteredExams.map((exam) => (
+                                        <ExamGridCard key={exam.id} exam={exam} />
+                                    ))}
+                                </div>
+                            ) : (
+                                filteredExams.map((exam) => <ExamListCard key={exam.id} exam={exam} />)
+                            )
                         ) : (
                             <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
                                 <p className="text-gray-500">No exams found for this filter.</p>

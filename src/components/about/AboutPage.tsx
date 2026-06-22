@@ -374,8 +374,8 @@ const AboutPage = () => {
                             </div>
 
                             <div className="relative z-10">
-                                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm text-orange-300 backdrop-blur-sm">
-                                    <ShieldCheck size={14} /> 100% Free · No Obligation
+                                <span className="inline-flex items-center gap-2 rounded-full border border-white bg-white px-4 py-1.5 text-sm text-slate-800 font-semibold shadow-md">
+                                    <ShieldCheck size={14} className="text-orange-500" /> 100% Free · No Obligation
                                 </span>
 
                                 <h2 className="mx-auto mt-6 max-w-3xl text-3xl font-extrabold leading-tight text-white md:text-5xl">
@@ -402,9 +402,9 @@ const AboutPage = () => {
                                     </Link>
                                     <Link
                                         href="/search"
-                                        className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 sm:w-auto"
+                                        className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white bg-white px-8 py-4 font-bold text-slate-800 shadow-md transition-all hover:bg-gray-50 sm:w-auto"
                                     >
-                                        <Compass size={20} />
+                                        <Compass size={20} className="text-orange-500" />
                                         Explore Universities
                                     </Link>
                                 </div>

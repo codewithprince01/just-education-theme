@@ -37,14 +37,20 @@ const EcosystemGraph = () => {
 
     return (
         <section id="ecosystem" ref={ref as React.RefObject<HTMLElement>} className="pt-16 pb-24 md:pt-20 md:pb-28 bg-white border-b border-gray-100">
-            {/* Inline CSS for flowing dash animation */}
+            {/* Inline CSS for solid flowing line animation */}
             <style dangerouslySetInnerHTML={{ __html: `
-                @keyframes je-flow-outward {
-                    from { stroke-dashoffset: 12; }
-                    to { stroke-dashoffset: 0; }
+                .je-bg-line {
+                    transition: opacity 0.8s ease-in-out !important;
                 }
-                .je-flow-active {
-                    animation: je-flow-outward 0.5s ease-out forwards !important;
+                .je-active-line {
+                    stroke-dasharray: 40;
+                    stroke-dashoffset: 40;
+                    transition: stroke-dashoffset 0.8s ease-in-out, opacity 0.8s ease-in-out !important;
+                }
+                .je-active-line-active {
+                    stroke-dasharray: 40;
+                    stroke-dashoffset: 0;
+                    transition: stroke-dashoffset 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease-in-out !important;
                 }
             `}} />
             
@@ -53,10 +59,10 @@ const EcosystemGraph = () => {
                     {/* Left Column: Title & Dynamic Hover Details Card */}
                     <div className="lg:col-span-5 flex flex-col justify-center">
                         <SectionHeading
-                            title="Building India's education ecosystem"
-                            subtitle="JustEducation connects students to every part of the educational landscape."
-                            icon={<Layers className="w-5 h-5" />}
-                            className="mb-0"
+                             title="Building India's education ecosystem"
+                             subtitle="JustEducation connects students to every part of the educational landscape."
+                             icon={<Layers className="w-5 h-5" />}
+                             className="mb-0"
                         />
                         
                         {/* Dynamic Hover Details Card */}
@@ -100,25 +106,23 @@ const EcosystemGraph = () => {
                                         const isActive = active === i;
                                         return (
                                             <g key={i}>
-                                                {/* Background dotted line */}
+                                                {/* Background solid line */}
                                                 <line
                                                     x1="50" y1="50" x2={p.x} y2={p.y}
                                                     stroke="#CBD5E1"
                                                     strokeWidth="0.8"
-                                                    strokeDasharray="3 3"
-                                                    className="transition-opacity duration-300"
+                                                    className="je-bg-line"
                                                     style={{
                                                         opacity: !inView ? 0 : (active !== null && !isActive ? 0.15 : 0.6),
                                                         transitionDelay: inView ? `${i * 40}ms` : '0ms',
                                                     }}
                                                 />
-                                                {/* Active colored line with flowing dashes */}
+                                                {/* Active solid line with drawing animation */}
                                                 <line
                                                     x1="50" y1="50" x2={p.x} y2={p.y}
                                                     stroke="#F57C00"
-                                                    strokeWidth="1.0"
-                                                    strokeDasharray="3 3"
-                                                    className={`transition-opacity duration-300 ${isActive ? 'je-flow-active' : ''}`}
+                                                    strokeWidth="0.8"
+                                                    className={isActive ? 'je-active-line-active' : 'je-active-line'}
                                                     style={{
                                                         opacity: isActive ? 1 : 0,
                                                     }}

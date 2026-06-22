@@ -30,6 +30,7 @@ import Reveal from './Reveal';
 // ---------------------------------------------------------------------------
 interface Showcase {
     role: string;
+    tag: string; // short subtitle shown in the ticker (e.g. "Engineering")
     region: string;
     team: number;
     since: number;
@@ -39,16 +40,16 @@ interface Showcase {
 }
 
 const SHOWCASE: Record<string, Showcase> = {
-    delhi:      { role: 'National Headquarters',        region: 'North India',         team: 180, since: 2016, rating: 4.9, grad: 'from-orange-500 to-amber-500',  hex: '#F97316' },
-    mumbai:     { role: 'West India Regional Hub',      region: 'West India',          team: 140, since: 2017, rating: 4.8, grad: 'from-rose-500 to-pink-500',     hex: '#F43F5E' },
-    bangalore:  { role: 'Product & Engineering Centre', region: 'South India',         team: 165, since: 2017, rating: 4.9, grad: 'from-violet-500 to-purple-500', hex: '#8B5CF6' },
-    hyderabad:  { role: 'South-Central Ops Hub',        region: 'South-Central',       team: 95,  since: 2018, rating: 4.8, grad: 'from-cyan-500 to-sky-500',      hex: '#06B6D4' },
-    chennai:    { role: 'Coastal South Centre',         region: 'South India',         team: 88,  since: 2018, rating: 4.7, grad: 'from-teal-500 to-emerald-500',  hex: '#14B8A6' },
-    pune:       { role: 'Learning & Campus Hub',        region: 'West India',          team: 76,  since: 2019, rating: 4.8, grad: 'from-indigo-500 to-blue-500',   hex: '#6366F1' },
-    kolkata:    { role: 'East India Centre',            region: 'East India',          team: 70,  since: 2019, rating: 4.7, grad: 'from-fuchsia-500 to-pink-500',  hex: '#D946EF' },
-    ahmedabad:  { role: 'Gujarat Operations Centre',    region: 'West India',          team: 58,  since: 2020, rating: 4.8, grad: 'from-amber-500 to-orange-500',  hex: '#F59E0B' },
-    jaipur:     { role: 'Rajasthan Centre',             region: 'North-West India',    team: 48,  since: 2020, rating: 4.7, grad: 'from-pink-500 to-rose-500',     hex: '#EC4899' },
-    chandigarh: { role: 'North India Hub',              region: 'North India',         team: 52,  since: 2021, rating: 4.8, grad: 'from-sky-500 to-cyan-500',      hex: '#0EA5E9' },
+    delhi:      { role: 'National Headquarters',        tag: 'Headquarters', region: 'North India',         team: 180, since: 2016, rating: 4.9, grad: 'from-orange-500 to-amber-500',  hex: '#F97316' },
+    mumbai:     { role: 'West India Regional Hub',      tag: 'Regional Hub', region: 'West India',          team: 140, since: 2017, rating: 4.8, grad: 'from-rose-500 to-pink-500',     hex: '#F43F5E' },
+    bangalore:  { role: 'Product & Engineering Centre', tag: 'Engineering',  region: 'South India',         team: 165, since: 2017, rating: 4.9, grad: 'from-violet-500 to-purple-500', hex: '#8B5CF6' },
+    hyderabad:  { role: 'South-Central Ops Hub',        tag: 'Operations',   region: 'South-Central',       team: 95,  since: 2018, rating: 4.8, grad: 'from-cyan-500 to-sky-500',      hex: '#06B6D4' },
+    chennai:    { role: 'Coastal South Centre',         tag: 'South India',  region: 'South India',         team: 88,  since: 2018, rating: 4.7, grad: 'from-teal-500 to-emerald-500',  hex: '#14B8A6' },
+    pune:       { role: 'Learning & Campus Hub',        tag: 'Campus Hub',   region: 'West India',          team: 76,  since: 2019, rating: 4.8, grad: 'from-indigo-500 to-blue-500',   hex: '#6366F1' },
+    kolkata:    { role: 'East India Centre',            tag: 'East India',   region: 'East India',          team: 70,  since: 2019, rating: 4.7, grad: 'from-fuchsia-500 to-pink-500',  hex: '#D946EF' },
+    ahmedabad:  { role: 'Gujarat Operations Centre',    tag: 'Gujarat',      region: 'West India',          team: 58,  since: 2020, rating: 4.8, grad: 'from-amber-500 to-orange-500',  hex: '#F59E0B' },
+    jaipur:     { role: 'Rajasthan Centre',             tag: 'Rajasthan',    region: 'North-West India',    team: 48,  since: 2020, rating: 4.7, grad: 'from-pink-500 to-rose-500',     hex: '#EC4899' },
+    chandigarh: { role: 'North India Hub',              tag: 'North Hub',    region: 'North India',         team: 52,  since: 2021, rating: 4.8, grad: 'from-sky-500 to-cyan-500',      hex: '#0EA5E9' },
 };
 
 const meta = (id: string): Showcase => SHOWCASE[id] ?? SHOWCASE.delhi;
@@ -126,82 +127,49 @@ export default function OfficesSection() {
                     ))}
                 </div>
 
+                {/* Deep-link anchors for the map popup's "View Details" — kept
+                    out of the moving ticker so the scroll targets stay put. */}
+                {offices.map((o) => (
+                    <span key={o.id} id={`office-${o.id}`} aria-hidden="true" className="block scroll-mt-28" />
+                ))}
+
                 {/* Interactive office explorer */}
-                <div className="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-12 lg:gap-6">
-                    {/* City selector */}
-                    <Reveal direction="left" className="lg:col-span-5">
-                        <div className="flex h-full flex-col rounded-3xl border border-gray-200/80 bg-white/70 p-3 shadow-xl backdrop-blur-xl">
-                            <div className="flex items-center justify-between px-3 py-2">
-                                <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
-                                    Explore offices
+                <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-12 lg:gap-6">
+                    {/* Office navigator — manual scroll, hidden scrollbar */}
+                    <Reveal direction="left" className="lg:col-span-4">
+                        <div className="flex flex-col">
+                            <div className="mb-3 flex items-center justify-between px-1">
+                                <span className="text-xs font-bold uppercase tracking-widest text-[#0B3C5D]/50">
+                                    Our offices
                                 </span>
-                                <span className="text-xs font-semibold text-gray-400">
-                                    {offices.length} cities
-                                </span>
+                                <span className="text-xs font-semibold text-gray-400">{offices.length} cities</span>
                             </div>
-                            <div className="max-h-[32rem] flex-1 space-y-1.5 overflow-y-auto scrollbar-hide pr-1">
-                                {offices.map((o) => {
-                                    const om = meta(o.id);
-                                    const active = o.id === selected.id;
-                                    return (
-                                        <button
-                                            key={o.id}
-                                            id={`office-${o.id}`}
-                                            type="button"
-                                            onClick={() => setSelectedId(o.id)}
-                                            aria-pressed={active}
-                                            className={`group relative flex w-full scroll-mt-24 items-center gap-3 overflow-hidden rounded-2xl border p-3 text-left transition-all duration-300 ${
-                                                active
-                                                    ? 'border-[#0B3C5D] bg-[#0B3C5D]/[0.03] shadow-lg shadow-[#0B3C5D]/5 -translate-y-0.5 scale-[1.01]'
-                                                    : 'border-gray-200/70 bg-white hover:-translate-y-0.5 hover:border-gray-300 hover:shadow-md'
-                                            }`}
-                                        >
-                                            <span
-                                                className={`grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br ${om.grad} text-white shadow-sm transition-transform duration-300 group-hover:scale-105`}
-                                            >
-                                                <Building2 className="h-5 w-5" />
-                                            </span>
-                                            <span className="min-w-0 flex-1">
-                                                <span className="flex items-center gap-2">
-                                                    <span
-                                                        className="truncate text-sm font-bold text-[#0B3C5D]"
-                                                    >
-                                                        {o.city}
-                                                    </span>
-                                                    {active && (
-                                                        <span className="relative flex h-2 w-2 flex-shrink-0">
-                                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                                                        </span>
-                                                    )}
-                                                    {o.isHeadquarters && (
-                                                        <span className="inline-flex items-center gap-0.5 rounded-full bg-orange-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
-                                                            <Crown className="h-2.5 w-2.5" /> HQ
-                                                        </span>
-                                                    )}
-                                                </span>
-                                                <span
-                                                    className="mt-0.5 block truncate text-xs text-gray-500"
-                                                >
-                                                    {om.role}
-                                                </span>
-                                            </span>
-                                            <ChevronRight
-                                                className={`h-4 w-4 flex-shrink-0 transition-all duration-300 ${
-                                                    active
-                                                        ? 'text-orange-500 translate-x-0.5'
-                                                        : 'text-gray-300 group-hover:translate-x-0.5 group-hover:text-gray-400'
-                                                }`}
-                                            />
-                                        </button>
-                                    );
-                                })}
-                            </div>
+
+                            <ul
+                                tabIndex={0}
+                                aria-label="Select an office"
+                                className="scrollbar-hide h-[380px] space-y-0.5 overflow-y-auto scroll-smooth pr-1 outline-none"
+                                style={{
+                                    maskImage:
+                                        'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
+                                    WebkitMaskImage:
+                                        'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
+                                }}
+                            >
+                                {offices.map((o) => (
+                                    <OfficeRow
+                                        key={o.id}
+                                        office={o}
+                                        active={o.id === selected.id}
+                                        onSelect={() => setSelectedId(o.id)}
+                                    />
+                                ))}
+                            </ul>
                         </div>
                     </Reveal>
 
-                    {/* Detail panel */}
-                    <Reveal direction="right" className="lg:col-span-7">
+                    {/* City profile */}
+                    <Reveal direction="right" className="lg:col-span-8">
                         <OfficeDetail office={selected} m={m} index={selIdx} points={points} sel={sel} />
                     </Reveal>
                 </div>
@@ -236,6 +204,97 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[number]; index: number
     );
 }
 
+function OfficeRow({
+    office,
+    active,
+    onSelect,
+}: {
+    office: Office;
+    active: boolean;
+    onSelect: () => void;
+}) {
+    const m = meta(office.id);
+    return (
+        <li>
+            <button
+                type="button"
+                onClick={onSelect}
+                aria-pressed={active}
+                className="group relative flex w-full items-center gap-3 rounded-xl py-2.5 pl-4 pr-3 text-left transition-colors duration-300"
+            >
+                {/* active highlight — soft accent wash + ring (never a heavy block) */}
+                <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-500"
+                    style={{
+                        opacity: active ? 1 : 0,
+                        background: `linear-gradient(to right, ${m.hex}1f, ${m.hex}0a 45%, transparent)`,
+                        boxShadow: active ? `inset 0 0 0 1px ${m.hex}26` : 'none',
+                    }}
+                />
+                {/* idle hover wash */}
+                {!active && (
+                    <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 rounded-xl bg-[#0B3C5D]/[0.04] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
+                )}
+                {/* gradient left border */}
+                <span
+                    aria-hidden="true"
+                    className={`absolute left-0 top-1/2 h-8 w-[3px] -translate-y-1/2 rounded-full bg-gradient-to-b ${m.grad} transition-all duration-300 ${
+                        active ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+                    }`}
+                />
+                {/* accent dot */}
+                <span className="relative flex h-2.5 w-2.5 flex-shrink-0 items-center justify-center">
+                    {active && (
+                        <span
+                            className="absolute inline-flex h-full w-full animate-ping rounded-full"
+                            style={{ backgroundColor: m.hex, opacity: 0.4 }}
+                        />
+                    )}
+                    <span
+                        className="relative inline-flex h-2 w-2 rounded-full transition-colors duration-300"
+                        style={{ backgroundColor: active ? m.hex : '#cbd5e1' }}
+                    />
+                </span>
+                {/* two-line label */}
+                <span className="relative min-w-0 flex-1">
+                    <span
+                        className={`block truncate text-sm font-bold tracking-tight transition-colors duration-300 ${
+                            active ? 'text-[#0B3C5D]' : 'text-[#0B3C5D]/70 group-hover:text-[#0B3C5D]'
+                        }`}
+                    >
+                        {office.city}
+                    </span>
+                    <span
+                        className={`block truncate text-[11px] font-medium transition-colors duration-300 ${
+                            active ? 'text-gray-500' : 'text-gray-400'
+                        }`}
+                    >
+                        {m.tag}
+                    </span>
+                </span>
+                {/* trailing */}
+                {office.isHeadquarters ? (
+                    <span className="relative flex-shrink-0 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                        HQ
+                    </span>
+                ) : (
+                    <ChevronRight
+                        className={`relative h-4 w-4 flex-shrink-0 transition-all duration-300 ${
+                            active
+                                ? 'text-[#0B3C5D]/60'
+                                : 'text-gray-300 group-hover:translate-x-0.5 group-hover:text-gray-400'
+                        }`}
+                    />
+                )}
+            </button>
+        </li>
+    );
+}
+
 function OfficeDetail({
     office,
     m,
@@ -251,12 +310,12 @@ function OfficeDetail({
 }) {
     const num = String(index + 1).padStart(2, '0');
     return (
-        <div className="relative h-full min-h-[27rem] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#08263C] via-[#0B3C5D] to-[#0F4D73] shadow-2xl">
+        <div className="relative min-h-[420px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#08263C] via-[#0B3C5D] to-[#0F4D73] shadow-2xl">
             {/* accent glow keyed to the selected city */}
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -right-12 -top-12 h-72 w-72 rounded-full blur-3xl"
-                style={{ backgroundColor: m.hex, opacity: 0.25 }}
+                className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full blur-3xl"
+                style={{ backgroundColor: m.hex, opacity: 0.22 }}
             />
 
             <Constellation points={points} sel={sel} hex={m.hex} selectedId={office.id} />
@@ -268,7 +327,7 @@ function OfficeDetail({
             />
 
             {/* content (re-keyed so it cross-fades on each selection) */}
-            <div key={office.id} className="je-animate-fade-up relative z-10 flex h-full flex-col p-6 sm:p-8">
+            <div key={office.id} className="je-animate-fade-up relative z-10 p-5 sm:p-7">
                 <div className="flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-blue-100 backdrop-blur">
                         Office N°{num}
@@ -292,15 +351,15 @@ function OfficeDetail({
                     </span>
                 </div>
 
-                <h3 className="mt-5 text-3xl font-black tracking-tight text-white sm:text-4xl">
+                <h3 className="mt-4 text-[28px] font-black leading-none tracking-tight text-white sm:text-[32px]">
                     {office.city}
                 </h3>
-                <p className="mt-1 text-sm font-semibold text-orange-300">{m.role}</p>
-                <p className="mt-0.5 text-xs font-medium uppercase tracking-wider text-blue-200/70">
-                    {office.state}
+                <p className="mt-2 text-sm font-semibold text-orange-300">
+                    {m.role}
+                    <span className="font-medium text-blue-200/70"> · {office.state}</span>
                 </p>
 
-                <div className="mt-5 grid gap-2.5 text-sm sm:max-w-md">
+                <div className="mt-4 grid gap-2 text-sm sm:max-w-md">
                     <p className="flex gap-2.5 text-blue-50/90">
                         <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-300" />
                         <span className="leading-snug">{office.address}</span>
@@ -328,17 +387,17 @@ function OfficeDetail({
                 </div>
 
                 {/* mini-stats */}
-                <div className="mt-6 grid max-w-md grid-cols-3 gap-3">
+                <div className="mt-5 grid max-w-md grid-cols-3 gap-2.5">
                     <Chip icon={Users} value={`${m.team}+`} label="Team size" />
                     <Chip icon={Calendar} value={`${m.since}`} label="Established" />
                     <Chip icon={Globe2} value={m.region} label="Coverage" small />
                 </div>
 
                 {/* actions */}
-                <div className="mt-auto flex flex-wrap gap-3 pt-7">
+                <div className="mt-6 flex flex-wrap gap-3">
                     <a
                         href="#india-map"
-                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                     >
                         <MapPin className="h-4 w-4" /> View on Map
                     </a>
@@ -346,7 +405,7 @@ function OfficeDetail({
                         href={googleDirectionsLink(office.lat, office.lng)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition-all duration-300 hover:border-white/40 hover:bg-white/15"
+                        className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition-all duration-300 hover:border-white/40 hover:bg-white/15"
                     >
                         <Navigation className="h-4 w-4" /> Get Directions
                         <ArrowUpRight className="h-4 w-4" />
@@ -393,7 +452,7 @@ function Constellation({
     selectedId: string;
 }) {
     return (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-3/5 md:block">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 md:block">
             <div className="relative h-full w-full">
                 {/* connection lines from the selected office to every other */}
                 <svg
@@ -419,8 +478,8 @@ function Constellation({
 
                 {/* glow under the selected dot */}
                 <div
-                    className="absolute h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
-                    style={{ left: `${sel.x}%`, top: `${(sel.y / 120) * 100}%`, backgroundColor: hex, opacity: 0.35 }}
+                    className="absolute h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+                    style={{ left: `${sel.x}%`, top: `${(sel.y / 120) * 100}%`, backgroundColor: hex, opacity: 0.3 }}
                 />
 
                 {/* dots */}

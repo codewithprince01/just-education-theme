@@ -1,4 +1,4 @@
-import { Download, HelpCircle, Info, ChevronRight } from 'lucide-react';
+import { Download, HelpCircle, Info, ChevronRight, CalendarDays, Bell, Layers, ListChecks } from 'lucide-react';
 import {
     jeeMainSidebarLinks,
     jeeMainCategoryPages,
@@ -9,6 +9,16 @@ import {
 interface ExamDetailSidebarProps {
     sidebarRef?: React.RefObject<HTMLDivElement | null>;
 }
+
+// Consistent sidebar card header: orange icon chip + title with a divider below.
+const CardHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
+    <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-gray-100">
+        <span className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center flex-shrink-0">
+            <Icon className="w-4 h-4 text-[#F57C00]" />
+        </span>
+        <h3 className="font-bold text-[#0B3C5D] text-[15px] leading-tight">{title}</h3>
+    </div>
+);
 
 const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
     return (
@@ -30,7 +40,7 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Get More Info */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
-                <h3 className="font-bold text-[#0B3C5D] mb-4">Get More Info About JEE Main</h3>
+                <CardHeader icon={Info} title="Get More Info About JEE Main" />
                 <div className="space-y-2.5">
                     <button className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-300 text-gray-500 text-sm font-semibold rounded-lg hover:bg-gray-50">
                         <Download className="w-4 h-4" /> Download Sample Papers
@@ -46,7 +56,7 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Upcoming exams */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
-                <h3 className="font-bold text-[#0B3C5D] mb-4">Upcoming Exams</h3>
+                <CardHeader icon={CalendarDays} title="Upcoming Exams" />
                 <ul className="space-y-2">
                     {jeeMainUpcomingExams.map((exam) => (
                         <li key={exam.name} className="flex items-center justify-between text-sm">
@@ -59,7 +69,7 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Latest Updates */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
-                <h3 className="font-bold text-[#0B3C5D] mb-4">Latest Updates on JEE Main</h3>
+                <CardHeader icon={Bell} title="Latest Updates on JEE Main" />
                 <div className="space-y-4 divide-y divide-gray-100">
                     {jeeMainSidebarUpdates.map((update) => (
                         <a key={update.title} href="#" className="flex items-start gap-3 group pt-4 first:pt-0">
@@ -83,7 +93,7 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Category wise exam pages */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
-                <h3 className="font-bold text-[#0B3C5D] mb-4">Category Wise Exam Pages</h3>
+                <CardHeader icon={Layers} title="Category Wise Exam Pages" />
                 <ul className="space-y-1">
                     {jeeMainCategoryPages.map((cat) => (
                         <li key={cat}>
@@ -98,7 +108,7 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* You can also check */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
-                <h3 className="font-bold text-[#0B3C5D] mb-4">You Can Also Check</h3>
+                <CardHeader icon={ListChecks} title="You Can Also Check" />
                 <ul className="space-y-1">
                     {jeeMainSidebarLinks.map((link) => (
                         <li key={link}>

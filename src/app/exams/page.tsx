@@ -5,11 +5,13 @@ import Link from 'next/link';
 import {
     Search, ChevronDown, ChevronUp, ChevronRight, CheckCircle2, FileText,
     Newspaper, Mail, BookOpen, Download, Plus, Minus,
+    Layers, CalendarDays, Sparkles,
 } from 'lucide-react';
 import {
     examCategories, exams, quickExamLinks, examNews, examSyllabusLinks,
     conceptArticles, previousYearPapers, examFAQs,
 } from '../../data/exams';
+import { useStickySidebar } from '../../components/exams/useStickySidebar';
 
 const CATEGORY_VISIBLE_COUNT = 10;
 
@@ -41,7 +43,7 @@ const CategoryFilter = ({ categories, activeCategory, onSelect }: CategoryFilter
             {categories.length > CATEGORY_VISIBLE_COUNT && (
                 <button
                     onClick={() => setExpanded((prev) => !prev)}
-                    className="px-4 py-1.5 rounded-full text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
+                    className="ml-auto px-4 py-1.5 rounded-full text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                     {expanded ? 'View Less' : 'View More'}
                     {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -72,7 +74,7 @@ const ExamCard = ({ exam }: { exam: Exam }) => {
     const isOnline = exam.mode === 'Online Exam';
 
     return (
-        <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-[#F57C00] p-5 flex flex-col">
+        <div className="bg-white rounded-xl border border-gray-200 hover:border-[#F57C00] hover:shadow-md transition-all duration-300 p-5 flex flex-col">
             {/* Header */}
             <div className="flex items-start justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
@@ -141,8 +143,8 @@ const ExamCard = ({ exam }: { exam: Exam }) => {
     );
 };
 
-const ExamsSidebar = () => (
-    <aside className="space-y-6">
+const ExamsSidebar = ({ sidebarRef }: { sidebarRef?: React.RefObject<HTMLDivElement | null> }) => (
+    <aside ref={sidebarRef} className="space-y-6">
         {/* Exams News */}
         <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
             <h3 className="flex items-center gap-2 text-lg font-bold text-[#0B3C5D] mb-4">
@@ -292,6 +294,9 @@ const ExamsPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const papersScrollRef = useRef<HTMLDivElement>(null);
 
+    // Sticky sidebar movement (recalculates when the category / result count changes)
+    const { containerRef, sidebarRef, sidebarColRef } = useStickySidebar(activeCategory);
+
     const activeCategoryName = useMemo(
         () => examCategories.find((c) => c.id === activeCategory)?.name || '',
         [activeCategory]
@@ -341,10 +346,26 @@ const ExamsPage = () => {
                             </div>
                         </div>
 
-                        {/* Right: vector illustration */}
+                        {/* Right: stat cards */}
                         <div className="hidden lg:flex justify-end">
-                            <div className="w-[26rem] h-[16rem] bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 shadow-inner p-6 text-center text-white/50 text-sm">
-                                [ Student Preparation Illustration ]
+                            <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
+                                {[
+                                    { icon: FileText, value: '15', label: 'Exams Listed' },
+                                    { icon: Layers, value: '10', label: 'Categories' },
+                                    { icon: CalendarDays, value: '2026', label: 'Updated' },
+                                    { icon: Sparkles, value: '100%', label: 'Free Access' },
+                                ].map((stat) => (
+                                    <div
+                                        key={stat.label}
+                                        className="bg-white border border-gray-200 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow"
+                                    >
+                                        <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center mb-2">
+                                            <stat.icon className="w-4 h-4 text-[#F57C00]" />
+                                        </div>
+                                        <div className="text-xl font-extrabold text-[#0B3C5D] leading-none">{stat.value}</div>
+                                        <div className="text-xs font-medium text-gray-500 mt-1">{stat.label}</div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -362,33 +383,34 @@ const ExamsPage = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Exam Cards */}
-                    <div className="lg:col-span-2">
+                <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+                    {/* Exam Cards (right on desktop, first on mobile) */}
+                    <div className="lg:col-span-2 order-1 lg:order-2">
                         {filteredExams.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                {filteredExams.map((exam) => (
-                                    <ExamCard key={exam.id} exam={exam} />
-                                ))}
+                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    {filteredExams.map((exam) => (
+                                        <ExamCard key={exam.id} exam={exam} />
+                                    ))}
+                                </div>
+
+                                {/* View All link inside the same card */}
+                                <div className="text-center mt-6 pt-5 border-t border-gray-100">
+                                    <Link href={`/exams/${activeCategory}`} className="text-blue-600 font-semibold hover:underline">
+                                        View All {activeCategoryName} Exams &gt;
+                                    </Link>
+                                </div>
                             </div>
                         ) : (
                             <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
                                 <p className="text-gray-500">No exams found for this category.</p>
                             </div>
                         )}
-
-                        {filteredExams.length > 0 && (
-                            <div className="text-center mt-8">
-                                <Link href={`/exams/${activeCategory}`} className="text-blue-600 font-semibold hover:underline">
-                                    View All {activeCategoryName} Exams &gt;
-                                </Link>
-                            </div>
-                        )}
                     </div>
 
-                    {/* Sidebar */}
-                    <div className="lg:col-span-1">
-                        <ExamsSidebar />
+                    {/* Sidebar (left on desktop, after cards on mobile) */}
+                    <div ref={sidebarColRef} className="lg:col-span-1 order-2 lg:order-1 relative">
+                        <ExamsSidebar sidebarRef={sidebarRef} />
                     </div>
                 </div>
             </div>

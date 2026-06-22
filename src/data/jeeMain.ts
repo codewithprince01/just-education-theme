@@ -571,6 +571,14 @@ export const examPage = {
                     sections: [marksVsRankSection]
                 }
             ]
+        },
+        {
+            // Developer-facing showcase of every reusable Exam UI component
+            // (union of Exam Main page + Exam Results page). Rendered specially
+            // by ExamDetailPage via the <MasterUIPage> component — it has no `sections`.
+            label: 'Master UI',
+            slug: 'master-ui',
+            sections: []
         }
     ]
 };

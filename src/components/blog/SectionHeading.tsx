@@ -24,10 +24,10 @@ export default function SectionHeading({
     return (
         <div className={`flex items-end justify-between gap-4 mb-6 ${className}`}>
             <div>
-                <div className="flex items-center gap-2.5">
-                    <span className="h-6 w-1.5 rounded-full bg-[#F57C00]" aria-hidden="true" />
-                    {icon && <span className="text-[#F57C00]">{icon}</span>}
-                    <h2 className="text-2xl md:text-3xl font-extrabold text-[#0B3C5D] tracking-tight">
+                <div className="flex items-start gap-2.5">
+                    <span className="h-6 w-1.5 rounded-full bg-[#F57C00] mt-1.5 flex-shrink-0" aria-hidden="true" />
+                    {icon && <span className="text-[#F57C00] mt-1.5 flex-shrink-0">{icon}</span>}
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-[#0B3C5D] tracking-tight leading-tight">
                         {title}
                     </h2>
                 </div>

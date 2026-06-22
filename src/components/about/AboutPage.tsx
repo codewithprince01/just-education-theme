@@ -1,639 +1,442 @@
-import Link from 'next/link';
-import { ArrowRight, GraduationCap, Quote, Network } from 'lucide-react';
-import Breadcrumbs from '../seo/Breadcrumbs';
-import Reveal from './Reveal';
-import AnimatedCounter from './AnimatedCounter';
-import Icon from './Icon';
-import {
-    trustIndicators, missionItems, platformStats, coverageCategories, trustFeatures,
-    workflowSteps, informationTypes, coreValues, ecosystemNodes,
-} from '../../data/about';
+"use client";
 
-// Section heading helper — keeps the centered eyebrow + title + subtitle pattern
-// consistent across the page.
-const SectionHeading = ({ eyebrow, title, subtitle, light = false }: {
-    eyebrow?: string; title: string; subtitle?: string; light?: boolean;
-}) => (
-    <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
-        {eyebrow && (
-            <span className={`inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 ${
-                light ? 'bg-white/15 text-orange-300' : 'bg-orange-50 text-orange-600'
-            }`}>
-                {eyebrow}
-            </span>
-        )}
-        <h2 className={`text-3xl md:text-4xl font-extrabold leading-tight ${light ? 'text-white' : 'text-gray-900'}`}>
-            {title}
-        </h2>
-        {subtitle && (
-            <p className={`mt-4 text-base md:text-lg leading-relaxed ${light ? 'text-blue-100' : 'text-gray-500'}`}>
-                {subtitle}
-            </p>
-        )}
+import { useState } from 'react';
+import Link from 'next/link';
+import { ArrowRight, CheckCircle2, Mail, Headphones, Users, Target, ShieldCheck, Eye, Heart, Globe, CalendarCheck, Compass } from 'lucide-react';
+import SectionHeading from '@/components/blog/SectionHeading';
+import Reveal from './Reveal';
+import Icon from './Icon';
+import Illustration from './Illustrations';
+import HeroStory from './HeroStory';
+import StudentJourney from './StudentJourney';
+import EcosystemGraph from './EcosystemGraph';
+import DeliveryProcess from './DeliveryProcess';
+import GrowthTimeline from './GrowthTimeline';
+import { transparencyPillars } from '../../data/about';
+import DirectoryShowcase from './DirectoryShowcase';
+
+const OriginMockup = () => (
+    <div className="relative rounded-[2rem] overflow-hidden border border-gray-200/80 shadow-2xl group hover:shadow-orange-500/10 hover:border-orange-300 transition-all duration-500 bg-gray-50 aspect-[4/3] w-full">
+        <img 
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" 
+            alt="Why We Started JustEducation" 
+            className="w-full h-full object-cover transform group-hover:scale-[1.03] transition-transform duration-700"
+            loading="lazy"
+        />
+        {/* Subtle glass gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-950/20 via-transparent to-transparent pointer-events-none" />
     </div>
 );
 
-// Evenly-spaced orbit positions (top/left %) for the 8 ecosystem nodes — Section 11.
-const ORBIT = [
-    { top: '4%', left: '50%' }, { top: '19%', left: '83%' }, { top: '50%', left: '96%' },
-    { top: '81%', left: '83%' }, { top: '96%', left: '50%' }, { top: '81%', left: '17%' },
-    { top: '50%', left: '4%' }, { top: '19%', left: '17%' },
-];
-
 const AboutPage = () => {
-    const breadcrumbItems = [
-        { name: 'Home', url: '/' },
-        { name: 'About Us' },
-    ];
 
     return (
-        <div className="bg-gray-50">
-            {/* ============================ SECTION 1: HERO ============================ */}
-            <section className="relative overflow-hidden bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white">
-                {/* Decorative glow blobs */}
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
-                    <div className="absolute -top-10 left-10 w-80 h-80 rounded-full bg-orange-500 blur-3xl" />
-                    <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-blue-300 blur-3xl" />
-                </div>
+        <div className="bg-gray-50 scroll-smooth">
+            {/* ===== 1 · HERO ===== */}
+            <HeroStory />
 
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 pt-6 pb-16 md:pb-24">
-                    <div className="[&_a]:text-blue-100 [&_a:hover]:text-white [&_span]:text-white">
-                        <Breadcrumbs items={breadcrumbItems} />
-                    </div>
-
-                    <div className="grid lg:grid-cols-2 gap-12 items-center mt-6 md:mt-10">
-                        {/* Hero copy */}
-                        <Reveal>
-                            <span className="inline-flex items-center gap-2 bg-orange-500/90 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full">
-                                <GraduationCap className="w-4 h-4" /> About JustEducation
-                            </span>
-                            <h1 className="text-4xl md:text-5xl xl:text-6xl font-black mt-6 leading-[1.1]">
-                                India&apos;s Trusted <span className="text-orange-400">Education Discovery</span> Platform
-                            </h1>
-                            <p className="mt-6 text-base md:text-lg text-blue-100 leading-relaxed max-w-xl">
-                                JustEducation helps students discover colleges, universities, schools, courses, entrance
-                                exams, scholarships, admissions, coaching institutes, and educational opportunities through
-                                structured and reliable information.
-                            </p>
-
-                            <div className="mt-9 flex flex-wrap gap-4">
-                                <Link href="/exams" className="px-7 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-0.5">
-                                    Explore Colleges <ArrowRight className="w-4 h-4" />
-                                </Link>
-                                <Link href="/exams" className="px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/25 hover:border-white/40 transition-all duration-300">
-                                    Explore Courses
-                                </Link>
-                                <a href="#contact" className="px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/25 hover:border-white/40 transition-all duration-300">
-                                    Contact Us
-                                </a>
-                            </div>
-                        </Reveal>
-
-                        {/* Hero visual — stylised education ecosystem graphic */}
-                        <Reveal delay={150} className="hidden lg:block">
-                            <div className="relative aspect-square max-w-md mx-auto">
-                                <div className="absolute inset-0 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-sm" />
-                                {/* Central hub */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-3xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-2xl flex flex-col items-center justify-center text-center p-3 z-10">
-                                    <GraduationCap className="w-9 h-9 text-white" />
-                                    <span className="text-[11px] font-bold text-white mt-1.5 leading-tight">Just<br />Education</span>
-                                </div>
-                                {/* Floating category chips */}
-                                {[
-                                    { icon: 'Building2', label: 'Colleges', pos: 'top-6 left-6' },
-                                    { icon: 'Landmark', label: 'Universities', pos: 'top-6 right-6' },
-                                    { icon: 'BookOpen', label: 'Courses', pos: 'bottom-6 left-6' },
-                                    { icon: 'ClipboardList', label: 'Exams', pos: 'bottom-6 right-6' },
-                                    { icon: 'Wallet', label: 'Scholarships', pos: 'top-1/2 -translate-y-1/2 left-2' },
-                                    { icon: 'Briefcase', label: 'Careers', pos: 'top-1/2 -translate-y-1/2 right-2' },
-                                ].map((chip) => (
-                                    <div key={chip.label} className={`absolute ${chip.pos} flex items-center gap-2 bg-white rounded-xl px-3 py-2 shadow-lg`}>
-                                        <Icon name={chip.icon} className="w-4 h-4 text-[#0B3C5D]" />
-                                        <span className="text-xs font-bold text-gray-800">{chip.label}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </Reveal>
-                    </div>
-                </div>
-
-                {/* Trust strip */}
-                <div className="relative z-10 border-t border-white/10 bg-[#082A42]/40 backdrop-blur-sm">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-5">
-                        <ul className="flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-3">
-                            {trustIndicators.map((t) => (
-                                <li key={t.label} className="flex items-center gap-2 text-sm font-semibold text-blue-50">
-                                    <Icon name={t.icon} className="w-4 h-4 text-orange-400 flex-shrink-0" />
-                                    {t.label}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            {/* ========================== SECTION 2: WHO WE ARE ========================== */}
-            <section className="py-20 md:py-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    <Reveal>
-                        <span className="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 bg-orange-50 text-orange-600">
-                            Who We Are
-                        </span>
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
-                            A comprehensive education information &amp; discovery platform
-                        </h2>
-                        <div className="mt-6 space-y-4 text-gray-600 leading-relaxed">
-                            <p>
-                                JustEducation is a comprehensive education information and discovery platform designed to
-                                simplify educational decision-making for students and parents.
-                            </p>
-                            <p>
-                                The platform provides structured information related to colleges, universities, schools,
-                                courses, entrance exams, scholarships, admissions, educational institutions, and academic
-                                opportunities across India.
-                            </p>
-                            <p>
-                                Our objective is to help students make informed educational decisions through transparent
-                                and accessible information.
-                            </p>
-                        </div>
-                        <div className="mt-8 flex flex-wrap gap-3">
-                            {['Transparent', 'Reliable', 'Nationwide', 'Student-First'].map((tag) => (
-                                <span key={tag} className="px-4 py-1.5 rounded-full text-sm font-semibold bg-blue-50 text-[#0B3C5D] border border-blue-100">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    </Reveal>
-
-                    <Reveal delay={150}>
-                        <div className="relative">
-                            <div className="absolute -inset-3 bg-gradient-to-br from-orange-100 to-blue-100 rounded-[2rem] -z-10 blur-sm" />
-                            <div className="grid grid-cols-2 gap-4">
-                                {coverageCategories.slice(0, 4).map((c, i) => (
-                                    <div key={c.title} className={`bg-white rounded-2xl border border-gray-200 p-5 shadow-sm ${i % 2 === 1 ? 'mt-6' : ''}`}>
-                                        <div className="w-11 h-11 rounded-xl bg-[#0B3C5D] flex items-center justify-center mb-3">
-                                            <Icon name={c.icon} className="w-5 h-5 text-orange-400" />
-                                        </div>
-                                        <h3 className="font-bold text-gray-900">{c.title}</h3>
-                                        <p className="text-xs text-gray-500 mt-1 leading-relaxed">{c.description}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </Reveal>
-                </div>
-            </section>
-
-            {/* ========================== SECTION 3: OUR MISSION ========================== */}
-            <section className="py-20 md:py-24 bg-white border-y border-gray-100">
+            {/* ===== 2 · WHY WE STARTED ===== */}
+            <section id="origin" className="py-24 md:py-28 bg-white border-b border-gray-100">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <SectionHeading
-                        eyebrow="Our Mission"
-                        title="What drives JustEducation forward"
-                        subtitle="Every feature we build serves one goal — helping students make confident, well-informed educational decisions."
-                    />
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {missionItems.map((m, i) => (
-                            <Reveal key={m.title} delay={(i % 3) * 100}>
-                                <div className="group h-full bg-gray-50 rounded-2xl border border-gray-200 p-7 hover:shadow-md hover:border-orange-200 transition-all duration-300">
-                                    <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center mb-5 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
-                                        <Icon name={m.icon} className="w-6 h-6" />
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                        <Reveal>
+                            <OriginMockup />
+                        </Reveal>
+                        <Reveal delay={120}>
+                            <SectionHeading
+                                title="Why we started JustEducation"
+                                subtitle="Simplifying educational discovery and helping students make informed decisions."
+                                icon={<Target className="w-5 h-5" />}
+                                className="mb-8"
+                            />
+                            <div className="space-y-4 text-gray-600 leading-relaxed text-[15px] md:text-base">
+                                <p>Students often struggle to find reliable educational information. The details that shape a future — fees, eligibility, deadlines, outcomes — sit scattered across countless websites and sources.</p>
+                                <p>Comparing colleges, courses, exams, admissions, fees, scholarships, and career options quickly becomes overwhelming. It is easy to feel lost, and easy to make a decision based on incomplete information.</p>
+                                <p>JustEducation was created to change that — to simplify educational discovery and help students make informed decisions through structured, transparent, and trustworthy information.</p>
+                            </div>
+                            <div className="mt-8 grid sm:grid-cols-3 gap-4">
+                                {[
+                                    { label: 'Scattered → Structured', desc: 'Consolidated info' },
+                                    { label: 'Confusion → Clarity', desc: 'No guesswork' },
+                                    { label: 'Guesswork → Confidence', desc: 'Verifiable details' }
+                                ].map((item) => (
+                                    <div key={item.label} className="p-4 bg-gray-50 rounded-xl border border-gray-200/60 hover:border-orange-200 transition-colors">
+                                        <span className="flex items-center gap-1.5 text-xs font-bold text-[#0B3C5D]">
+                                            <CheckCircle2 className="w-4 h-4 text-orange-500" /> {item.label}
+                                        </span>
+                                        <p className="text-[10px] text-gray-500 mt-1">{item.desc}</p>
                                     </div>
-                                    <h3 className="text-lg font-bold text-gray-900 mb-2">{m.title}</h3>
-                                    <p className="text-sm text-gray-600 leading-relaxed">{m.description}</p>
-                                </div>
-                            </Reveal>
-                        ))}
+                                ))}
+                            </div>
+                        </Reveal>
                     </div>
                 </div>
             </section>
 
-            {/* ======================= SECTION 4: PLATFORM STATISTICS ======================= */}
-            <section className="relative overflow-hidden py-20 md:py-24 bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#082A42] text-white">
-                <div className="absolute inset-0 opacity-15 pointer-events-none">
-                    <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-orange-500 blur-3xl" />
+            {/* ===== 3 · STUDENT JOURNEY ===== */}
+            <StudentJourney />
+
+            {/* ===== 4 · ECOSYSTEM GRAPH ===== */}
+            <EcosystemGraph />
+
+            {/* ===== 5 · HOW INFORMATION REACHES STUDENTS ===== */}
+            <div id="process">
+                <DeliveryProcess />
+            </div>
+
+            {/* ===== 6 · INTERACTIVE DIRECTORY SHOWCASE (Replacing trust alternate blocks) ===== */}
+            <DirectoryShowcase />
+
+            {/* ===== 7 · GROWTH TIMELINE ===== */}
+            <div id="timeline">
+                <GrowthTimeline />
+            </div>
+
+            {/* ===== 8 · VISION ===== */}
+            <section id="vision" className="relative overflow-hidden py-24 md:py-28 bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white">
+                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <div className="absolute -top-16 left-1/4 w-96 h-96 rounded-full bg-blue-400 blur-3xl je-float-slow" />
+                    <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-orange-500 blur-3xl je-float" />
                 </div>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-                    <SectionHeading
-                        eyebrow="Platform at a Glance"
-                        title="Trusted scale across Indian education"
-                        subtitle="Numbers that reflect the breadth of educational information available on JustEducation."
-                        light
-                    />
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-                        {platformStats.map((s, i) => (
-                            <Reveal key={s.label} delay={(i % 4) * 80}>
-                                <div className="h-full bg-white/5 border border-white/10 rounded-2xl p-6 text-center backdrop-blur-sm hover:bg-white/10 transition-colors duration-300">
-                                    <div className="w-12 h-12 mx-auto rounded-xl bg-orange-500/20 text-orange-300 flex items-center justify-center mb-4">
-                                        <Icon name={s.icon} className="w-6 h-6" />
-                                    </div>
-                                    <div className="text-3xl md:text-4xl font-black text-white">
-                                        <AnimatedCounter value={s.value} suffix={s.suffix} />
-                                    </div>
-                                    <p className="text-sm text-blue-100 mt-2 font-medium">{s.label}</p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ========================= SECTION 5: WHAT WE COVER ========================= */}
-            <section className="py-20 md:py-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <SectionHeading
-                    eyebrow="What We Cover"
-                    title="One platform, every educational category"
-                    subtitle="From colleges and courses to exams and scholarships — explore the full spectrum of educational opportunities."
-                />
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                    {coverageCategories.map((c, i) => (
-                        <Reveal key={c.title} delay={(i % 4) * 70}>
-                            <div className="group h-full bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0B3C5D] to-[#126094] text-white flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                                    <Icon name={c.icon} className="w-6 h-6" />
-                                </div>
-                                <h3 className="text-base font-bold text-gray-900 mb-1.5 group-hover:text-[#F57C00] transition-colors">{c.title}</h3>
-                                <p className="text-sm text-gray-500 leading-relaxed">{c.description}</p>
-                            </div>
-                        </Reveal>
-                    ))}
-                </div>
-            </section>
-
-            {/* ==================== SECTION 6: WHY STUDENTS TRUST US ==================== */}
-            <section className="py-20 md:py-24 bg-white border-y border-gray-100">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <SectionHeading
-                        eyebrow="Built on Trust"
-                        title="Why Students Trust JustEducation"
-                        subtitle="Credibility, transparency, and a relentless focus on student needs guide everything we publish."
-                    />
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {trustFeatures.map((f, i) => (
-                            <Reveal key={f.title} delay={(i % 3) * 100}>
-                                <div className="h-full bg-gray-50 rounded-2xl border border-gray-200 p-7 hover:shadow-md transition-all duration-300 relative overflow-hidden">
-                                    <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-orange-400 to-orange-600" />
-                                    <div className="w-12 h-12 rounded-xl bg-[#0B3C5D]/5 text-[#0B3C5D] flex items-center justify-center mb-5">
-                                        <Icon name={f.icon} className="w-6 h-6" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-gray-900 mb-2">{f.title}</h3>
-                                    <p className="text-sm text-gray-600 leading-relaxed">{f.description}</p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ====================== SECTION 7: HOW IT WORKS (TIMELINE) ====================== */}
-            <section className="py-20 md:py-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <SectionHeading
-                    eyebrow="How It Works"
-                    title="Your academic journey in five simple steps"
-                    subtitle="A clear, guided path from first search to a confident final decision."
-                />
-
-                {/* Desktop horizontal timeline */}
-                <div className="hidden lg:block relative">
-                    <div className="absolute top-7 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-200 via-orange-400 to-orange-200" />
-                    <div className="grid grid-cols-5 gap-4">
-                        {workflowSteps.map((step, i) => (
-                            <Reveal key={step.title} delay={i * 120}>
-                                <div className="text-center">
-                                    <div className="relative z-10 w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center shadow-lg">
-                                        <Icon name={step.icon} className="w-6 h-6" />
-                                    </div>
-                                    <span className="inline-block mt-4 text-xs font-bold text-orange-500 uppercase tracking-wide">Step {i + 1}</span>
-                                    <h3 className="text-base font-bold text-gray-900 mt-1 px-2">{step.title}</h3>
-                                    <p className="text-sm text-gray-500 mt-2 px-2 leading-relaxed">{step.description}</p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Mobile vertical timeline */}
-                <div className="lg:hidden relative pl-12">
-                    <div className="absolute top-2 bottom-2 left-[1.4rem] w-0.5 bg-gradient-to-b from-orange-200 via-orange-400 to-orange-200" />
-                    <div className="space-y-8">
-                        {workflowSteps.map((step, i) => (
-                            <Reveal key={step.title} delay={i * 80}>
-                                <div className="relative">
-                                    <div className="absolute -left-[2.6rem] w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center shadow-md">
-                                        <Icon name={step.icon} className="w-5 h-5" />
-                                    </div>
-                                    <span className="text-xs font-bold text-orange-500 uppercase tracking-wide">Step {i + 1}</span>
-                                    <h3 className="text-base font-bold text-gray-900 mt-0.5">{step.title}</h3>
-                                    <p className="text-sm text-gray-500 mt-1 leading-relaxed">{step.description}</p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ============== SECTION 8: INFORMATION AVAILABLE ON PLATFORM ============== */}
-            <section className="py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <SectionHeading
-                        eyebrow="Deep & Structured Data"
-                        title="Information You Can Explore"
-                        subtitle="Every institution and course is backed by detailed, structured information you can rely on."
-                    />
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-                        {informationTypes.map((info, i) => (
-                            <Reveal key={info.label} delay={(i % 7) * 50}>
-                                <div className="group h-full bg-white rounded-xl border border-gray-200 p-5 text-center hover:border-[#0B3C5D] hover:shadow-md transition-all duration-300">
-                                    <div className="w-11 h-11 mx-auto rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center mb-3 group-hover:bg-[#0B3C5D] group-hover:text-white transition-colors duration-300">
-                                        <Icon name={info.icon} className="w-5 h-5" />
-                                    </div>
-                                    <p className="text-sm font-semibold text-gray-800 leading-snug">{info.label}</p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ========================== SECTION 9: OUR VISION ========================== */}
-            <section className="relative overflow-hidden py-24 md:py-28 bg-[#0B3C5D] text-white">
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
-                    <div className="absolute -top-16 left-1/4 w-96 h-96 rounded-full bg-blue-400 blur-3xl" />
-                    <div className="absolute bottom-0 right-10 w-80 h-80 rounded-full bg-orange-500 blur-3xl" />
-                </div>
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10 text-center">
-                    <Reveal>
-                        <Quote className="w-12 h-12 mx-auto text-orange-400/70" />
-                        <span className="block mt-6 text-xs font-bold uppercase tracking-widest text-orange-300">Our Vision</span>
-                        <p className="mt-6 text-2xl md:text-3xl xl:text-4xl font-bold leading-snug">
-                            To become one of India&apos;s most trusted education ecosystems where students can
-                            <span className="text-orange-400"> discover, compare, evaluate, and pursue </span>
-                            educational opportunities with confidence.
-                        </p>
-                        <p className="mt-8 text-base md:text-lg text-blue-100 leading-relaxed max-w-2xl mx-auto">
-                            Our vision is to create a transparent and comprehensive education platform that bridges the
-                            gap between students and educational institutions.
-                        </p>
-                    </Reveal>
-                </div>
-            </section>
-
-            {/* ======================= SECTION 10: OUR CORE VALUES ======================= */}
-            <section className="py-20 md:py-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <SectionHeading
-                    eyebrow="Our Values"
-                    title="The principles behind every decision"
-                    subtitle="Six values that define how we build, what we publish, and who we serve."
-                />
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {coreValues.map((v, i) => (
-                        <Reveal key={v.title} delay={(i % 3) * 100}>
-                            <div className="group h-full bg-white rounded-2xl border border-gray-200 p-7 hover:shadow-lg transition-all duration-300 text-center">
-                                <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-white flex items-center justify-center mb-5 shadow-md group-hover:scale-105 transition-transform duration-300">
-                                    <Icon name={v.icon} className="w-7 h-7" />
-                                </div>
-                                <h3 className="text-lg font-bold text-gray-900 mb-2">{v.title}</h3>
-                                <p className="text-sm text-gray-600 leading-relaxed">{v.description}</p>
-                            </div>
-                        </Reveal>
-                    ))}
-                </div>
-            </section>
-
-            {/* ==================== SECTION 11: EDUCATIONAL ECOSYSTEM ==================== */}
-            <section className="py-20 md:py-24 bg-white border-y border-gray-100">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                    <SectionHeading
-                        eyebrow="The Bigger Picture"
-                        title="A connected educational ecosystem"
-                        subtitle="JustEducation acts as the bridge between learners and the institutions, courses, and opportunities that shape their future."
-                    />
-
-                    {/* Desktop radial diagram */}
-                    <Reveal className="hidden md:block">
-                        <div className="relative mx-auto aspect-square max-w-2xl">
-                            {/* Connector lines */}
-                            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                                {ORBIT.map((p) => (
-                                    <line
-                                        key={p.top + p.left}
-                                        x1="50" y1="50"
-                                        x2={parseFloat(p.left)} y2={parseFloat(p.top)}
-                                        stroke="#F57C00" strokeWidth="0.3" strokeOpacity="0.35" strokeDasharray="1.5 1.5"
-                                    />
-                                ))}
-                            </svg>
-
-                            {/* Center hub: Students */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full bg-gradient-to-br from-[#0B3C5D] to-[#126094] shadow-2xl flex flex-col items-center justify-center text-center z-10 ring-8 ring-white">
-                                <Icon name="GraduationCap" className="w-9 h-9 text-orange-400" />
-                                <span className="text-sm font-bold text-white mt-2">Students</span>
-                                <span className="text-[10px] text-blue-200">at the center</span>
-                            </div>
-
-                            {/* Orbit nodes */}
-                            {ecosystemNodes.map((node, i) => (
-                                <div
-                                    key={node.label}
-                                    className="absolute -translate-x-1/2 -translate-y-1/2 z-10"
-                                    style={{ top: ORBIT[i].top, left: ORBIT[i].left }}
-                                >
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className="w-16 h-16 rounded-2xl bg-white border border-gray-200 shadow-md flex items-center justify-center hover:border-orange-400 hover:shadow-lg transition-all duration-300">
-                                            <Icon name={node.icon} className="w-7 h-7 text-[#0B3C5D]" />
-                                        </div>
-                                        <span className="text-xs font-bold text-gray-700 whitespace-nowrap">{node.label}</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </Reveal>
-
-                    {/* Mobile fallback grid */}
-                    <div className="md:hidden">
-                        <div className="flex flex-col items-center mb-6">
-                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#0B3C5D] to-[#126094] shadow-xl flex flex-col items-center justify-center ring-4 ring-white">
-                                <Icon name="GraduationCap" className="w-7 h-7 text-orange-400" />
-                                <span className="text-xs font-bold text-white mt-1">Students</span>
-                            </div>
-                            <Network className="w-6 h-6 text-orange-400 my-3" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                            {ecosystemNodes.map((node) => (
-                                <div key={node.label} className="flex items-center gap-3 bg-gray-50 rounded-xl border border-gray-200 p-3">
-                                    <div className="w-10 h-10 rounded-lg bg-white border border-gray-200 flex items-center justify-center flex-shrink-0">
-                                        <Icon name={node.icon} className="w-5 h-5 text-[#0B3C5D]" />
-                                    </div>
-                                    <span className="text-sm font-bold text-gray-700">{node.label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ===================== SECTION 12: SEO RICH CONTENT ===================== */}
-            <section className="py-20 md:py-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                <article className="prose-custom">
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6">
-                        JustEducation: A Trusted Education Information Platform for Colleges, Courses &amp; Exams in India
-                    </h2>
-                    <div className="space-y-5 text-gray-600 leading-relaxed text-[15px] md:text-base">
-                        <p>
-                            Choosing the right educational path is one of the most important decisions a student makes,
-                            and JustEducation exists to make that decision clearer, simpler, and more reliable. As a
-                            dedicated <strong>education portal</strong> and <strong>education information platform</strong>,
-                            JustEducation brings together verified, structured details about <strong>colleges in India</strong>,
-                            <strong> universities in India</strong>, <strong>schools in India</strong>, and thousands of
-                            academic programs — all in one place. Whether a student is exploring undergraduate options,
-                            evaluating postgraduate specialisations, or researching competitive entrance exams, the
-                            platform is designed to remove confusion and replace it with confidence.
-
-                        </p>
-
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 pt-4">Simplifying College Search and Course Search</h3>
-                        <p>
-                            The modern <strong>college search</strong> experience can feel overwhelming. Information is
-                            scattered across countless websites, brochures, and forums, often outdated or inconsistent.
-                            JustEducation solves this by offering a unified <strong>course search</strong> and college
-                            discovery experience where students can filter institutions by location, stream, course level,
-                            fees, and eligibility. Each profile is structured to surface the details that matter most —
-                            admission process, fee structure, infrastructure, placement information, and academic
-                            reputation — so comparisons are genuinely meaningful rather than superficial.
-                        </p>
-                        <p>
-                            By organising <strong>educational institutions</strong> into clear, comparable formats,
-                            JustEducation helps students and parents evaluate options side by side. Instead of visiting
-                            dozens of pages, a student can review multiple colleges and courses on a single platform,
-                            understand how they differ, and shortlist the ones that align with their goals, budget, and
-                            career aspirations.
-                        </p>
-
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 pt-4">Comprehensive Coverage of Entrance Exams</h3>
-                        <p>
-                            Entrance examinations are a defining milestone for millions of aspirants every year.
-                            JustEducation maintains detailed information on major <strong>entrance exams</strong> across
-                            engineering, medical, management, law, design, and other streams. Students can track exam
-                            dates, application timelines, eligibility criteria, exam patterns, syllabi, and result
-                            announcements. This makes it easier to prepare strategically and avoid missing critical
-                            deadlines — a common and costly mistake during admission cycles.
-                        </p>
-                        <p>
-                            For each exam, the platform connects the dots between the test, the courses it unlocks, and
-                            the institutions that accept it. This interconnected approach means a student researching an
-                            exam can immediately see which colleges and courses it leads to, transforming isolated facts
-                            into an actionable academic roadmap.
-                        </p>
-
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 pt-4">Scholarships, Admissions, and Financial Clarity</h3>
-                        <p>
-                            Financing education is a real concern for many families. JustEducation provides accessible
-                            information on <strong>scholarships</strong> and <strong>admissions</strong>, helping students
-                            discover opportunities they might otherwise overlook. From merit-based awards to need-based
-                            support, the platform highlights eligibility requirements and benefits in a transparent format.
-                            Combined with clear fee-structure information, this empowers students to plan their education
-                            financially and pursue opportunities without unnecessary barriers.
-                        </p>
-                        <p>
-                            Transparent <strong>admissions</strong> information is central to the JustEducation mission.
-                            Understanding application steps, important dates, required documents, and cut-off trends can be
-                            the difference between a smooth admission and a missed opportunity. By presenting these details
-                            clearly, the platform reduces anxiety and helps students approach the admission process with
-                            preparation rather than guesswork.
-                        </p>
-
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 pt-4">Schools, Coaching Institutes, and Lifelong Learning</h3>
-                        <p>
-                            Education is a continuous journey, and JustEducation reflects that by covering more than just
-                            higher education. The platform includes information on <strong>schools in India</strong> and
-                            <strong> coaching institutes</strong>, supporting students at every stage — from early
-                            schooling decisions to focused exam preparation. Parents researching schools can review
-                            curriculum, facilities, and admission details, while aspirants preparing for competitive exams
-                            can explore coaching options suited to their needs.
-                        </p>
-
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 pt-4">Career Guidance and Future Opportunities</h3>
-                        <p>
-                            Academic decisions are ultimately about the future. That is why JustEducation pairs educational
-                            information with <strong>career guidance</strong>, helping students understand how a course or
-                            qualification connects to real-world career opportunities. By mapping academic pathways to
-                            outcomes, the platform encourages students to think beyond the next exam and consider the
-                            long-term value of their choices.
-                        </p>
-                        <p>
-                            Alongside structured data, JustEducation offers a growing library of <strong>educational
-                            resources</strong> — guides, articles, and blogs that explain complex processes in simple
-                            language. These resources help students stay informed about changes in the education landscape,
-                            preparation strategies, and emerging opportunities, reinforcing the platform&apos;s role as a
-                            dependable companion throughout the academic journey.
-                        </p>
-
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 pt-4">Why JustEducation Matters</h3>
-                        <p>
-                            India&apos;s education ecosystem is vast and constantly evolving. With thousands of
-                            institutions and countless programs, students need a trustworthy guide more than ever.
-                            JustEducation is built to be that guide — an independent, student-first
-                            <strong> education information platform</strong> committed to accuracy, transparency, and
-                            accessibility. By consolidating reliable information about colleges, universities, courses,
-                            exams, scholarships, and careers into a single, well-structured experience, the platform helps
-                            students move forward with clarity and confidence.
-                        </p>
-                        <p>
-                            Ultimately, JustEducation is more than a directory. It is a comprehensive
-                            <strong> education portal</strong> designed to empower better decisions, bridge the gap between
-                            students and institutions, and support every learner&apos;s ambition to build a brighter
-                            future through education.
-                        </p>
-                    </div>
-                </article>
-            </section>
-
-            {/* ========================= SECTION 13: DISCLAIMER ========================= */}
-            <section className="pb-20 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                <Reveal>
-                    <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 md:p-7 flex gap-4">
-                        <div className="w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
-                            <Icon name="ShieldCheck" className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <h2 className="text-lg font-bold text-amber-900 mb-2">Information Disclaimer</h2>
-                            <p className="text-sm text-amber-800 leading-relaxed">
-                                Educational information, admissions, fees, eligibility, placements, rankings, and
-                                examination details may change over time. Users are encouraged to verify critical
-                                information directly from official institutional sources before making final decisions.
-                            </p>
-                        </div>
-                    </div>
-                </Reveal>
-            </section>
-
-            {/* ===================== SECTION 14: CONTACT & SUPPORT CTA ===================== */}
-            <section id="contact" className="pb-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-                <Reveal>
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white px-6 py-14 md:px-16 md:py-20 text-center">
-                        <div className="absolute inset-0 opacity-20 pointer-events-none">
-                            <div className="absolute top-0 left-1/4 w-72 h-72 rounded-full bg-orange-500 blur-3xl" />
-                            <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full bg-blue-300 blur-3xl" />
-                        </div>
-                        <div className="relative z-10 max-w-2xl mx-auto">
-                            <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
-                                Need Help With Your Educational Journey?
+                    <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                        <Reveal className="lg:col-span-7">
+                            <span className="inline-block text-xs font-bold uppercase tracking-widest text-orange-300 bg-white/10 px-3 py-1 rounded-full mb-5">Our Vision</span>
+                            <h2 className="text-3xl md:text-4xl xl:text-[2.75rem] font-extrabold leading-[1.14]">
+                                Building India&apos;s most trusted <span className="text-orange-400">education ecosystem</span>
                             </h2>
-                            <p className="mt-5 text-base md:text-lg text-blue-100 leading-relaxed">
-                                Reach out to our team for assistance, feedback, suggestions, or partnership opportunities.
+                            <p className="mt-6 text-base md:text-lg text-blue-100/90 leading-relaxed max-w-2xl">
+                                We envision a future where every student — in every city — can discover, compare, evaluate,
+                                and pursue educational opportunities with complete confidence. A transparent, comprehensive
+                                platform that closes the distance between learners and the institutions that shape their futures.
                             </p>
-                            <div className="mt-9 flex flex-wrap justify-center gap-4">
-                                <a href="mailto:support@justeducation.com" className="px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-0.5">
-                                    <Icon name="Mail" className="w-5 h-5" /> Contact Us
-                                </a>
-                                <a href="mailto:support@justeducation.com" className="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/25 hover:border-white/40 transition-all duration-300 flex items-center gap-2">
-                                    <Icon name="Headphones" className="w-5 h-5" /> Get Support
-                                </a>
+                            <div className="mt-8">
+                                <Link href="/exams" className="inline-flex items-center gap-2 px-7 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                                    Start Exploring <ArrowRight className="w-4 h-4" />
+                                </Link>
+                            </div>
+                        </Reveal>
+
+                        {/* vision pillars */}
+                        <Reveal delay={120} className="lg:col-span-5">
+                            <div className="space-y-4">
+                                {[
+                                    { icon: 'Globe2', title: 'Accessible to every student', text: 'Reliable information, within reach for all.' },
+                                    { icon: 'ShieldCheck', title: 'Transparent by default', text: 'Clear, honest, verifiable details.' },
+                                    { icon: 'TrendingUp', title: 'Built for the future', text: 'Connecting today\'s choice to tomorrow\'s career.' },
+                                ].map((p) => (
+                                    <div key={p.title} className="flex items-start gap-4 rounded-2xl bg-white/[0.07] border border-white/10 backdrop-blur-sm p-5 hover:bg-white/[0.12] transition-colors duration-300">
+                                        <span className="w-11 h-11 rounded-xl bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+                                            <Icon name={p.icon} className="w-5 h-5 text-orange-300" />
+                                        </span>
+                                        <div>
+                                            <h3 className="font-bold text-white">{p.title}</h3>
+                                            <p className="text-sm text-blue-100/80 mt-0.5">{p.text}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </Reveal>
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== 9 · LONG-FORM SEO CONTENT & SIDEBAR ===== */}
+            <section id="seo-article" className="py-24 md:py-28 bg-white border-b border-gray-100">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10">
+                        {/* Left column: Article content */}
+                        <div className="min-w-0">
+                            <article className="space-y-5 text-gray-600 leading-relaxed text-[15px] md:text-base">
+                                <SectionHeading
+                                    title="JustEducation: A Trusted Education Portal"
+                                    subtitle="Our comprehensive guide to colleges, courses, and entrance exams in India."
+                                    icon={<ShieldCheck className="w-5 h-5" />}
+                                    className="mb-8"
+                                />
+                                <p>
+                                    Education is one of the most significant investments a student and their family will ever make, and the
+                                    quality of that decision depends heavily on the quality of information behind it. JustEducation was built
+                                    as a comprehensive <strong>education portal</strong> and <strong>education information platform</strong>
+                                    to bring clarity to that process — consolidating reliable details about <strong>colleges in India</strong>,
+                                    <strong> universities in India</strong>, <strong>schools in India</strong>, courses, exams, scholarships,
+                                    and careers into a single, structured experience. Instead of navigating scattered, inconsistent sources,
+                                    students can explore everything they need in one trustworthy place.
+                                </p>
+
+                                <h3 className="text-xl md:text-2xl font-bold text-[#0B3C5D] pt-4 flex items-center gap-2">
+                                    <span className="h-4 w-1 bg-orange-500 rounded" /> Simplifying College Search and Course Search
+                                </h3>
+                                <p>
+                                    For most students, the journey begins with a question: which institution and which program is right for me?
+                                    The modern <strong>college search</strong> can feel overwhelming when information lives across dozens of
+                                    websites, brochures, and forums. JustEducation reimagines this with a unified <strong>course search</strong>
+                                    and discovery experience, where institutions and programs are organised by location, stream, course level,
+                                    fees, and eligibility. Each profile surfaces the details that matter most — admission process, fee structure,
+                                    infrastructure, placement information, and academic reputation — so comparisons are meaningful rather than
+                                    superficial.
+                                </p>
+                                <p>
+                                    By presenting <strong>educational institutions</strong> in clear, comparable formats, the platform helps
+                                    students and parents weigh options side by side. Rather than visiting countless pages, a student can review
+                                    multiple colleges and courses together, understand how they differ, and shortlist the ones that fit their
+                                    goals, budget, and ambitions.
+                                </p>
+
+                                <h3 className="text-xl md:text-2xl font-bold text-[#0B3C5D] pt-4 flex items-center gap-2">
+                                    <span className="h-4 w-1 bg-orange-500 rounded" /> Comprehensive Coverage of Entrance Exams
+                                </h3>
+                                <p>
+                                    Entrance examinations are a defining milestone for millions of aspirants every year. JustEducation maintains
+                                    detailed information on major <strong>entrance exams</strong> across engineering, medical, management, law,
+                                    design, and more. Students can track exam dates, application windows, eligibility criteria, exam patterns,
+                                    syllabi, and result announcements — and prepare strategically instead of scrambling against deadlines. For
+                                    each exam, the platform connects the test to the courses it unlocks and the institutions that accept it,
+                                    turning isolated facts into an actionable academic roadmap.
+                                </p>
+
+                                <h3 className="text-xl md:text-2xl font-bold text-[#0B3C5D] pt-4 flex items-center gap-2">
+                                    <span className="h-4 w-1 bg-orange-500 rounded" /> Scholarships, Admissions, and Financial Clarity
+                                </h3>
+                                <p>
+                                    Financing education is a genuine concern for many families. JustEducation provides accessible information on
+                                    <strong> scholarships</strong> and <strong>admissions</strong>, helping students discover opportunities they
+                                    might otherwise miss. From merit-based awards to need-based support, eligibility and benefits are presented
+                                    transparently. Combined with clear fee details, this empowers students to plan financially and pursue
+                                    opportunities without unnecessary barriers. Transparent admissions information — application steps, important
+                                    dates, required documents, and cut-off trends — can be the difference between a smooth admission and a missed
+                                    opportunity.
+                                </p>
+
+                                <h3 className="text-xl md:text-2xl font-bold text-[#0B3C5D] pt-4 flex items-center gap-2">
+                                    <span className="h-4 w-1 bg-orange-500 rounded" /> Schools, Coaching Institutes, and Lifelong Learning
+                                </h3>
+                                <p>
+                                    Education is a continuous journey, and JustEducation reflects that by covering far more than higher education
+                                    alone. The platform includes information on <strong>schools in India</strong> and <strong>coaching
+                                    institutes</strong>, supporting students at every stage — from early schooling decisions to focused exam
+                                    preparation. Parents researching schools can review curriculum and facilities, while aspirants can explore
+                                    coaching options suited to their goals, all within the same dependable ecosystem.
+                                </p>
+
+                                <h3 className="text-xl md:text-2xl font-bold text-[#0B3C5D] pt-4 flex items-center gap-2">
+                                    <span className="h-4 w-1 bg-orange-500 rounded" /> Career Guidance and Future Opportunities
+                                </h3>
+                                <p>
+                                    Academic decisions are ultimately about the future. That is why JustEducation pairs educational information
+                                    with <strong>career guidance</strong>, helping students understand how a course or qualification connects to
+                                    real-world outcomes. By mapping academic pathways to careers, the platform encourages students to think beyond
+                                    the next exam and consider the long-term value of their choices. A growing library of <strong>educational
+                                    resources</strong> — guides, articles, and explainers — translates complex processes into simple language,
+                                    reinforcing the platform&apos;s role as a dependable companion throughout the journey.
+                                </p>
+
+                                <h3 className="text-xl md:text-2xl font-bold text-[#0B3C5D] pt-4 flex items-center gap-2">
+                                    <span className="h-4 w-1 bg-orange-500 rounded" /> Why a Trusted Education Platform Matters
+                                </h3>
+                                <p>
+                                    India&apos;s education landscape is vast and constantly evolving, with thousands of institutions and countless
+                                    programs. In that complexity, students need a trustworthy guide more than ever. JustEducation is built to be
+                                    that guide — an independent, student-first platform committed to accuracy, transparency, and accessibility. By
+                                    consolidating reliable information about <strong>courses in India</strong>, colleges, universities, exams,
+                                    scholarships, and careers into a single, well-structured experience, it helps students move forward with
+                                    clarity and confidence. More than a directory, JustEducation is a comprehensive education ecosystem designed to
+                                    empower better decisions, bridge the gap between students and institutions, and support every learner&apos;s
+                                    ambition to build a brighter future.
+                                </p>
+                            </article>
+                        </div>
+
+                        {/* Right column: Sticky Sidebar Widgets */}
+                        <aside>
+                            <div className="sticky top-24 space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto pr-1 pb-4 no-scrollbar">
+                                {/* Table of Contents */}
+                                <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-orange-500 transition-colors duration-300">
+                                    <h3 className="text-sm font-extrabold text-[#0B3C5D] uppercase tracking-wider mb-4 flex items-center gap-2">
+                                        <span className="h-4 w-1 bg-orange-500 rounded" /> About Section Index
+                                    </h3>
+                                    <nav className="space-y-2.5 text-sm font-semibold text-gray-500">
+                                        {[
+                                            { name: 'Our Origin Story', href: '#origin' },
+                                            { name: 'Student Decision Journey', href: '#ecosystem' },
+                                            { name: 'Information Processing Path', href: '#process' },
+                                            { name: 'Directory Discovery Portal', href: '#directory-showcase' },
+                                            { name: 'Growth Roadmap Timeline', href: '#timeline' },
+                                            { name: 'Vision for the Future', href: '#vision' },
+                                            { name: 'Comprehensive Portal Article', href: '#seo-article' },
+                                            { name: 'Quality Principles & Values', href: '#values' },
+                                            { name: 'Contact & Inquiry Portal', href: '#contact' },
+                                        ].map((item) => (
+                                            <a
+                                                key={item.href}
+                                                href={item.href}
+                                                className="block hover:text-[#F57C00] transition-colors hover:translate-x-0.5 duration-200"
+                                            >
+                                                {item.name}
+                                            </a>
+                                        ))}
+                                    </nav>
+                                </div>
+
+                                {/* Newsletter Sign-Up Mini-CTA (matching Blog details page style) */}
+                                <div className="bg-gradient-to-br from-[#0B3C5D] to-[#0D4B75] rounded-xl shadow-md p-5 text-white">
+                                    <h3 className="text-sm font-bold flex items-center gap-2 mb-1 text-white">
+                                        <Mail className="w-4 h-4 text-orange-400" />
+                                        Keep Updated on Education
+                                    </h3>
+                                    <p className="text-xs text-blue-100 mb-3">Get the latest institutional admissions alerts and dates.</p>
+                                    <input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-xs text-white placeholder-blue-200/60 outline-none mb-2 focus:border-orange-400 transition-colors"
+                                    />
+                                    <button className="w-full py-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-lg shadow transition-colors duration-300">
+                                        Subscribe Free
+                                    </button>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== 10 · TRUST & TRANSPARENCY PRINCIPLES ===== */}
+            <section id="values" className="py-24 md:py-28 bg-gray-50 border-b border-gray-100">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                    <Reveal className="text-center max-w-3xl mx-auto mb-16">
+                        <SectionHeading
+                            title="The principles we never compromise on"
+                            subtitle="Trust is not a feature we add — it is the foundation everything else stands on."
+                            icon={<ShieldCheck className="w-5 h-5" />}
+                            className="flex justify-center mb-4"
+                        />
+                        <p className="text-gray-600 leading-relaxed text-[15px] md:text-base mt-4">
+                            These core principles guide how we collect, verify, present, and improve the information students depend on every day to build their future.
+                        </p>
+                    </Reveal>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {[
+                            {
+                                num: '01',
+                                icon: ShieldCheck,
+                                title: 'Accuracy First',
+                                desc: 'We source educational data directly from official references and cross-check details to eliminate spam and errors.',
+                                color: 'text-emerald-500 bg-emerald-50 border-emerald-100'
+                            },
+                            {
+                                num: '02',
+                                icon: Eye,
+                                title: 'Radical Transparency',
+                                desc: 'Admissions eligibility, comprehensive fee structures, cut-offs, and rules are presented openly without hidden terms.',
+                                color: 'text-blue-500 bg-blue-50 border-blue-100'
+                            },
+                            {
+                                num: '03',
+                                icon: Heart,
+                                title: 'Student Centricity',
+                                desc: 'Every design, tool, and directory search logic is built around student success, with absolutely zero broker commission bias.',
+                                color: 'text-rose-500 bg-rose-50 border-rose-100'
+                            },
+                            {
+                                num: '04',
+                                icon: Globe,
+                                title: 'Universal Access',
+                                desc: 'We bridge the search gap by compiling searchable, structured directory profiles for institutions across 600+ cities in India.',
+                                color: 'text-amber-500 bg-amber-50 border-amber-100'
+                            }
+                        ].map((item, idx) => {
+                            const IconComp = item.icon;
+                            return (
+                                <Reveal key={item.title} delay={idx * 100} className="h-full">
+                                    <div className="group relative h-full bg-white rounded-3xl border border-gray-200/80 p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-orange-500/40 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+                                        
+                                        <div>
+                                            <div className="flex items-center justify-between gap-4 mb-6">
+                                                <span className={`w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${item.color}`}>
+                                                    <IconComp className="w-5.5 h-5.5" />
+                                                </span>
+                                                <span className="text-2xl font-black text-gray-150 group-hover:text-orange-500/10 transition-colors select-none">
+                                                    {item.num}
+                                                </span>
+                                            </div>
+                                            
+                                            <h3 className="text-lg font-black text-gray-900 group-hover:text-[#0B3C5D] transition-colors leading-tight">
+                                                {item.title}
+                                            </h3>
+                                            
+                                            <p className="text-sm text-gray-500 mt-3 leading-relaxed">
+                                                {item.desc}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="mt-8 pt-4 border-t border-gray-100/60 flex items-center text-xs font-semibold text-gray-400 group-hover:text-[#F57C00] transition-colors">
+                                            <span>Commitment Verified</span>
+                                        </div>
+                                    </div>
+                                </Reveal>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== 12 · CONTACT & SUPPORT ===== */}
+            <section id="contact" className="bg-[#f8fafc] py-20">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                    <Reveal>
+                        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0a2540] via-[#0d3868] to-[#1a5276] px-6 py-16 text-center shadow-2xl md:px-16">
+                            {/* Decorative layers */}
+                            <div className="absolute inset-0 pointer-events-none" aria-hidden>
+                                <div className="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+                                <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.08),transparent_55%)]" />
+                            </div>
+
+                            <div className="relative z-10">
+                                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-sm text-orange-300 backdrop-blur-sm">
+                                    <ShieldCheck size={14} /> 100% Free · No Obligation
+                                </span>
+
+                                <h2 className="mx-auto mt-6 max-w-3xl text-3xl font-extrabold leading-tight text-white md:text-5xl">
+                                    Ready to Begin Your{" "}
+                                    <span className="text-orange-400">Study Abroad Journey?</span>
+                                </h2>
+                                <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-blue-100/80">
+                                    Your dream university is closer than you think. Talk to an expert
+                                    counselor today and take the first confident step toward a global
+                                    education.
+                                </p>
+
+                                <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                                    <Link
+                                        href="/book-session"
+                                        className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-8 py-4 font-bold text-white transition-all hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/30 sm:w-auto"
+                                    >
+                                        <CalendarCheck size={20} />
+                                        Book Free Counseling
+                                        <ArrowRight
+                                            size={18}
+                                            className="transition-transform group-hover:translate-x-1"
+                                        />
+                                    </Link>
+                                    <Link
+                                        href="/search"
+                                        className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 sm:w-auto"
+                                    >
+                                        <Compass size={20} />
+                                        Explore Universities
+                                    </Link>
+                                </div>
+
+                                <p className="mt-6 text-sm text-blue-100/60">
+                                    Join 15,000+ students who started right here.
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </Reveal>
+                    </Reveal>
+                </div>
             </section>
         </div>
     );

@@ -80,6 +80,45 @@ button:disabled {
   .je-animate-fade-up { animation: none; }
 }
 
+/* ---- About (storytelling) motion ---- */
+@keyframes je-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes je-float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+@keyframes je-pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.55; }
+  70% { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+@keyframes je-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes je-dash {
+  to { stroke-dashoffset: 0; }
+}
+
+.je-float { animation: je-float 6s ease-in-out infinite; }
+.je-float-slow { animation: je-float-slow 9s ease-in-out infinite; }
+.je-pulse-ring { animation: je-pulse-ring 2.8s ease-out infinite; }
+.je-spin-slow { animation: je-spin-slow 40s linear infinite; }
+
+/* SVG line that "draws" itself once revealed (toggled by adding .is-drawn). */
+.je-draw-line {
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+}
+.je-draw-line.is-drawn {
+  animation: je-dash 1.4s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .je-float, .je-float-slow, .je-pulse-ring, .je-spin-slow { animation: none; }
+  .je-draw-line { stroke-dashoffset: 0; animation: none; }
 /* ───── Testimonial page utilities & animations ───── */
 
 /* Hide scrollbar while keeping horizontal scroll/swipe behavior */

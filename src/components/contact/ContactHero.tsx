@@ -1,22 +1,28 @@
 "use client";
 
-import { ArrowRight, Calendar, MessageCircle } from 'lucide-react';
+import { ArrowRight, Calendar, MessageCircle, Clock, MapPin, ShieldCheck } from 'lucide-react';
 import { heroContent, heroStats, type HeroStat } from '@/data/contactConfig';
 import { useCountUp } from './useCountUp';
+
+const trustSignals = [
+    { icon: Clock, label: 'Replies in under 2 hours' },
+    { icon: MapPin, label: '10+ offices across India' },
+    { icon: ShieldCheck, label: '24/7 emergency support' },
+];
 
 function StatCounter({ stat, index }: { stat: HeroStat; index: number }) {
     const { ref, value } = useCountUp(stat.value, 1400 + index * 150);
     return (
         <div
             ref={ref}
-            className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-4 sm:p-5 text-center transition-all duration-300 hover:bg-white/15 hover:-translate-y-1"
+            className="group rounded-2xl border border-white/10 bg-white/[0.07] p-4 text-center transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.12] sm:p-5"
         >
-            <div className="text-2xl sm:text-3xl font-black text-white tabular-nums">
+            <div className="text-2xl font-black tabular-nums leading-none text-white sm:text-[2rem]">
                 {stat.prefix}
                 {value}
                 {stat.suffix}
             </div>
-            <div className="mt-1 text-[11px] sm:text-xs font-medium text-blue-100 leading-tight">
+            <div className="mt-1.5 text-[11px] font-medium leading-tight text-blue-100/80 sm:text-xs">
                 {stat.label}
             </div>
         </div>
@@ -29,69 +35,94 @@ export default function ContactHero() {
     const [before, after] = title.split(highlight);
 
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white">
-            {/* Decorative blurred blobs (matches home hero) */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none" aria-hidden="true">
-                <div className="absolute -top-12 -left-10 w-80 h-80 rounded-full bg-orange-500 blur-3xl" />
-                <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-sky-300 blur-3xl" />
-                <div className="absolute top-1/3 left-1/2 w-72 h-72 rounded-full bg-[#126094] blur-3xl" />
-            </div>
-            {/* Subtle grid overlay */}
+        <section className="relative overflow-hidden bg-[#0B3C5D] text-white">
+            {/* ---- Background: smooth gradient + soft glows (no grid pattern) ---- */}
             <div
-                className="absolute inset-0 opacity-[0.07] pointer-events-none"
                 aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-br from-[#0B3C5D] via-[#0D4A72] to-[#11598C]"
+            />
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+                <div className="absolute -left-24 -top-32 h-[34rem] w-[34rem] rounded-full bg-orange-500/20 blur-[120px]" />
+                <div className="absolute -bottom-40 -right-24 h-[36rem] w-[36rem] rounded-full bg-sky-400/20 blur-[130px]" />
+                <div className="absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1E7FC0]/25 blur-[120px]" />
+            </div>
+            {/* top spotlight + gentle depth toward the page body */}
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
                 style={{
-                    backgroundImage:
-                        'linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)',
-                    backgroundSize: '44px 44px',
+                    background:
+                        'radial-gradient(75% 55% at 50% -10%, rgba(255,255,255,0.12), transparent 60%), linear-gradient(to bottom, transparent 62%, rgba(8,38,60,0.55))',
                 }}
             />
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 py-16 md:py-24">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="container relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
+                <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-14">
                     {/* Left: copy + CTAs */}
-                    <div className="lg:col-span-7 je-animate-fade-up">
-                        <span className="inline-flex items-center gap-2 bg-orange-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
-                            <MessageCircle className="w-3.5 h-3.5" />
+                    <div className="je-animate-fade-up lg:col-span-7">
+                        <span className="inline-flex items-center gap-2.5 rounded-full border border-orange-400/30 bg-orange-500/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-orange-200 backdrop-blur-sm">
+                            <span className="relative flex h-2 w-2">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-400" />
+                            </span>
                             {badge}
                         </span>
 
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mt-6 leading-[1.05] tracking-tight">
+                        <h1 className="mt-6 text-4xl font-black leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.25rem]">
                             {before}
-                            <span className="text-orange-400">{highlight}</span>
+                            <span className="bg-gradient-to-r from-orange-300 via-orange-400 to-amber-400 bg-clip-text text-transparent">
+                                {highlight}
+                            </span>
                             {after}
                         </h1>
 
-                        <p className="mt-6 text-lg sm:text-xl font-semibold text-blue-50 max-w-2xl">
+                        <p className="mt-6 max-w-xl text-lg font-semibold text-blue-50 sm:text-xl">
                             {subtitle}
                         </p>
-                        <p className="mt-4 text-base text-blue-100/90 leading-relaxed max-w-2xl">
+                        <p className="mt-4 max-w-xl text-base leading-relaxed text-blue-100/80">
                             {description}
                         </p>
 
                         <div className="mt-9 flex flex-wrap gap-4">
                             <a
                                 href={primaryCta.href}
-                                className="group px-7 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-0.5"
+                                className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3.5 font-bold text-white shadow-lg shadow-orange-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-orange-900/40"
                             >
                                 {primaryCta.label}
-                                <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                                <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                             </a>
                             <a
                                 href={secondaryCta.href}
-                                className="px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/25 hover:border-white/40 backdrop-blur-sm transition-all duration-300 flex items-center gap-2"
+                                className="inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/10 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/15"
                             >
-                                <Calendar className="w-5 h-5" />
+                                <Calendar className="h-5 w-5" />
                                 {secondaryCta.label}
                             </a>
+                        </div>
+
+                        {/* Trust signals */}
+                        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-7">
+                            {trustSignals.map(({ icon: Icon, label }) => (
+                                <div
+                                    key={label}
+                                    className="flex items-center gap-2 text-sm font-medium text-blue-100/80"
+                                >
+                                    <Icon className="h-4 w-4 flex-shrink-0 text-orange-300" />
+                                    {label}
+                                </div>
+                            ))}
                         </div>
                     </div>
 
                     {/* Right: animated trust stats */}
                     <div className="lg:col-span-5">
-                        <div className="rounded-3xl bg-white/5 border border-white/10 p-5 sm:p-6 shadow-2xl backdrop-blur-sm">
-                            <p className="text-xs font-semibold uppercase tracking-widest text-blue-200/80 mb-4 text-center">
-                                Trusted by learners & teams nationwide
+                        <div className="relative rounded-3xl border border-white/12 bg-white/[0.06] p-6 shadow-2xl backdrop-blur-md sm:p-7">
+                            <div
+                                aria-hidden="true"
+                                className="absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-orange-300/60 to-transparent"
+                            />
+                            <p className="mb-5 text-center text-xs font-semibold uppercase tracking-widest text-blue-200/70">
+                                Trusted by learners &amp; teams nationwide
                             </p>
                             <div className="grid grid-cols-2 gap-3 sm:gap-4">
                                 {heroStats.map((stat, i) => (
@@ -103,11 +134,11 @@ export default function ContactHero() {
                 </div>
             </div>
 
-            {/* Bottom wave divider into the gray-50 page body */}
+            {/* Smooth fade into the gray-50 page body */}
             <div className="relative z-10 -mb-px" aria-hidden="true">
-                <svg viewBox="0 0 1440 80" className="w-full h-[40px] sm:h-[64px]" preserveAspectRatio="none">
+                <svg viewBox="0 0 1440 80" className="h-[40px] w-full sm:h-[60px]" preserveAspectRatio="none">
                     <path
-                        d="M0,40 C240,80 480,0 720,24 C960,48 1200,80 1440,40 L1440,80 L0,80 Z"
+                        d="M0,48 C360,86 1080,10 1440,44 L1440,80 L0,80 Z"
                         fill="#f9fafb"
                     />
                 </svg>

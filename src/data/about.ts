@@ -129,7 +129,7 @@ export const coreValues: { icon: string; title: string; description: string }[] 
     { icon: 'Award', title: 'Excellence', description: 'Maintaining high standards of quality and usability.' },
 ];
 
-// Ecosystem nodes — Section 11. Orbit positions are tuned for the diagram layout.
+// Ecosystem nodes — compact 8-node orbit used by the radial diagram.
 export const ecosystemNodes: { icon: string; label: string }[] = [
     { icon: 'Building2', label: 'Colleges' },
     { icon: 'Landmark', label: 'Universities' },
@@ -139,4 +139,124 @@ export const ecosystemNodes: { icon: string; label: string }[] = [
     { icon: 'Wallet', label: 'Scholarships' },
     { icon: 'FileText', label: 'Admissions' },
     { icon: 'Briefcase', label: 'Careers' },
+];
+
+/* =========================================================================
+ * Storytelling datasets (premium About redesign). All plain/serializable so a
+ * backend or CMS can drive them. Icons are string keys resolved in the UI.
+ * ========================================================================= */
+
+// Section 1 — floating hero chips (label + icon + tuned position classes).
+export const heroFloatingChips: { icon: string; label: string; pos: string; delay: number }[] = [
+    { icon: 'Building2', label: 'Colleges', pos: 'top-[6%] left-[2%]', delay: 0 },
+    { icon: 'Landmark', label: 'Universities', pos: 'top-[0%] right-[12%]', delay: 120 },
+    { icon: 'ClipboardList', label: 'Entrance Exams', pos: 'top-[40%] -right-[2%]', delay: 240 },
+    { icon: 'Wallet', label: 'Scholarships', pos: 'bottom-[8%] right-[6%]', delay: 360 },
+    { icon: 'BookOpen', label: 'Courses', pos: 'bottom-[2%] left-[10%]', delay: 200 },
+    { icon: 'Briefcase', label: 'Careers', pos: 'top-[46%] -left-[4%]', delay: 300 },
+];
+
+// Section 3 — the student journey flow.
+export const journeyStages: { icon: string; title: string; caption: string }[] = [
+    { icon: 'GraduationCap', title: 'Student', caption: 'Every journey begins here' },
+    { icon: 'BookOpen', title: 'Explore Courses', caption: 'Find programs that fit' },
+    { icon: 'Building2', title: 'Discover Colleges', caption: 'Shortlist the right institutions' },
+    { icon: 'Scale', title: 'Compare Options', caption: 'Weigh choices with clarity' },
+    { icon: 'ClipboardList', title: 'Prepare for Exams', caption: 'Plan and practise' },
+    { icon: 'FileText', title: 'Admissions', caption: 'Navigate the process' },
+    { icon: 'Wallet', title: 'Scholarships', caption: 'Fund your education' },
+    { icon: 'TrendingUp', title: 'Career Growth', caption: 'Build a brighter future' },
+];
+
+// Section 4 — full ecosystem (13 connected nodes around the JustEducation hub).
+export const ecosystemFull: { icon: string; label: string }[] = [
+    { icon: 'Building2', label: 'Colleges' },
+    { icon: 'Landmark', label: 'Universities' },
+    { icon: 'School', label: 'Schools' },
+    { icon: 'BookOpen', label: 'Courses' },
+    { icon: 'ClipboardList', label: 'Exams' },
+    { icon: 'Wallet', label: 'Scholarships' },
+    { icon: 'FileText', label: 'Admissions' },
+    { icon: 'Lightbulb', label: 'Coaching Institutes' },
+    { icon: 'Trophy', label: 'Results' },
+    { icon: 'LineChart', label: 'Rankings' },
+    { icon: 'Briefcase', label: 'Careers' },
+    { icon: 'Plane', label: 'Study Abroad' },
+    { icon: 'Newspaper', label: 'Educational News' },
+];
+
+// Section 5 — impact counters (numeric value split from suffix for count-up).
+export const impactStats: { value: number; suffix: string; label: string; icon: string }[] = [
+    { value: 10000, suffix: '+', label: 'Colleges', icon: 'Building2' },
+    { value: 5000, suffix: '+', label: 'Courses', icon: 'BookOpen' },
+    { value: 1000, suffix: '+', label: 'Exams', icon: 'ClipboardList' },
+    { value: 500, suffix: '+', label: 'Cities', icon: 'MapPin' },
+    { value: 1000000, suffix: '+', label: 'Students Reached', icon: 'Users' },
+    { value: 100000, suffix: '+', label: 'Educational Resources', icon: 'Library' },
+];
+
+// Section 6 — how information reaches students (process flow).
+export const deliveryProcess: { icon: string; title: string; description: string }[] = [
+    { icon: 'Landmark', title: 'Institution Sources', description: 'We start with official institutional and authoritative sources.' },
+    { icon: 'Layers', title: 'Data Collection', description: 'Information is gathered and organised into structured formats.' },
+    { icon: 'ShieldCheck', title: 'Verification', description: 'Details are cross-checked for accuracy and reliability.' },
+    { icon: 'PenTool', title: 'Content Processing', description: 'Data is refined into clear, comparable, readable content.' },
+    { icon: 'Globe2', title: 'Platform Publishing', description: 'Verified content is published across the platform.' },
+    { icon: 'GraduationCap', title: 'Student Access', description: 'Students explore reliable information, anytime, anywhere.' },
+];
+
+// Section 7 — alternating trust storytelling blocks (no cards). `flip` puts the
+// illustration on the right. `art` selects an inline SVG illustration.
+export const trustStoryBlocks: { art: string; icon: string; title: string; body: string; points: string[]; flip: boolean }[] = [
+    {
+        art: 'verified', icon: 'ShieldCheck', title: 'Verified Information', flip: false,
+        body: 'Trust begins with accuracy. Wherever possible, JustEducation sources information from official institutional and authoritative references, then cross-checks the details before they ever reach a student.',
+        points: ['Sourced from official references', 'Cross-checked before publishing', 'Reviewed for consistency'],
+    },
+    {
+        art: 'updates', icon: 'RefreshCw', title: 'Regular Updates', flip: true,
+        body: 'Education never stands still — dates shift, fees revise, eligibility evolves. Our information is reviewed and refreshed regularly so students plan around what is current, not what was true last year.',
+        points: ['Ongoing review cycles', 'Updated admission timelines', 'Current fees & eligibility'],
+    },
+    {
+        art: 'compare', icon: 'Scale', title: 'Easy Comparisons', flip: false,
+        body: 'Decisions get easier when options sit side by side. JustEducation structures colleges, courses, exams, and institutions into comparable formats so students can weigh what genuinely matters to them.',
+        points: ['Side-by-side clarity', 'Comparable, structured data', 'Focus on what matters'],
+    },
+    {
+        art: 'student', icon: 'Heart', title: 'Student-First Experience', flip: true,
+        body: 'Every layout, label, and flow is built around the student. The goal is never to overwhelm — it is to guide, simplify, and empower confident decisions at each step of the journey.',
+        points: ['Designed around student needs', 'Clear, guided experience', 'Built to empower, not overwhelm'],
+    },
+];
+
+// Section 8 — growth journey milestones (timeline).
+export const growthMilestones: { year: string; title: string; description: string; icon: string }[] = [
+    { year: '2026', title: 'JustEducation Launch', description: 'The platform goes live with a mission to simplify educational discovery for students across India.', icon: 'Sparkles' },
+    { year: '2027', title: 'Expansion of Educational Categories', description: 'Coverage broadens across colleges, courses, exams, scholarships, and more.', icon: 'Layers' },
+    { year: '2028', title: 'National Institution Coverage', description: 'Information scales to institutions in every region of the country.', icon: 'MapPin' },
+    { year: '2029', title: 'Millions of Educational Records', description: 'A deep, structured knowledge base powers smarter student decisions.', icon: 'Library' },
+    { year: '2030', title: 'Leading Education Discovery Ecosystem', description: 'JustEducation stands among India\'s most trusted education ecosystems.', icon: 'Trophy' },
+];
+
+// Section 9 — the student network (center = Student, surrounded by opportunities).
+export const networkNodes: { icon: string; label: string }[] = [
+    { icon: 'Building2', label: 'Colleges' },
+    { icon: 'Landmark', label: 'Universities' },
+    { icon: 'BookOpen', label: 'Courses' },
+    { icon: 'ClipboardList', label: 'Exams' },
+    { icon: 'Wallet', label: 'Scholarships' },
+    { icon: 'FileText', label: 'Admissions' },
+    { icon: 'Lightbulb', label: 'Coaching' },
+    { icon: 'Briefcase', label: 'Careers' },
+    { icon: 'Library', label: 'Educational Resources' },
+];
+
+// Section 12 — trust & transparency pillars (storytelling, not cards).
+export const transparencyPillars: { icon: string; title: string; description: string }[] = [
+    { icon: 'BadgeCheck', title: 'Information Accuracy', description: 'We prioritise reliable, cross-checked information over volume.' },
+    { icon: 'Eye', title: 'Transparency', description: 'Admissions, eligibility, fees, and details are presented openly.' },
+    { icon: 'Globe2', title: 'Accessibility', description: 'Educational information is made easy to find and understand.' },
+    { icon: 'Heart', title: 'Student-Centric Approach', description: 'Every decision keeps student success at its centre.' },
+    { icon: 'TrendingUp', title: 'Continuous Improvement', description: 'We keep refining the experience as education evolves.' },
 ];

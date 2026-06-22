@@ -9,11 +9,13 @@ interface AnimatedCounterProps {
     suffix?: string;
     /** Animation duration in ms. */
     duration?: number;
+    /** `compact` → Indian L/Cr (50L+); `comma` → grouped digits (1,000,000). */
+    format?: 'compact' | 'comma';
     className?: string;
 }
 
-// Compact formatting so large platform numbers read cleanly (e.g. 5,000,000 → 50L+).
-const formatValue = (n: number): string => {
+const formatValue = (n: number, format: 'compact' | 'comma'): string => {
+    if (format === 'comma') return n.toLocaleString('en-IN');
     if (n >= 10_000_000) return `${(n / 10_000_000).toFixed(n % 10_000_000 === 0 ? 0 : 1)}Cr`;
     if (n >= 100_000) return `${(n / 100_000).toFixed(n % 100_000 === 0 ? 0 : 1)}L`;
     if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
@@ -24,7 +26,7 @@ const formatValue = (n: number): string => {
  * Counts from 0 up to `value` once it scrolls into view, using requestAnimationFrame
  * with an ease-out curve. Falls back to the final value when reduced motion is set.
  */
-const AnimatedCounter = ({ value, suffix = '', duration = 1800, className = '' }: AnimatedCounterProps) => {
+const AnimatedCounter = ({ value, suffix = '', duration = 1800, format = 'compact', className = '' }: AnimatedCounterProps) => {
     const ref = useRef<HTMLSpanElement | null>(null);
     const [display, setDisplay] = useState(0);
     const started = useRef(false);
@@ -66,7 +68,7 @@ const AnimatedCounter = ({ value, suffix = '', duration = 1800, className = '' }
 
     return (
         <span ref={ref} className={className}>
-            {formatValue(display)}
+            {formatValue(display, format)}
             {suffix}
         </span>
     );

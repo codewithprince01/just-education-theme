@@ -79,3 +79,189 @@ button:disabled {
   .je-animate-pop, .je-animate-pop-out,
   .je-animate-fade-up { animation: none; }
 }
+
+/* ==========================================================================
+   Office Locator — premium interactive map (MapLibre GL)
+   ========================================================================== */
+
+/* ---- Map container sizing (critical) ------------------------------------
+   maplibre-gl.css ships UNLAYERED, while Tailwind v4 compiles every utility
+   into `@layer utilities`. In the cascade, unlayered rules ALWAYS beat layered
+   ones regardless of specificity — so maplibre's `.maplibregl-map{position:relative}`
+   silently overrides a Tailwind `absolute` utility on the map element. That turns
+   `absolute inset-0` into `position:relative` with no height, collapsing the map
+   to height:0 (→ blank white box, no tiles). Pin the GL root to fill its sized
+   wrapper here so it can never collapse, whatever utilities are applied. */
+.maplibregl-map {
+  height: 100%;
+  width: 100%;
+}
+
+/* ---- Custom office markers ---------------------------------------------- */
+@keyframes je-marker-drop {
+  0%   { opacity: 0; transform: translateY(-22px) scale(0.6); }
+  60%  { opacity: 1; transform: translateY(3px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes je-marker-ping {
+  0%   { transform: scale(0.7); opacity: 0.7; }
+  70%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.je-marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  line-height: 0;
+  animation: je-marker-drop 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* expanding pulse ring centred on the head */
+.je-marker-ping {
+  position: absolute;
+  top: 18px;            /* approx head centre */
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin-left: -17px;
+  margin-top: -17px;
+  border-radius: 9999px;
+  background: rgba(245, 124, 0, 0.45);
+  animation: je-marker-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* circular head + teardrop tail */
+.je-marker-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 2.5px solid #ffffff;
+  background: linear-gradient(135deg, #FF9838 0%, #F57C00 55%, #E65100 100%);
+  box-shadow: 0 6px 16px -3px rgba(230, 81, 0, 0.55), 0 2px 5px rgba(11, 60, 93, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+.je-marker-head::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  margin-left: -5.5px;
+  background: #E65100;
+  border-right: 2.5px solid #ffffff;
+  border-bottom: 2.5px solid #ffffff;
+  border-radius: 0 0 3px 0;
+  transform: rotate(45deg);
+}
+.je-marker-head svg { width: 17px; height: 17px; color: #fff; }
+
+.je-marker:hover .je-marker-head { transform: scale(1.12); }
+
+/* selected / headquarters states */
+.je-marker[data-active="true"] { z-index: 5; }
+.je-marker[data-active="true"] .je-marker-head {
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, #1466A0 0%, #0B3C5D 100%);
+  box-shadow: 0 0 0 5px rgba(11, 60, 93, 0.22), 0 10px 24px -4px rgba(11, 60, 93, 0.6);
+}
+.je-marker[data-active="true"] .je-marker-head::after { background: #0B3C5D; }
+.je-marker[data-active="true"] .je-marker-head svg { width: 21px; height: 21px; }
+.je-marker[data-active="true"] .je-marker-ping {
+  background: rgba(11, 60, 93, 0.4);
+  width: 44px; height: 44px; margin-left: -22px; margin-top: -22px;
+}
+
+/* hover/active city label */
+.je-marker-label {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  white-space: nowrap;
+  background: #ffffff;
+  color: #0B3C5D;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 7px;
+  box-shadow: 0 4px 14px rgba(11, 60, 93, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.je-marker:hover .je-marker-label,
+.je-marker[data-active="true"]:not([data-popup="true"]) .je-marker-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* "your location" marker dropped after geolocation */
+.je-user-marker {
+  width: 18px; height: 18px; border-radius: 9999px;
+  background: #2563eb;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25), 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* ---- MapLibre popup → SaaS card ----------------------------------------- */
+.je-popup .maplibregl-popup-content {
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+.je-popup .maplibregl-popup-tip {
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+  filter: drop-shadow(0 2px 2px rgba(11, 60, 93, 0.12));
+}
+.je-popup.maplibregl-popup { z-index: 20; }
+
+/* ---- MapLibre native controls themed to brand -------------------------- */
+.maplibregl-ctrl-group {
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 6px 18px -4px rgba(11, 60, 93, 0.35) !important;
+  border: 1px solid rgba(11, 60, 93, 0.08);
+}
+.maplibregl-ctrl-group button { width: 38px !important; height: 38px !important; }
+.maplibregl-ctrl-group button:hover { background: #FFF4E8 !important; }
+.maplibregl-ctrl-group button:hover .maplibregl-ctrl-icon { filter: hue-rotate(-15deg); }
+.maplibregl-ctrl-attrib { border-radius: 8px 0 0 0; font-size: 10px; }
+
+/* ---- Skeleton shimmer ---------------------------------------------------- */
+@keyframes je-shimmer { 100% { transform: translateX(100%); } }
+.je-shimmer { position: relative; overflow: hidden; }
+.je-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  animation: je-shimmer 1.6s infinite;
+}
+
+/* ---- Animated "flow" along global-presence connection lines ------------- */
+@keyframes je-dash-flow { to { stroke-dashoffset: -12; } }
+.je-flow { animation: je-dash-flow 1.2s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .je-marker,
+  .je-marker-ping { animation: none; }
+  .je-shimmer::after { animation: none; }
+  .je-flow { animation: none; }
+}

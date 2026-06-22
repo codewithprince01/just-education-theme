@@ -75,14 +75,15 @@ export default function GlobalPresence() {
                                     .map((r) => (
                                         <line
                                             key={r.id}
+                                            className="je-flow"
                                             x1={hub.x}
                                             y1={hub.y / 2}
                                             x2={r.x}
                                             y2={r.y / 2}
                                             stroke="#F57C00"
-                                            strokeOpacity={active.id === r.id || active.id === hub.id ? 0.7 : 0.25}
-                                            strokeWidth="0.4"
-                                            strokeDasharray="1.5 1.5"
+                                            strokeOpacity={active.id === r.id || active.id === hub.id ? 0.8 : 0.3}
+                                            strokeWidth={active.id === r.id || active.id === hub.id ? 0.6 : 0.4}
+                                            strokeDasharray="2 2"
                                             vectorEffect="non-scaling-stroke"
                                         />
                                     ))}

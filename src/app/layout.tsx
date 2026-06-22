@@ -15,7 +15,6 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://justeducation.com"),
   title: "Just Education",
   description: "Your trusted platform for discovering the best educational institutions across India.",
 };
@@ -30,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         <div className="flex flex-col min-h-screen bg-gray-50 text-gray-950">
           <Header />
           <main className="flex-1">

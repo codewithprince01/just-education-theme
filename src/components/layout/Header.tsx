@@ -6,10 +6,19 @@ import { usePathname } from 'next/navigation';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+<<<<<<< HEAD
+=======
+    const [isMobileContactOpen, setIsMobileContactOpen] = useState(false);
+>>>>>>> avanish
     const pathname = usePathname();
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
+<<<<<<< HEAD
+=======
+        // Close contact submenu when closing/opening mobile menu
+        setIsMobileContactOpen(false);
+>>>>>>> avanish
     };
 
     const isActive = (path: string) => {
@@ -62,6 +71,7 @@ const Header = () => {
                             Exams
                         </Link>
                         <Link
+<<<<<<< HEAD
                             href="/careers"
                             className={`text-sm font-semibold transition-all duration-300 ${isActive('/careers')
                                     ? 'text-orange-400'
@@ -80,6 +90,8 @@ const Header = () => {
                             Blog
                         </Link>
                         <Link
+=======
+>>>>>>> avanish
                             href="/about"
                             className={`text-sm font-semibold transition-all duration-300 ${isActive('/about')
                                     ? 'text-orange-400'
@@ -97,6 +109,7 @@ const Header = () => {
                         >
                             Listing
                         </Link>
+<<<<<<< HEAD
                         <Link
                             href="/contact"
                             className={`text-sm font-semibold transition-all duration-300 ${isActive('/contact')
@@ -106,6 +119,45 @@ const Header = () => {
                         >
                             Contact
                         </Link>
+=======
+
+                        {/* Contact Dropdown */}
+                        <div className="relative group py-2">
+                            <button
+                                className={`text-sm font-semibold flex items-center gap-1 transition-all duration-300 ${
+                                    isActive('/contact') || isActive('/book-session') || isActive('/enquiry')
+                                        ? 'text-orange-400'
+                                        : 'text-white hover:text-orange-400'
+                                }`}
+                            >
+                                Contact
+                                <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div className="absolute left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <Link
+                                    href="/contact"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    Contact Us
+                                </Link>
+                                <Link
+                                    href="/book-session"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    Book a Demo
+                                </Link>
+                                <Link
+                                    href="/enquiry"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    Enquiry Form
+                                </Link>
+                            </div>
+                        </div>
+
+>>>>>>> avanish
                         <a
                             href="#"
                             className="text-sm font-semibold text-white hover:text-orange-400 transition-all duration-300"
@@ -184,6 +236,7 @@ const Header = () => {
                                 Exams
                             </Link>
                             <Link
+<<<<<<< HEAD
                                 href="/careers"
                                 onClick={toggleMobileMenu}
                                 className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/careers')
@@ -204,6 +257,8 @@ const Header = () => {
                                 Blog
                             </Link>
                             <Link
+=======
+>>>>>>> avanish
                                 href="/about"
                                 onClick={toggleMobileMenu}
                                 className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/about')
@@ -223,6 +278,7 @@ const Header = () => {
                             >
                                 Listing
                             </Link>
+<<<<<<< HEAD
                             <Link
                                 href="/contact"
                                 onClick={toggleMobileMenu}
@@ -233,6 +289,47 @@ const Header = () => {
                             >
                                 Contact
                             </Link>
+=======
+
+                            {/* Mobile Contact Dropdown */}
+                            <div>
+                                <button
+                                    onClick={() => setIsMobileContactOpen(!isMobileContactOpen)}
+                                    className="w-full flex items-center justify-between text-sm font-semibold py-2 px-4 rounded-lg text-white hover:bg-[#0F4D73] transition-all duration-300"
+                                >
+                                    <span>Contact Options</span>
+                                    <svg className={`w-4 h-4 transition-transform duration-200 ${isMobileContactOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {isMobileContactOpen && (
+                                    <div className="pl-4 mt-1 space-y-1 border-l border-[#0F4D73] ml-4">
+                                        <Link
+                                            href="/contact"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/contact') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            Contact Us
+                                        </Link>
+                                        <Link
+                                            href="/book-session"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/book-session') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            Book a Demo
+                                        </Link>
+                                        <Link
+                                            href="/enquiry"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/enquiry') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            Enquiry Form
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+
+>>>>>>> avanish
                             <a
                                 href="#"
                                 onClick={toggleMobileMenu}

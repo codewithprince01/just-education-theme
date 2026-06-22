@@ -9,7 +9,7 @@ const spanClasses: Record<string, string> = {
 
 export default function StudentGallery() {
   return (
-    <section className="bg-[#f8fafc] py-20">
+    <section className="bg-[#f8fafc] py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <SectionHeading
           eyebrow="Life Abroad"
@@ -17,7 +17,7 @@ export default function StudentGallery() {
           description="From admission letters to graduation caps — a glimpse into the milestones our students live every day."
         />
 
-        <div className="grid auto-rows-[180px] grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="grid grid-flow-dense auto-rows-[180px] grid-cols-2 gap-4 md:grid-cols-4">
           {galleryItems.map((item) => (
             <figure
               key={item.id}

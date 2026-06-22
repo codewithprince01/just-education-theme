@@ -372,10 +372,10 @@ export const galleryItems: GalleryItem[] = [
   { id: 2, caption: "Admission letter day", image: "/images/mock/gallery_campus.png", span: "wide" },
   { id: 3, caption: "Airport departure", image: "/images/mock/gallery_airport.png", span: "normal" },
   { id: 4, caption: "Graduation moments", image: "/images/mock/gallery_grad.png", span: "tall" },
-  { id: 5, caption: "First day on campus", image: "/images/mock/gallery_campus.png", span: "normal" },
-  { id: 6, caption: "Friends from across the world", image: "/images/mock/gallery_campus.png", span: "wide" },
+  { id: 5, caption: "First day on campus", image: "/images/mock/gallery_campus.png", span: "wide" },
+  { id: 6, caption: "Friends from across the world", image: "/images/mock/gallery_campus.png", span: "normal" },
   { id: 7, caption: "Winter in St. Petersburg", image: "/images/mock/gallery_campus.png", span: "normal" },
-  { id: 8, caption: "Convocation ceremony", image: "/images/mock/gallery_grad.png", span: "tall" },
+  { id: 8, caption: "Convocation ceremony", image: "/images/mock/gallery_grad.png", span: "normal" },
 ];
 
 // ── Google reviews ─────────────────────────────────────────────

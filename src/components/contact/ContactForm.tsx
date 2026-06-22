@@ -187,7 +187,7 @@ export default function ContactForm() {
                                     Book a 30-minute meeting at a time that works for you.
                                 </p>
                                 <a
-                                    href="#"
+                                    href="/book-session"
                                     className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#0B3C5D] font-bold rounded-lg text-sm shadow-md hover:bg-orange-50 transition-colors"
                                 >
                                     <Calendar className="w-4 h-4" />

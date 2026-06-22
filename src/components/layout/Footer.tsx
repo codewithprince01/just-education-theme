@@ -66,8 +66,8 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/blog" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
-                                    Education Insights
+                                <Link href="/about" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                    About Us
                                 </Link>
                             </li>
                             <li>
@@ -76,9 +76,14 @@ const Footer = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/contact" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
-                                    Contact Us
+                                <Link href="/testimonials" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                    Testimonials
                                 </Link>
+                            </li>
+                            <li>
+                                <a href="#" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                    Contact Us
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -115,24 +120,24 @@ const Footer = () => {
                         <h3 className="text-lg font-extrabold text-white mb-4 border-b-2 border-orange-500 pb-2 inline-block">Legal</h3>
                         <ul className="space-y-2 mt-4">
                             <li>
-                                <a href="#" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                <Link href="/privacy" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
                                     Privacy Policy
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
-                                    Terms & Conditions
-                                </a>
+                                <Link href="/terms" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                    Terms &amp; Conditions
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                <Link href="/cookies" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
                                     Cookie Policy
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
+                                <Link href="/disclaimer" className="text-blue-100 hover:text-orange-400 transition-colors duration-300 text-sm">
                                     Disclaimer
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

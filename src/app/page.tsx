@@ -1,13 +1,17 @@
 import Link from 'next/link';
-import { BookOpen, Award, Compass, Search, ChevronRight } from 'lucide-react';
+import { BookOpen, Award, Compass, ChevronRight } from 'lucide-react';
+import { Suspense } from 'react';
+import JustDialSearchBar from '@/components/layout/JustDialSearchBar';
+import TopStudyPlacesSection from '@/components/home/TopStudyPlacesSection';
+import DirectorySection from '@/components/directory/DirectorySection';
 
 export default function Home() {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white py-20 px-4 text-center relative overflow-hidden">
+            <section className="bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white py-20 px-4 text-center relative">
                 {/* Background Shapes */}
-                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
                     <div className="absolute top-12 left-10 w-72 h-72 rounded-full bg-orange-500 blur-3xl"></div>
                     <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-blue-300 blur-3xl"></div>
                 </div>
@@ -20,24 +24,22 @@ export default function Home() {
                         Find the Right Course, <br />
                         <span className="text-orange-400">College & Entrance Exam</span>
                     </h1>
-                    <p className="text-base md:text-lg text-blue-100 mt-6 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-base md:text-lg text-blue-100 mt-6 max-w-2xl mx-auto leading-relaxed mb-10">
                         Just Education helps you navigate your academic career with detailed guides on entrance exams, cutoff marks, previous papers, and college selections.
                     </p>
 
-                    <div className="mt-10 flex flex-wrap justify-center gap-4">
-                        <Link
-                            href="/exams"
-                            className="px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:-translate-y-0.5"
-                        >
-                            <Search className="w-5 h-5" /> Explore Entrance Exams
-                        </Link>
-                        <button
-                            className="px-8 py-4 bg-white/10 hover:bg-white/15 text-white font-semibold rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300"
-                        >
-                            Learn More
-                        </button>
-                    </div>
+                    <Suspense fallback={<div className="h-16 bg-white/10 rounded-2xl animate-pulse max-w-4xl mx-auto" />}>
+                        <JustDialSearchBar />
+                    </Suspense>
                 </div>
+            </section>
+
+            {/* Top Study Places Section */}
+            <TopStudyPlacesSection />
+
+            {/* Directory Section */}
+            <section className="bg-gray-50 border-t border-b border-gray-200">
+                <DirectorySection />
             </section>
 
             {/* Feature Cards Section */}

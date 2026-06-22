@@ -15,7 +15,7 @@ export default function OfficesSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {offices.map((office, i) => (
                     <Reveal key={office.id} delay={(i % 3) * 90} direction="up">
-                        <article className="group h-full flex flex-col rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-xl hover:border-[#F57C00] transition-all duration-300 hover:-translate-y-1.5 overflow-hidden">
+                        <article id={`office-${office.id}`} className="group h-full flex flex-col scroll-mt-24 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-xl hover:border-[#F57C00] transition-all duration-300 hover:-translate-y-1.5 overflow-hidden">
                             {/* Card header */}
                             <div className="flex items-start justify-between gap-3 p-5 pb-4 bg-gradient-to-br from-[#0B3C5D] to-[#0F4D73] text-white">
                                 <div className="flex items-center gap-3">

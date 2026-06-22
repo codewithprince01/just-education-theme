@@ -14,7 +14,7 @@ import ContactHero from '@/components/contact/ContactHero';
 import QuickContactCards from '@/components/contact/QuickContactCards';
 import ContactForm from '@/components/contact/ContactForm';
 import OfficesSection from '@/components/contact/OfficesSection';
-import LazyIndiaMap from '@/components/contact/LazyIndiaMap';
+import LazyOfficeLocator from '@/components/contact/LazyOfficeLocator';
 import GlobalPresence from '@/components/contact/GlobalPresence';
 import DepartmentDirectory from '@/components/contact/DepartmentDirectory';
 import BusinessHours from '@/components/contact/BusinessHours';
@@ -83,7 +83,7 @@ export default function ContactPage() {
             <QuickContactCards />
             <ContactForm />
             <OfficesSection />
-            <LazyIndiaMap />
+            <LazyOfficeLocator />
             <GlobalPresence />
             <DepartmentDirectory />
             <BusinessHours />

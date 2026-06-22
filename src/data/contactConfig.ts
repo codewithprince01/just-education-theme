@@ -162,12 +162,14 @@ export const formConfig = {
 export interface Office {
     id: string;
     city: string;
+    /** State / union territory — powers map search and the "states served" stat. */
+    state: string;
     name: string;
     address: string;
     phone: string;
     email: string;
     hours: string;
-    /** Real geographic coordinates, projected onto the SVG map at render time. */
+    /** Real geographic coordinates used by the interactive map (lng/lat order for maps). */
     lat: number;
     lng: number;
     isHeadquarters?: boolean;
@@ -178,6 +180,7 @@ export const offices: Office[] = [
     {
         id: 'delhi',
         city: 'Delhi',
+        state: 'Delhi (NCT)',
         name: 'Just Education — National HQ',
         address: 'Tower B, Cyber Greens, DLF Phase III, Gurugram Road, New Delhi 110001',
         phone: '+91 11 4050 1100',
@@ -191,6 +194,7 @@ export const offices: Office[] = [
     {
         id: 'mumbai',
         city: 'Mumbai',
+        state: 'Maharashtra',
         name: 'Just Education — West India',
         address: '12th Floor, One BKC, Bandra Kurla Complex, Mumbai 400051',
         phone: '+91 22 6120 1200',
@@ -203,6 +207,7 @@ export const offices: Office[] = [
     {
         id: 'bangalore',
         city: 'Bangalore',
+        state: 'Karnataka',
         name: 'Just Education — Product & Engineering',
         address: 'Prestige Tech Park, Outer Ring Road, Marathahalli, Bengaluru 560103',
         phone: '+91 80 4710 1300',
@@ -215,6 +220,7 @@ export const offices: Office[] = [
     {
         id: 'hyderabad',
         city: 'Hyderabad',
+        state: 'Telangana',
         name: 'Just Education — South Central',
         address: 'Knowledge City, Raidurg, HITEC City, Hyderabad 500081',
         phone: '+91 40 4900 1400',
@@ -227,6 +233,7 @@ export const offices: Office[] = [
     {
         id: 'chennai',
         city: 'Chennai',
+        state: 'Tamil Nadu',
         name: 'Just Education — Coastal South',
         address: 'Olympia Tech Park, Guindy, Chennai 600032',
         phone: '+91 44 4300 1500',
@@ -239,6 +246,7 @@ export const offices: Office[] = [
     {
         id: 'pune',
         city: 'Pune',
+        state: 'Maharashtra',
         name: 'Just Education — Pune Campus',
         address: 'Business Bay, Airport Road, Yerawada, Pune 411006',
         phone: '+91 20 6720 1600',
@@ -251,6 +259,7 @@ export const offices: Office[] = [
     {
         id: 'kolkata',
         city: 'Kolkata',
+        state: 'West Bengal',
         name: 'Just Education — East India',
         address: 'PS Srijan Corporate Park, Sector V, Salt Lake, Kolkata 700091',
         phone: '+91 33 4600 1700',
@@ -263,6 +272,7 @@ export const offices: Office[] = [
     {
         id: 'ahmedabad',
         city: 'Ahmedabad',
+        state: 'Gujarat',
         name: 'Just Education — Gujarat',
         address: 'Titanium City Center, Anandnagar Road, Satellite, Ahmedabad 380015',
         phone: '+91 79 4800 1800',
@@ -275,6 +285,7 @@ export const offices: Office[] = [
     {
         id: 'jaipur',
         city: 'Jaipur',
+        state: 'Rajasthan',
         name: 'Just Education — Rajasthan',
         address: 'Crystal Mall, Ashok Marg, C-Scheme, Jaipur 302001',
         phone: '+91 141 4100 1900',
@@ -287,6 +298,7 @@ export const offices: Office[] = [
     {
         id: 'chandigarh',
         city: 'Chandigarh',
+        state: 'Chandigarh (UT)',
         name: 'Just Education — North Hub',
         address: 'Plot 5, Rajiv Gandhi IT Park, Kishangarh, Chandigarh 160101',
         phone: '+91 172 4200 2000',
@@ -298,11 +310,65 @@ export const offices: Office[] = [
     },
 ];
 
-/** Bounding box used to project office lat/lng onto the India map SVG. */
-export const INDIA_BOUNDS = { north: 35.5, south: 7.5, west: 68, east: 97.5 };
+/**
+ * Default viewport for the interactive India map. Centred on the country so the
+ * full landmass fills the frame — no empty-ocean world view on first paint.
+ * `center` is [lng, lat] to match the map library's coordinate order.
+ */
+export const INDIA_VIEW = {
+    center: [78.9629, 22.5937] as [number, number],
+    zoom: 4.8,
+    /** Panning is clamped to this [SW, NE] box so India always stays in view. */
+    maxBounds: [
+        [60.0, 5.0],
+        [99.5, 38.5],
+    ] as [[number, number], [number, number]],
+    /** Zoom level the map flies to when a single office is selected. */
+    officeZoom: 9.4,
+};
+
+/** Headline metrics shown as animated counters above the office locator. */
+export interface MapStat {
+    id: string;
+    value: number;
+    prefix?: string;
+    suffix?: string;
+    label: string;
+    icon: string; // lucide icon name, resolved in the component
+}
+
+export const mapStats: MapStat[] = [
+    { id: 'offices', value: 10, label: 'Offices', icon: 'Building2' },
+    { id: 'states', value: 28, label: 'States Served', icon: 'Map' },
+    { id: 'users', value: 100, suffix: 'K+', label: 'Users', icon: 'Users' },
+    { id: 'support', value: 24, suffix: '/7', label: 'Support', icon: 'LifeBuoy' },
+];
 
 export function googleMapsLink(query: string): string {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+/** Builds a Google Maps driving-directions URL to the given coordinates. */
+export function googleDirectionsLink(lat: number, lng: number): string {
+    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+}
+
+/** Great-circle distance in kilometres between two lat/lng points (Haversine). */
+export function haversineKm(
+    aLat: number,
+    aLng: number,
+    bLat: number,
+    bLng: number,
+): number {
+    const R = 6371;
+    const dLat = ((bLat - aLat) * Math.PI) / 180;
+    const dLng = ((bLng - aLng) * Math.PI) / 180;
+    const lat1 = (aLat * Math.PI) / 180;
+    const lat2 = (bLat * Math.PI) / 180;
+    const h =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
 }
 
 // ---------------------------------------------------------------------------

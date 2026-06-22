@@ -15,7 +15,6 @@ import QuickContactCards from '@/components/contact/QuickContactCards';
 import ContactForm from '@/components/contact/ContactForm';
 import OfficesSection from '@/components/contact/OfficesSection';
 import LazyOfficeLocator from '@/components/contact/LazyOfficeLocator';
-import BusinessHours from '@/components/contact/BusinessHours';
 import FaqSection from '@/components/contact/FaqSection';
 import CareersCTA from '@/components/contact/CareersCTA';
 import SocialSection from '@/components/contact/SocialSection';
@@ -78,7 +77,6 @@ export default function ContactPage() {
             <ContactForm />
             <OfficesSection />
             <LazyOfficeLocator />
-            <BusinessHours />
             <FaqSection />
             <SocialSection />
             <ContactTimeline />

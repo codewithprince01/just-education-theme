@@ -18,9 +18,8 @@ export default function FaqSection() {
     );
 
     return (
-        <section id="faq" className="scroll-mt-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+        <section id="faq" className="scroll-mt-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8 md:py-10">
             <SectionHeading
-                eyebrow="FAQ"
                 title="Frequently asked questions"
                 description="Quick answers to the things people ask us most. Can't find what you need? Send us a message."
             />

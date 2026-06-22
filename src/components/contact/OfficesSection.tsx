@@ -11,12 +11,6 @@ import {
     Mail,
     Clock,
     Navigation,
-    ArrowUpRight,
-    Star,
-    Sparkles,
-    Calendar,
-    Globe2,
-    Crown,
     ChevronRight,
     Search,
     X,
@@ -32,29 +26,31 @@ import Reveal from './Reveal';
 // ---------------------------------------------------------------------------
 interface Showcase {
     role: string;
-    tag: string; // short subtitle shown in the ticker (e.g. "Engineering")
+    tag: string; // short subtitle shown in the navigator
     region: string;
     team: number;
     since: number;
     rating: number;
-    grad: string; // tailwind gradient for accent bars / badges / icons
-    hex: string; // accent colour for the constellation dots/glow
+    grad: string; // tailwind gradient for the navigator accent
+    hex: string; // accent colour for the navigator
+    nearby: string[]; // regional cities served
 }
 
 const SHOWCASE: Record<string, Showcase> = {
-    delhi:      { role: 'National Headquarters',        tag: 'Headquarters', region: 'North India',         team: 180, since: 2016, rating: 4.9, grad: 'from-orange-500 to-amber-500',  hex: '#F97316' },
-    mumbai:     { role: 'West India Regional Hub',      tag: 'Regional Hub', region: 'West India',          team: 140, since: 2017, rating: 4.8, grad: 'from-rose-500 to-pink-500',     hex: '#F43F5E' },
-    bangalore:  { role: 'Product & Engineering Centre', tag: 'Engineering',  region: 'South India',         team: 165, since: 2017, rating: 4.9, grad: 'from-violet-500 to-purple-500', hex: '#8B5CF6' },
-    hyderabad:  { role: 'South-Central Ops Hub',        tag: 'Operations',   region: 'South-Central',       team: 95,  since: 2018, rating: 4.8, grad: 'from-cyan-500 to-sky-500',      hex: '#06B6D4' },
-    chennai:    { role: 'Coastal South Centre',         tag: 'South India',  region: 'South India',         team: 88,  since: 2018, rating: 4.7, grad: 'from-teal-500 to-emerald-500',  hex: '#14B8A6' },
-    pune:       { role: 'Learning & Campus Hub',        tag: 'Campus Hub',   region: 'West India',          team: 76,  since: 2019, rating: 4.8, grad: 'from-indigo-500 to-blue-500',   hex: '#6366F1' },
-    kolkata:    { role: 'East India Centre',            tag: 'East India',   region: 'East India',          team: 70,  since: 2019, rating: 4.7, grad: 'from-fuchsia-500 to-pink-500',  hex: '#D946EF' },
-    ahmedabad:  { role: 'Gujarat Operations Centre',    tag: 'Gujarat',      region: 'West India',          team: 58,  since: 2020, rating: 4.8, grad: 'from-amber-500 to-orange-500',  hex: '#F59E0B' },
-    jaipur:     { role: 'Rajasthan Centre',             tag: 'Rajasthan',    region: 'North-West India',    team: 48,  since: 2020, rating: 4.7, grad: 'from-pink-500 to-rose-500',     hex: '#EC4899' },
-    chandigarh: { role: 'North India Hub',              tag: 'North Hub',    region: 'North India',         team: 52,  since: 2021, rating: 4.8, grad: 'from-sky-500 to-cyan-500',      hex: '#0EA5E9' },
+    delhi:      { role: 'National Headquarters',        tag: 'Headquarters', region: 'North India',         team: 180, since: 2016, rating: 4.9, grad: 'from-orange-500 to-amber-500',  hex: '#F97316', nearby: ['Delhi', 'Gurugram', 'Noida', 'Faridabad', 'Ghaziabad'] },
+    mumbai:     { role: 'West India Regional Hub',      tag: 'Regional Hub', region: 'West India',          team: 140, since: 2017, rating: 4.8, grad: 'from-rose-500 to-pink-500',     hex: '#F43F5E', nearby: ['Mumbai', 'Thane', 'Navi Mumbai', 'Nashik', 'Surat'] },
+    bangalore:  { role: 'Product & Engineering Centre', tag: 'Engineering',  region: 'South India',         team: 165, since: 2017, rating: 4.9, grad: 'from-violet-500 to-purple-500', hex: '#8B5CF6', nearby: ['Bengaluru', 'Mysuru', 'Mangaluru', 'Hubli', 'Belagavi'] },
+    hyderabad:  { role: 'South-Central Ops Hub',        tag: 'Operations',   region: 'South-Central',       team: 95,  since: 2018, rating: 4.8, grad: 'from-cyan-500 to-sky-500',      hex: '#06B6D4', nearby: ['Hyderabad', 'Secunderabad', 'Warangal', 'Vijayawada', 'Guntur'] },
+    chennai:    { role: 'Coastal South Centre',         tag: 'South India',  region: 'South India',         team: 88,  since: 2018, rating: 4.7, grad: 'from-teal-500 to-emerald-500',  hex: '#14B8A6', nearby: ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli', 'Salem'] },
+    pune:       { role: 'Learning & Campus Hub',        tag: 'Campus Hub',   region: 'West India',          team: 76,  since: 2019, rating: 4.8, grad: 'from-indigo-500 to-blue-500',   hex: '#6366F1', nearby: ['Pune', 'Pimpri-Chinchwad', 'Nashik', 'Kolhapur', 'Aurangabad'] },
+    kolkata:    { role: 'East India Centre',            tag: 'East India',   region: 'East India',          team: 70,  since: 2019, rating: 4.7, grad: 'from-fuchsia-500 to-pink-500',  hex: '#D946EF', nearby: ['Kolkata', 'Howrah', 'Durgapur', 'Siliguri', 'Asansol'] },
+    ahmedabad:  { role: 'Gujarat Operations Centre',    tag: 'Gujarat',      region: 'West India',          team: 58,  since: 2020, rating: 4.8, grad: 'from-amber-500 to-orange-500',  hex: '#F59E0B', nearby: ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Gandhinagar'] },
+    jaipur:     { role: 'Rajasthan Regional Centre',    tag: 'Rajasthan',    region: 'North-West India',    team: 48,  since: 2020, rating: 4.7, grad: 'from-pink-500 to-rose-500',     hex: '#EC4899', nearby: ['Jaipur', 'Ajmer', 'Kota', 'Udaipur', 'Jodhpur'] },
+    chandigarh: { role: 'North India Hub',              tag: 'North Hub',    region: 'North India',         team: 52,  since: 2021, rating: 4.8, grad: 'from-sky-500 to-cyan-500',      hex: '#0EA5E9', nearby: ['Chandigarh', 'Mohali', 'Panchkula', 'Ludhiana', 'Amritsar'] },
 };
 
 const meta = (id: string): Showcase => SHOWCASE[id] ?? SHOWCASE.delhi;
+
 
 const STATS = [
     { id: 'offices',  value: 10,  suffix: '+',  label: 'Office Locations', icon: Building2 },
@@ -62,16 +58,6 @@ const STATS = [
     { id: 'students', value: 100, suffix: 'K+', label: 'Students Reached', icon: Users },
     { id: 'support',  value: 24,  suffix: '/7', label: 'Support Coverage', icon: LifeBuoy },
 ] as const;
-
-// India "constellation" projection — decorative, not a real map. Maps each
-// office lat/lng into a 100×120 box that reads as the shape of the country.
-const LNG_MIN = 68, LNG_MAX = 98, LAT_MIN = 6, LAT_MAX = 37;
-function project(o: Office) {
-    return {
-        x: ((o.lng - LNG_MIN) / (LNG_MAX - LNG_MIN)) * 100,
-        y: ((LAT_MAX - o.lat) / (LAT_MAX - LAT_MIN)) * 120,
-    };
-}
 
 export default function OfficesSection() {
     const [selectedId, setSelectedId] = useState<string>(
@@ -82,7 +68,6 @@ export default function OfficesSection() {
         () => offices.find((o) => o.id === selectedId) ?? offices[0],
         [selectedId],
     );
-    const points = useMemo(() => offices.map((o) => ({ o, ...project(o) })), []);
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase();
         if (!q) return offices;
@@ -94,8 +79,6 @@ export default function OfficesSection() {
         });
     }, [query]);
     const m = meta(selected.id);
-    const selIdx = offices.findIndex((o) => o.id === selected.id);
-    const sel = project(selected);
 
     return (
         <section
@@ -117,13 +100,7 @@ export default function OfficesSection() {
             <div className="container relative z-10 mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 md:pb-20 md:pt-10 lg:px-8">
                 {/* Header */}
                 <Reveal className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
-                    <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/80 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#F57C00] shadow-sm backdrop-blur">
-                        <span className="relative flex h-2 w-2">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
-                            <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500" />
-                        </span>
-                        Nationwide Presence
-                    </span>
+
                     <h2 className="text-3xl font-extrabold tracking-tight text-[#0B3C5D] md:text-5xl">
                         Serving Every Corner of India
                     </h2>
@@ -215,7 +192,7 @@ export default function OfficesSection() {
 
                     {/* City profile */}
                     <Reveal direction="right" className="lg:col-span-8">
-                        <OfficeDetail office={selected} m={m} index={selIdx} points={points} sel={sel} />
+                        <OfficeDetail office={selected} m={m} />
                     </Reveal>
                 </div>
             </div>
@@ -335,109 +312,87 @@ function OfficeRow({
     );
 }
 
-function OfficeDetail({
-    office,
-    m,
-    index,
-    points,
-    sel,
-}: {
-    office: Office;
-    m: Showcase;
-    index: number;
-    points: { o: Office; x: number; y: number }[];
-    sel: { x: number; y: number };
-}) {
-    const num = String(index + 1).padStart(2, '0');
+function OfficeDetail({ office, m }: { office: Office; m: Showcase }) {
+    const established = String(m.since);
     return (
-        <div className="relative min-h-[420px] overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#08263C] via-[#0B3C5D] to-[#0F4D73] shadow-2xl">
-            {/* accent glow keyed to the selected city */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full blur-3xl"
-                style={{ backgroundColor: m.hex, opacity: 0.22 }}
-            />
+        <div className="relative min-h-[420px] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+            {/* slim brand accent at the very top */}
+            <div aria-hidden="true" className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${m.grad}`} />
 
-            <Constellation points={points} sel={sel} hex={m.hex} selectedId={office.id} />
 
-            {/* left-side readability scrim over the constellation */}
-            <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-r from-[#08263C] via-[#08263C]/85 to-transparent"
-            />
-
-            {/* content (re-keyed so it cross-fades on each selection) */}
-            <div key={office.id} className="je-animate-fade-up relative z-10 p-5 sm:p-7">
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-blue-100 backdrop-blur">
-                        Office N°{num}
-                    </span>
-                    {office.isHeadquarters ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white shadow">
-                            <Crown className="h-3 w-3" /> Headquarters
-                        </span>
-                    ) : (
-                        <span
-                            className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${m.grad} px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white shadow`}
-                        >
-                            <Sparkles className="h-3 w-3" /> Regional Office
-                        </span>
-                    )}
-                    <span className="inline-flex items-center gap-0.5 rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-bold text-amber-300 backdrop-blur">
-                        {[0, 1, 2, 3, 4].map((i) => (
-                            <Star key={i} className="h-3 w-3 fill-current" />
-                        ))}
-                        <span className="ml-1 text-white">{m.rating.toFixed(1)}</span>
-                    </span>
-                </div>
-
-                <h3 className="mt-4 text-[28px] font-black leading-none tracking-tight text-white sm:text-[32px]">
-                    {office.city}
-                </h3>
-                <p className="mt-2 text-sm font-semibold text-orange-300">
-                    {m.role}
-                    <span className="font-medium text-blue-200/70"> · {office.state}</span>
-                </p>
-
-                <div className="mt-4 grid gap-2 text-sm sm:max-w-md">
-                    <p className="flex gap-2.5 text-blue-50/90">
-                        <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-300" />
-                        <span className="leading-snug">{office.address}</span>
-                    </p>
-                    <div className="flex flex-wrap gap-x-5 gap-y-2">
-                        <a
-                            href={`tel:${office.phone.replace(/\s/g, '')}`}
-                            className="inline-flex items-center gap-2 font-medium text-blue-50 transition-colors hover:text-white"
-                        >
-                            <Phone className="h-4 w-4 text-orange-300" />
-                            {office.phone}
-                        </a>
-                        <a
-                            href={`mailto:${office.email}`}
-                            className="inline-flex min-w-0 items-center gap-2 font-medium text-blue-50 transition-colors hover:text-white"
-                        >
-                            <Mail className="h-4 w-4 flex-shrink-0 text-orange-300" />
-                            <span className="truncate">{office.email}</span>
-                        </a>
+            {/* content — re-keyed so it softly fades on each selection */}
+            <div key={office.id} className="je-animate-fade-up relative z-10 p-6 sm:p-7">
+                {/* HEADER */}
+                <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                        <h3 className="text-[30px] font-extrabold leading-none tracking-tight text-[#0B3C5D] sm:text-[36px]">
+                            {office.city}
+                        </h3>
+                        <p className="mt-2.5 text-base font-semibold text-gray-700">{m.role}</p>
+                        <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                            <MapPin className="h-4 w-4 text-[#F57C00]" /> {office.state}, India
+                        </p>
                     </div>
-                    <p className="inline-flex items-center gap-2 text-blue-50/90">
-                        <Clock className="h-4 w-4 text-orange-300" />
-                        {office.hours}
-                    </p>
+                    <span className="hidden flex-shrink-0 items-center rounded-xl border border-orange-200 bg-orange-50/20 px-3 py-1.5 text-center sm:flex sm:flex-col sm:justify-center shadow-sm">
+                        <span className="block text-[9px] font-bold uppercase tracking-wider text-[#C2410C]">
+                            Established
+                        </span>
+                        <span className="block text-base font-extrabold text-[#0B3C5D]">
+                            {established}
+                        </span>
+                    </span>
                 </div>
 
-                {/* mini-stats */}
-                <div className="mt-5 grid max-w-md grid-cols-3 gap-2.5">
-                    <Chip icon={Users} value={`${m.team}+`} label="Team size" />
-                    <Chip icon={Calendar} value={`${m.since}`} label="Established" />
-                    <Chip icon={Globe2} value={m.region} label="Coverage" small />
+                <div className="my-6 h-px bg-gray-100" />
+
+
+                {/* BODY — contact (left) + cities (right) */}
+                <div className="grid gap-6 sm:grid-cols-2">
+                    <div>
+                        <h4 className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                            Contact Information
+                        </h4>
+                        <div className="space-y-2">
+                            <ContactRow icon={MapPin} label="Address" value={office.address} />
+                            <ContactRow
+                                icon={Phone}
+                                label="Phone"
+                                value={office.phone}
+                                href={`tel:${office.phone.replace(/\s/g, '')}`}
+                            />
+                            <ContactRow
+                                icon={Mail}
+                                label="Email"
+                                value={office.email}
+                                href={`mailto:${office.email}`}
+                            />
+                            <ContactRow icon={Clock} label="Working Hours" value={office.hours} />
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 className="mb-2 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                            Cities Served
+                        </h4>
+                        <div className="flex flex-wrap gap-1.5">
+                            {m.nearby.map((c) => (
+                                <span
+                                    key={c}
+                                    className="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-700 transition-all duration-200 hover:border-orange-250 hover:bg-orange-50/20"
+                                >
+                                    <MapPin className="h-3 w-3 text-orange-500" />
+                                    {c}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                {/* actions */}
-                <div className="mt-6 flex flex-wrap gap-3">
+                {/* buttons */}
+                <div className="mt-6 flex flex-wrap gap-2.5">
                     <a
                         href="#india-map"
-                        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                        className="inline-flex items-center gap-2 rounded-2xl bg-[#F57C00] px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E65100] hover:shadow-lg"
                     >
                         <MapPin className="h-4 w-4" /> View on Map
                     </a>
@@ -445,10 +400,15 @@ function OfficeDetail({
                         href={googleDirectionsLink(office.lat, office.lng)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition-all duration-300 hover:border-white/40 hover:bg-white/15"
+                        className="group inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#0B3C5D] transition-all duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:bg-gray-50"
                     >
-                        <Navigation className="h-4 w-4" /> Get Directions
-                        <ArrowUpRight className="h-4 w-4" />
+                        <Navigation className="h-4 w-4 text-[#F57C00] transition-transform duration-300 group-hover:rotate-12" /> Get Directions
+                    </a>
+                    <a
+                        href={`mailto:${office.email}`}
+                        className="group inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#0B3C5D] transition-all duration-300 hover:-translate-y-0.5 hover:border-gray-300 hover:bg-gray-50"
+                    >
+                        <Mail className="h-4 w-4 text-[#F57C00] transition-transform duration-300 group-hover:scale-110" /> Contact Office
                     </a>
                 </div>
             </div>
@@ -456,95 +416,40 @@ function OfficeDetail({
     );
 }
 
-function Chip({
+function ContactRow({
     icon: Icon,
-    value,
     label,
-    small,
+    value,
+    href,
 }: {
     icon: LucideIcon;
-    value: string;
     label: string;
-    small?: boolean;
+    value: string;
+    href?: string;
 }) {
-    return (
-        <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-3 text-center backdrop-blur">
-            <Icon className="mx-auto h-4 w-4 text-orange-300" />
-            <div className={`mt-1 font-black leading-tight text-white ${small ? 'text-xs' : 'text-lg'}`}>
-                {value}
-            </div>
-            <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-blue-200/70">
-                {label}
-            </div>
-        </div>
+    const inner = (
+        <>
+            <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-orange-50 text-[#F57C00] transition-colors duration-300 group-hover:bg-orange-100">
+                <Icon className="h-4 w-4" />
+            </span>
+            <span className="min-w-0 flex-1">
+                <span className="block text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    {label}
+                </span>
+                <span className="block break-words text-sm font-semibold leading-snug text-gray-800 transition-colors group-hover:text-[#F57C00]">
+                    {value}
+                </span>
+            </span>
+        </>
+    );
+    const cls = 'group flex items-start gap-3 py-1 transition-colors';
+    return href ? (
+        <a href={href} className={cls}>
+            {inner}
+        </a>
+    ) : (
+        <div className={cls}>{inner}</div>
     );
 }
 
-function Constellation({
-    points,
-    sel,
-    hex,
-    selectedId,
-}: {
-    points: { o: Office; x: number; y: number }[];
-    sel: { x: number; y: number };
-    hex: string;
-    selectedId: string;
-}) {
-    return (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 md:block">
-            <div className="relative h-full w-full">
-                {/* connection lines from the selected office to every other */}
-                <svg
-                    viewBox="0 0 100 120"
-                    preserveAspectRatio="none"
-                    className="absolute inset-0 h-full w-full"
-                >
-                    {points.map(({ o, x, y }) =>
-                        o.id === selectedId ? null : (
-                            <line
-                                key={o.id}
-                                x1={sel.x}
-                                y1={sel.y}
-                                x2={x}
-                                y2={y}
-                                stroke={hex}
-                                strokeWidth="0.25"
-                                opacity="0.35"
-                            />
-                        ),
-                    )}
-                </svg>
 
-                {/* glow under the selected dot */}
-                <div
-                    className="absolute h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
-                    style={{ left: `${sel.x}%`, top: `${(sel.y / 120) * 100}%`, backgroundColor: hex, opacity: 0.3 }}
-                />
-
-                {/* dots */}
-                {points.map(({ o, x, y }) => {
-                    const active = o.id === selectedId;
-                    return (
-                        <span
-                            key={o.id}
-                            className="absolute -translate-x-1/2 -translate-y-1/2"
-                            style={{ left: `${x}%`, top: `${(y / 120) * 100}%` }}
-                        >
-                            {active && (
-                                <span
-                                    className="absolute left-1/2 top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full"
-                                    style={{ backgroundColor: hex, opacity: 0.5 }}
-                                />
-                            )}
-                            <span
-                                className={`block rounded-full ${active ? 'h-3 w-3' : 'h-1.5 w-1.5 bg-white/40'}`}
-                                style={active ? { backgroundColor: hex, boxShadow: `0 0 12px ${hex}` } : undefined}
-                            />
-                        </span>
-                    );
-                })}
-            </div>
-        </div>
-    );
-}

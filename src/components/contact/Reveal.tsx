@@ -42,14 +42,9 @@ export default function Reveal({
         const node = ref.current;
         if (!node) return;
 
-        // Respect reduced-motion: show immediately.
-        if (
-            typeof window !== 'undefined' &&
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        ) {
-            setVisible(true);
-            return;
-        }
+        // Respect reduced-motion: reveal as soon as any part is visible (the
+        // `motion-reduce:transition-none` class drops the animation itself).
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -60,7 +55,7 @@ export default function Reveal({
                     }
                 });
             },
-            { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+            { threshold: reduce ? 0 : 0.12, rootMargin: '0px 0px -40px 0px' },
         );
 
         observer.observe(node);

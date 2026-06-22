@@ -88,6 +88,15 @@ const Header = () => {
                         >
                             Listing
                         </Link>
+                        <Link
+                            href="/contact"
+                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/contact')
+                                    ? 'text-orange-400'
+                                    : 'text-white hover:text-orange-400'
+                                }`}
+                        >
+                            Contact
+                        </Link>
                         <a
                             href="#"
                             className="text-sm font-semibold text-white hover:text-orange-400 transition-all duration-300"
@@ -194,6 +203,16 @@ const Header = () => {
                                     }`}
                             >
                                 Listing
+                            </Link>
+                            <Link
+                                href="/contact"
+                                onClick={toggleMobileMenu}
+                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/contact')
+                                        ? 'bg-orange-500 text-white'
+                                        : 'text-white hover:bg-[#0F4D73]'
+                                    }`}
+                            >
+                                Contact
                             </Link>
                             <a
                                 href="#"

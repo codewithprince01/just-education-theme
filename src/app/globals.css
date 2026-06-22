@@ -119,6 +119,8 @@ button:disabled {
 @media (prefers-reduced-motion: reduce) {
   .je-float, .je-float-slow, .je-pulse-ring, .je-spin-slow { animation: none; }
   .je-draw-line { stroke-dashoffset: 0; animation: none; }
+}
+
 /* ───── Testimonial page utilities & animations ───── */
 
 /* Hide scrollbar while keeping horizontal scroll/swipe behavior */

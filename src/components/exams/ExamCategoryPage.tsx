@@ -2,11 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-<<<<<<< HEAD
 import { ChevronDown, ChevronUp, LayoutGrid, List } from 'lucide-react';
-=======
-import { ChevronDown, ChevronUp } from 'lucide-react';
->>>>>>> avanish
 import Breadcrumbs from '../seo/Breadcrumbs';
 import {
     examCategories, exams, examSubCategories, examFilterGroups,
@@ -120,7 +116,6 @@ const ExamListCard = ({ exam }: { exam: Exam }) => (
     </div>
 );
 
-<<<<<<< HEAD
 const ExamGridCard = ({ exam }: { exam: Exam }) => (
     <div className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full">
         <div>
@@ -189,17 +184,12 @@ const ExamGridCard = ({ exam }: { exam: Exam }) => (
     </div>
 );
 
-=======
->>>>>>> avanish
 const ExamCategoryPage = () => {
     const params = useParams();
     const examSlug = params?.examSlug as string;
     const [activeSubCategory, setActiveSubCategory] = useState<string | null>(null);
     const [showAllSubCategories, setShowAllSubCategories] = useState(false);
-<<<<<<< HEAD
     const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
-=======
->>>>>>> avanish
 
     const category = examCategories.find((c) => c.id === examSlug);
     const subCategories = examSubCategories[examSlug] || [];
@@ -258,11 +248,7 @@ const ExamCategoryPage = () => {
                     {/* Exam list */}
                     <main className="lg:col-span-3">
                         {subCategories.length > 0 && (
-<<<<<<< HEAD
                             <div className="bg-white rounded-xl border border-gray-200 p-4 mb-4 flex flex-wrap items-center gap-2">
-=======
-                            <div className="bg-white rounded-xl border border-gray-200 p-4 mb-5 flex flex-wrap items-center gap-2">
->>>>>>> avanish
                                 {visibleSubCategories.map((sub) => (
                                     <button
                                         key={sub.id}
@@ -287,7 +273,6 @@ const ExamCategoryPage = () => {
                             </div>
                         )}
 
-<<<<<<< HEAD
                         {/* View Switcher Header */}
                         <div className="flex items-center justify-between mb-4 bg-white p-3 rounded-xl border border-gray-200">
                             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -329,10 +314,6 @@ const ExamCategoryPage = () => {
                             ) : (
                                 filteredExams.map((exam) => <ExamListCard key={exam.id} exam={exam} />)
                             )
-=======
-                        {filteredExams.length > 0 ? (
-                            filteredExams.map((exam) => <ExamListCard key={exam.id} exam={exam} />)
->>>>>>> avanish
                         ) : (
                             <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
                                 <p className="text-gray-500">No exams found for this filter.</p>

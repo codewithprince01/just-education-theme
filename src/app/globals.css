@@ -78,7 +78,14 @@ button:disabled {
   .je-animate-fade, .je-animate-fade-out,
   .je-animate-pop, .je-animate-pop-out,
   .je-animate-fade-up { animation: none; }
+/* ───── Testimonial page utilities & animations ───── */
+
+/* Hide scrollbar while keeping horizontal scroll/swipe behavior */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+<<<<<<< HEAD
 
 /* ==========================================================================
    Office Locator — premium interactive map (MapLibre GL)
@@ -265,3 +272,47 @@ button:disabled {
   .je-shimmer::after { animation: none; }
   .je-flow { animation: none; }
 }
+=======
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-up 0.7s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+}
+>>>>>>> d11460d52fc6dfa86b39c3f6304724706bc6e6e9

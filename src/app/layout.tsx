@@ -15,7 +15,6 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://justeducation.com"),
   title: "Just Education",
   description: "Your trusted platform for discovering the best educational institutions across India.",
 };

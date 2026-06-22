@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Download, HelpCircle, Info, ChevronRight, CalendarDays, Bell, Layers, ListChecks } from 'lucide-react';
+=======
+import { Download, HelpCircle, Info, ChevronRight } from 'lucide-react';
+>>>>>>> avanish
 import {
     jeeMainSidebarLinks,
     jeeMainCategoryPages,
@@ -10,6 +14,7 @@ interface ExamDetailSidebarProps {
     sidebarRef?: React.RefObject<HTMLDivElement | null>;
 }
 
+<<<<<<< HEAD
 // Consistent sidebar card header: orange icon chip + title with a divider below.
 const CardHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-gray-100">
@@ -20,6 +25,8 @@ const CardHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: str
     </div>
 );
 
+=======
+>>>>>>> avanish
 const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
     return (
         <aside ref={sidebarRef} className="space-y-6">
@@ -40,7 +47,11 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Get More Info */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
+<<<<<<< HEAD
                 <CardHeader icon={Info} title="Get More Info About JEE Main" />
+=======
+                <h3 className="font-bold text-[#0B3C5D] mb-4">Get More Info About JEE Main</h3>
+>>>>>>> avanish
                 <div className="space-y-2.5">
                     <button className="w-full flex items-center justify-center gap-2 py-2.5 border border-gray-300 text-gray-500 text-sm font-semibold rounded-lg hover:bg-gray-50">
                         <Download className="w-4 h-4" /> Download Sample Papers
@@ -56,7 +67,11 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Upcoming exams */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
+<<<<<<< HEAD
                 <CardHeader icon={CalendarDays} title="Upcoming Exams" />
+=======
+                <h3 className="font-bold text-[#0B3C5D] mb-4">Upcoming Exams</h3>
+>>>>>>> avanish
                 <ul className="space-y-2">
                     {jeeMainUpcomingExams.map((exam) => (
                         <li key={exam.name} className="flex items-center justify-between text-sm">
@@ -69,7 +84,11 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Latest Updates */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
+<<<<<<< HEAD
                 <CardHeader icon={Bell} title="Latest Updates on JEE Main" />
+=======
+                <h3 className="font-bold text-[#0B3C5D] mb-4">Latest Updates on JEE Main</h3>
+>>>>>>> avanish
                 <div className="space-y-4 divide-y divide-gray-100">
                     {jeeMainSidebarUpdates.map((update) => (
                         <a key={update.title} href="#" className="flex items-start gap-3 group pt-4 first:pt-0">
@@ -93,7 +112,11 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* Category wise exam pages */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
+<<<<<<< HEAD
                 <CardHeader icon={Layers} title="Category Wise Exam Pages" />
+=======
+                <h3 className="font-bold text-[#0B3C5D] mb-4">Category Wise Exam Pages</h3>
+>>>>>>> avanish
                 <ul className="space-y-1">
                     {jeeMainCategoryPages.map((cat) => (
                         <li key={cat}>
@@ -108,7 +131,11 @@ const ExamDetailSidebar = ({ sidebarRef }: ExamDetailSidebarProps) => {
 
             {/* You can also check */}
             <div className="bg-white rounded-xl shadow-md border border-gray-200 p-5">
+<<<<<<< HEAD
                 <CardHeader icon={ListChecks} title="You Can Also Check" />
+=======
+                <h3 className="font-bold text-[#0B3C5D] mb-4">You Can Also Check</h3>
+>>>>>>> avanish
                 <ul className="space-y-1">
                     {jeeMainSidebarLinks.map((link) => (
                         <li key={link}>

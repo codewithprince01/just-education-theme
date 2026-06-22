@@ -18,6 +18,8 @@ import {
     Globe2,
     Crown,
     ChevronRight,
+    Search,
+    X,
     type LucideIcon,
 } from 'lucide-react';
 import { offices, googleDirectionsLink, type Office } from '@/data/contactConfig';
@@ -75,11 +77,22 @@ export default function OfficesSection() {
     const [selectedId, setSelectedId] = useState<string>(
         offices.find((o) => o.isHeadquarters)?.id ?? offices[0].id,
     );
+    const [query, setQuery] = useState('');
     const selected = useMemo(
         () => offices.find((o) => o.id === selectedId) ?? offices[0],
         [selectedId],
     );
     const points = useMemo(() => offices.map((o) => ({ o, ...project(o) })), []);
+    const filtered = useMemo(() => {
+        const q = query.trim().toLowerCase();
+        if (!q) return offices;
+        return offices.filter((o) => {
+            const t = meta(o.id);
+            return [o.city, o.state, o.name, t.tag, t.role].some((f) =>
+                f.toLowerCase().includes(q),
+            );
+        });
+    }, [query]);
     const m = meta(selected.id);
     const selIdx = offices.findIndex((o) => o.id === selected.id);
     const sel = project(selected);
@@ -142,29 +155,61 @@ export default function OfficesSection() {
                                 <span className="text-xs font-bold uppercase tracking-widest text-[#0B3C5D]/50">
                                     Our offices
                                 </span>
-                                <span className="text-xs font-semibold text-gray-400">{offices.length} cities</span>
+                                <span className="text-xs font-semibold text-gray-400">
+                                    {filtered.length} {filtered.length === 1 ? 'city' : 'cities'}
+                                </span>
                             </div>
 
-                            <ul
-                                tabIndex={0}
-                                aria-label="Select an office"
-                                className="scrollbar-hide h-[380px] space-y-0.5 overflow-y-auto scroll-smooth pr-1 outline-none"
-                                style={{
-                                    maskImage:
-                                        'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
-                                    WebkitMaskImage:
-                                        'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
-                                }}
-                            >
-                                {offices.map((o) => (
-                                    <OfficeRow
-                                        key={o.id}
-                                        office={o}
-                                        active={o.id === selected.id}
-                                        onSelect={() => setSelectedId(o.id)}
-                                    />
-                                ))}
-                            </ul>
+                            {/* Search */}
+                            <div className="relative mb-2.5">
+                                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                                <input
+                                    type="text"
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    placeholder="Search city or state…"
+                                    aria-label="Search offices"
+                                    className="w-full rounded-xl border border-gray-200/80 bg-white/70 py-2.5 pl-9 pr-9 text-sm text-gray-700 outline-none backdrop-blur transition focus:border-[#0B3C5D]/40 focus:bg-white focus:ring-4 focus:ring-[#0B3C5D]/10"
+                                />
+                                {query && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setQuery('')}
+                                        aria-label="Clear search"
+                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-0.5 text-gray-400 transition-colors hover:text-gray-600"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </button>
+                                )}
+                            </div>
+
+                            {filtered.length === 0 ? (
+                                <div className="flex h-[200px] flex-col items-center justify-center text-center text-gray-400">
+                                    <Search className="mb-2 h-6 w-6" />
+                                    <p className="text-sm font-medium">No offices match “{query}”.</p>
+                                </div>
+                            ) : (
+                                <ul
+                                    tabIndex={0}
+                                    aria-label="Select an office"
+                                    className="scrollbar-hide h-[332px] space-y-0.5 overflow-y-auto scroll-smooth pr-1 outline-none"
+                                    style={{
+                                        maskImage:
+                                            'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
+                                        WebkitMaskImage:
+                                            'linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent)',
+                                    }}
+                                >
+                                    {filtered.map((o) => (
+                                        <OfficeRow
+                                            key={o.id}
+                                            office={o}
+                                            active={o.id === selected.id}
+                                            onSelect={() => setSelectedId(o.id)}
+                                        />
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </Reveal>
 
@@ -246,18 +291,13 @@ function OfficeRow({
                         active ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
                     }`}
                 />
-                {/* accent dot */}
-                <span className="relative flex h-2.5 w-2.5 flex-shrink-0 items-center justify-center">
-                    {active && (
-                        <span
-                            className="absolute inline-flex h-full w-full animate-ping rounded-full"
-                            style={{ backgroundColor: m.hex, opacity: 0.4 }}
-                        />
-                    )}
-                    <span
-                        className="relative inline-flex h-2 w-2 rounded-full transition-colors duration-300"
-                        style={{ backgroundColor: active ? m.hex : '#cbd5e1' }}
-                    />
+                {/* location icon (brand orange) */}
+                <span
+                    className={`relative flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg transition-colors duration-300 ${
+                        active ? 'bg-orange-100' : 'bg-orange-50'
+                    }`}
+                >
+                    <MapPin className="h-3.5 w-3.5 text-[#F57C00] transition-colors duration-300" />
                 </span>
                 {/* two-line label */}
                 <span className="relative min-w-0 flex-1">

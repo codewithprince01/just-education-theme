@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* ---- Interactive cursor (Tailwind v4 no longer sets it on buttons) ---- */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* ---- Popup / modal animations (open + close) ---- */
+@keyframes je-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes je-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes je-pop-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes je-pop-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(10px) scale(0.97); }
+}
+@keyframes je-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.je-animate-fade { animation: je-fade-in 220ms ease-out both; }
+.je-animate-fade-out { animation: je-fade-out 200ms ease-in both; }
+.je-animate-pop { animation: je-pop-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.je-animate-pop-out { animation: je-pop-out 220ms cubic-bezier(0.4, 0, 1, 1) both; }
+.je-animate-fade-up { animation: je-fade-up 280ms ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .je-animate-fade, .je-animate-fade-out,
+  .je-animate-pop, .je-animate-pop-out,
+  .je-animate-fade-up { animation: none; }
+}

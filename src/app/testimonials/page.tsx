@@ -8,6 +8,7 @@ import PartnerTestimonials from "../../components/testimonials/PartnerTestimonia
 import StudentGallery from "../../components/testimonials/StudentGallery";
 import GoogleReviews from "../../components/testimonials/GoogleReviews";
 import FinalCTA from "../../components/testimonials/FinalCTA";
+import Reveal from "@/components/about/Reveal";
 
 export const metadata = {
   title: "Student Success Stories & Testimonials | Just Education",
@@ -19,15 +20,15 @@ export default function TestimonialsPage() {
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       <TestimonialHero />
-      <VideoTestimonials />
-      <SuccessStories />
-      <JourneyTimeline />
-      <ParentTestimonials />
-      <SocialProofStats />
-      <PartnerTestimonials />
-      <StudentGallery />
-      <GoogleReviews />
-      <FinalCTA />
+      <Reveal><VideoTestimonials /></Reveal>
+      <Reveal><SuccessStories /></Reveal>
+      <Reveal><JourneyTimeline /></Reveal>
+      <Reveal><ParentTestimonials /></Reveal>
+      <Reveal><SocialProofStats /></Reveal>
+      <Reveal><PartnerTestimonials /></Reveal>
+      <Reveal><StudentGallery /></Reveal>
+      <Reveal><GoogleReviews /></Reveal>
+      <Reveal><FinalCTA /></Reveal>
     </div>
   );
 }

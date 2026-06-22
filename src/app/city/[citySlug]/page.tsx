@@ -1,12 +1,10 @@
 import { cityMeta } from '@/data/cityData';
-// Interactive client view containing page state, sorting, and layouts
 import CityPageClient from '@/app/city/[citySlug]/CityPageClient';
 import { Metadata } from 'next';
 
 interface PageProps {
-    params: Promise<{
-        citySlug: string;
-    }>;
+    params: Promise<{ citySlug: string }>;
+    searchParams: Promise<{ type?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -18,7 +16,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
 }
 
-export default async function CitySlugPage({ params }: PageProps) {
+export default async function CitySlugPage({ params, searchParams }: PageProps) {
     const { citySlug } = await params;
-    return <CityPageClient citySlug={citySlug} />;
+    const { type } = await searchParams;
+    return <CityPageClient citySlug={citySlug} initialType={type} />;
 }

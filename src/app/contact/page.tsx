@@ -15,17 +15,10 @@ import QuickContactCards from '@/components/contact/QuickContactCards';
 import ContactForm from '@/components/contact/ContactForm';
 import OfficesSection from '@/components/contact/OfficesSection';
 import LazyOfficeLocator from '@/components/contact/LazyOfficeLocator';
-import GlobalPresence from '@/components/contact/GlobalPresence';
-import DepartmentDirectory from '@/components/contact/DepartmentDirectory';
-import BusinessHours from '@/components/contact/BusinessHours';
 import FaqSection from '@/components/contact/FaqSection';
 import CareersCTA from '@/components/contact/CareersCTA';
-import NewsletterSection from '@/components/contact/NewsletterSection';
 import SocialSection from '@/components/contact/SocialSection';
 import ContactTimeline from '@/components/contact/ContactTimeline';
-import LazyTestimonials from '@/components/contact/LazyTestimonials';
-import TrustCertifications from '@/components/contact/TrustCertifications';
-import EmergencyBanner from '@/components/contact/EmergencyBanner';
 
 import {
     organizationSchema,
@@ -84,17 +77,10 @@ export default function ContactPage() {
             <ContactForm />
             <OfficesSection />
             <LazyOfficeLocator />
-            <GlobalPresence />
-            <DepartmentDirectory />
-            <BusinessHours />
             <FaqSection />
-            <CareersCTA />
-            <NewsletterSection />
             <SocialSection />
             <ContactTimeline />
-            <LazyTestimonials />
-            <TrustCertifications />
-            <EmergencyBanner />
+            <CareersCTA />
         </div>
     );
 }

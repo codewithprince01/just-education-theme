@@ -22,9 +22,8 @@ export default function QuickContactCards() {
     };
 
     return (
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-14 md:py-20">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-8 pb-14 md:pt-10 md:pb-20">
             <SectionHeading
-                eyebrow="Quick Contact"
                 title="Reach the right team in seconds"
                 description="Pick the channel that matches your needs — every inbox is monitored by a dedicated specialist."
             />

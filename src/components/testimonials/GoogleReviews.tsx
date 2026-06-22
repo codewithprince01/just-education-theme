@@ -44,7 +44,7 @@ export default function GoogleReviews() {
   };
 
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid items-center gap-8 lg:grid-cols-[320px_1fr]">
           {/* Overall rating badge */}

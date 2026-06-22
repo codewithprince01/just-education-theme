@@ -148,11 +148,10 @@ export default function ContactForm() {
 
     return (
         <section id="contact-form" className="scroll-mt-24 bg-white border-y border-gray-100">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-8 pb-16 md:pt-10 md:pb-20">
                 <SectionHeading
-                    eyebrow="Send a Message"
                     title="Tell us how we can help"
-                    description="Fill in the form and the right specialist will get back to you. Fields marked with * are required."
+                    description="Fill in the form and the right specialist will get back to you."
                 />
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
@@ -188,7 +187,7 @@ export default function ContactForm() {
                                     Book a 30-minute meeting at a time that works for you.
                                 </p>
                                 <a
-                                    href="#"
+                                    href="/book-session"
                                     className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-white text-[#0B3C5D] font-bold rounded-lg text-sm shadow-md hover:bg-orange-50 transition-colors"
                                 >
                                     <Calendar className="w-4 h-4" />
@@ -362,7 +361,7 @@ export default function ContactForm() {
                                         className="flex items-center gap-1.5 text-sm font-semibold text-gray-700"
                                     >
                                         <MessageSquare className="w-4 h-4 text-gray-400" />
-                                        Message <span className="text-red-500">*</span>
+                                        Message
                                     </label>
                                     <span
                                         className={`text-xs font-medium tabular-nums ${
@@ -391,7 +390,7 @@ export default function ContactForm() {
                                 )}
                             </div>
 
-                            <div className="mt-6 flex flex-col sm:flex-row items-center gap-4">
+                            <div className="mt-6 flex justify-end">
                                 <button
                                     type="submit"
                                     disabled={status === 'loading'}
@@ -409,10 +408,6 @@ export default function ContactForm() {
                                         </>
                                     )}
                                 </button>
-                                <p className="text-xs text-gray-500 flex items-center gap-1.5">
-                                    <ShieldCheck className="w-4 h-4 text-green-600" />
-                                    Protected by 256-bit SSL · we reply within 2 hours.
-                                </p>
                             </div>
                         </form>
                     </Reveal>
@@ -455,7 +450,6 @@ export default function ContactForm() {
 function Field({
     id,
     label,
-    required,
     icon,
     error,
     children,
@@ -471,7 +465,7 @@ function Field({
         <div>
             <label htmlFor={id} className="flex items-center gap-1.5 text-sm font-semibold text-gray-700 mb-1.5">
                 <span className="text-gray-400">{icon}</span>
-                {label} {required && <span className="text-red-500">*</span>}
+                {label}
             </label>
             {children}
             {error && (

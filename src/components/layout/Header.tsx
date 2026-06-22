@@ -6,19 +6,13 @@ import { usePathname } from 'next/navigation';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-<<<<<<< HEAD
-=======
     const [isMobileContactOpen, setIsMobileContactOpen] = useState(false);
->>>>>>> avanish
     const pathname = usePathname();
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
-<<<<<<< HEAD
-=======
         // Close contact submenu when closing/opening mobile menu
         setIsMobileContactOpen(false);
->>>>>>> avanish
     };
 
     const isActive = (path: string) => {
@@ -71,27 +65,6 @@ const Header = () => {
                             Exams
                         </Link>
                         <Link
-<<<<<<< HEAD
-                            href="/careers"
-                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/careers')
-                                    ? 'text-orange-400'
-                                    : 'text-white hover:text-orange-400'
-                                }`}
-                        >
-                            Careers
-                        </Link>
-                        <Link
-                            href="/blog"
-                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/blog')
-                                    ? 'text-orange-400'
-                                    : 'text-white hover:text-orange-400'
-                                }`}
-                        >
-                            Blog
-                        </Link>
-                        <Link
-=======
->>>>>>> avanish
                             href="/about"
                             className={`text-sm font-semibold transition-all duration-300 ${isActive('/about')
                                     ? 'text-orange-400'
@@ -109,17 +82,6 @@ const Header = () => {
                         >
                             Listing
                         </Link>
-<<<<<<< HEAD
-                        <Link
-                            href="/contact"
-                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/contact')
-                                    ? 'text-orange-400'
-                                    : 'text-white hover:text-orange-400'
-                                }`}
-                        >
-                            Contact
-                        </Link>
-=======
 
                         {/* Contact Dropdown */}
                         <div className="relative group py-2">
@@ -157,7 +119,6 @@ const Header = () => {
                             </div>
                         </div>
 
->>>>>>> avanish
                         <a
                             href="#"
                             className="text-sm font-semibold text-white hover:text-orange-400 transition-all duration-300"
@@ -236,29 +197,6 @@ const Header = () => {
                                 Exams
                             </Link>
                             <Link
-<<<<<<< HEAD
-                                href="/careers"
-                                onClick={toggleMobileMenu}
-                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/careers')
-                                        ? 'bg-orange-500 text-white'
-                                        : 'text-white hover:bg-[#0F4D73]'
-                                    }`}
-                            >
-                                Careers
-                            </Link>
-                            <Link
-                                href="/blog"
-                                onClick={toggleMobileMenu}
-                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/blog')
-                                        ? 'bg-orange-500 text-white'
-                                        : 'text-white hover:bg-[#0F4D73]'
-                                    }`}
-                            >
-                                Blog
-                            </Link>
-                            <Link
-=======
->>>>>>> avanish
                                 href="/about"
                                 onClick={toggleMobileMenu}
                                 className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/about')
@@ -278,18 +216,6 @@ const Header = () => {
                             >
                                 Listing
                             </Link>
-<<<<<<< HEAD
-                            <Link
-                                href="/contact"
-                                onClick={toggleMobileMenu}
-                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/contact')
-                                        ? 'bg-orange-500 text-white'
-                                        : 'text-white hover:bg-[#0F4D73]'
-                                    }`}
-                            >
-                                Contact
-                            </Link>
-=======
 
                             {/* Mobile Contact Dropdown */}
                             <div>
@@ -329,7 +255,6 @@ const Header = () => {
                                 )}
                             </div>
 
->>>>>>> avanish
                             <a
                                 href="#"
                                 onClick={toggleMobileMenu}

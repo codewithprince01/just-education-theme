@@ -35,8 +35,8 @@ const HeroStory = () => {
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center mt-6 md:mt-10">
                     {/* Left — copy */}
                     <div className="lg:col-span-7 animate-fade-in">
-                        <span className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-orange-300 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
-                            <Sparkles className="w-3.5 h-3.5 text-orange-400" /> India&apos;s Education Directory
+                        <span className="inline-flex items-center gap-2 bg-white border border-white text-[#0B3C5D] text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
+                            <Sparkles className="w-3.5 h-3.5 text-orange-500" /> India&apos;s Education Directory
                         </span>
                         
                         <h1 className="text-4xl sm:text-5xl xl:text-[3.4rem] font-extrabold mt-6 leading-[1.12]">
@@ -48,19 +48,13 @@ const HeroStory = () => {
                             Search, filter, and compare top-rated colleges, schools, coaching institutes, and universities near you. JustEducation connects you directly with official listings and verified details.
                         </p>
 
-                        {/* Interactive Directory Search Mockup */}
-                        <div className="mt-8 max-w-lg bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl p-3 flex items-center shadow-lg">
-                            <Search className="w-5 h-5 text-orange-400 mr-3 flex-shrink-0" />
-                            <span className="text-sm text-blue-100/80 select-none">
-                                Search Colleges, Coaching, Schools in <span className="text-orange-400 font-bold border-r-2 border-orange-400 pr-1 animate-pulse">Mumbai...</span>
-                            </span>
-                        </div>
+
 
                         <div className="mt-8 flex flex-wrap gap-3.5">
                             <Link href="/exams" className="group px-6 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-950/20 transition-all duration-300 flex items-center gap-2 hover:-translate-y-0.5">
                                 Search Directory <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                             </Link>
-                            <Link href="/exams" className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 hover:border-white/40 transition-all duration-300 backdrop-blur-sm">
+                            <Link href="/exams" className="px-6 py-3.5 bg-white hover:bg-gray-100 text-[#0B3C5D] font-semibold rounded-xl border border-white hover:border-gray-200 transition-all duration-300 backdrop-blur-sm">
                                 Listing Registry
                             </Link>
                         </div>
@@ -79,25 +73,17 @@ const HeroStory = () => {
 
                     {/* Right — clean ecosystem preview panel */}
                     <div className="hidden lg:block lg:col-span-5 relative">
-                        {/* Floating Badges */}
-                        <div className="absolute top-[8%] -left-8 bg-white border border-gray-100 rounded-xl px-3.5 py-1.5 shadow-lg flex items-center gap-2 z-30 text-gray-800 je-float">
-                            <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping" />
-                            <span className="text-xs font-bold">100% Verified Profiles</span>
-                        </div>
-                        <div className="absolute bottom-[20%] -right-4 bg-white border border-gray-100 rounded-xl px-3.5 py-1.5 shadow-lg flex items-center gap-2 z-30 text-gray-800 je-float-slow">
-                            <span className="text-xs text-amber-500 font-black">★ 4.8</span>
-                            <span className="text-xs font-bold text-gray-600">Top Rated Tutors</span>
-                        </div>
+
 
                         <div className="relative max-w-md ml-auto je-float-slow">
-                            <div className="rounded-3xl bg-white/[0.07] border border-white/15 backdrop-blur-md p-6 shadow-2xl">
+                            <div className="rounded-3xl bg-white border border-gray-200 backdrop-blur-md p-6 shadow-2xl">
                                 <div className="flex items-center gap-3 mb-5">
                                     <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-md">
                                         <GraduationCap className="w-5 h-5 text-white" />
                                     </span>
                                     <div>
-                                        <p className="text-sm font-bold text-white leading-tight">JustEducation Listings</p>
-                                        <p className="text-xs text-blue-200">Search directory categories</p>
+                                        <p className="text-sm font-bold text-[#0B3C5D] leading-tight">JustEducation Listings</p>
+                                        <p className="text-xs text-gray-500">Search directory categories</p>
                                     </div>
                                 </div>
 
@@ -112,20 +98,20 @@ const HeroStory = () => {
                                     ))}
                                 </div>
 
-                                <div className="mt-5 flex items-center justify-around rounded-2xl bg-white/[0.06] border border-white/10 py-3">
+                                <div className="mt-5 flex items-center justify-around rounded-2xl bg-gray-50 border border-gray-100 py-3">
                                     <div className="text-center">
-                                        <p className="text-lg font-black text-white leading-none">45,000+</p>
-                                        <p className="text-[11px] text-blue-200 mt-1">Institutions</p>
+                                        <p className="text-lg font-black text-[#0B3C5D] leading-none">45,000+</p>
+                                        <p className="text-[11px] text-gray-500 mt-1">Institutions</p>
                                     </div>
-                                    <span className="w-px h-8 bg-white/15" />
+                                    <span className="w-px h-8 bg-gray-200" />
                                     <div className="text-center">
-                                        <p className="text-lg font-black text-white leading-none">600+</p>
-                                        <p className="text-[11px] text-blue-200 mt-1">Cities</p>
+                                        <p className="text-lg font-black text-[#0B3C5D] leading-none">600+</p>
+                                        <p className="text-[11px] text-gray-500 mt-1">Cities</p>
                                     </div>
-                                    <span className="w-px h-8 bg-white/15" />
+                                    <span className="w-px h-8 bg-gray-200" />
                                     <div className="text-center">
-                                        <p className="text-lg font-black text-white leading-none">1M+</p>
-                                        <p className="text-[11px] text-blue-200 mt-1">Daily Enquiries</p>
+                                        <p className="text-lg font-black text-[#0B3C5D] leading-none">1M+</p>
+                                        <p className="text-[11px] text-gray-500 mt-1">Daily Enquiries</p>
                                     </div>
                                 </div>
                             </div>

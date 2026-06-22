@@ -7,12 +7,14 @@ import { usePathname } from 'next/navigation';
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobileContactOpen, setIsMobileContactOpen] = useState(false);
+    const [isMobileRitikOpen, setIsMobileRitikOpen] = useState(false);
     const pathname = usePathname();
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
         // Close contact submenu when closing/opening mobile menu
         setIsMobileContactOpen(false);
+        setIsMobileRitikOpen(false);
     };
 
     const isActive = (path: string) => {
@@ -55,24 +57,41 @@ const Header = () => {
                         >
                             Streams
                         </Link>
-                        <Link
-                            href="/exams"
-                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/exams')
-                                    ? 'text-orange-400'
-                                    : 'text-white hover:text-orange-400'
+                        {/* Ritik Dropdown */}
+                        <div className="relative group py-2">
+                            <button
+                                className={`text-sm font-semibold flex items-center gap-1 transition-all duration-300 ${
+                                    isActive('/careers') || isActive('/exams') || isActive('/about')
+                                        ? 'text-orange-400'
+                                        : 'text-white hover:text-orange-400'
                                 }`}
-                        >
-                            Exams
-                        </Link>
-                        <Link
-                            href="/about"
-                            className={`text-sm font-semibold transition-all duration-300 ${isActive('/about')
-                                    ? 'text-orange-400'
-                                    : 'text-white hover:text-orange-400'
-                                }`}
-                        >
-                            About
-                        </Link>
+                            >
+                                Ritik
+                                <svg className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div className="absolute left-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <Link
+                                    href="/careers"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    Careers
+                                </Link>
+                                <Link
+                                    href="/exams"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    Exams
+                                </Link>
+                                <Link
+                                    href="/about"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    About
+                                </Link>
+                            </div>
+                        </div>
                         <Link
                             href="/add-college"
                             className={`text-sm font-semibold transition-all duration-300 ${isActive('/add-college')
@@ -186,26 +205,43 @@ const Header = () => {
                             >
                                 Streams
                             </Link>
-                            <Link
-                                href="/exams"
-                                onClick={toggleMobileMenu}
-                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/exams')
-                                        ? 'bg-orange-500 text-white'
-                                        : 'text-white hover:bg-[#0F4D73]'
-                                    }`}
-                            >
-                                Exams
-                            </Link>
-                            <Link
-                                href="/about"
-                                onClick={toggleMobileMenu}
-                                className={`text-sm font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/about')
-                                        ? 'bg-orange-500 text-white'
-                                        : 'text-white hover:bg-[#0F4D73]'
-                                    }`}
-                            >
-                                About
-                            </Link>
+                            {/* Mobile Ritik Dropdown */}
+                            <div>
+                                <button
+                                    onClick={() => setIsMobileRitikOpen(!isMobileRitikOpen)}
+                                    className="w-full flex items-center justify-between text-sm font-semibold py-2 px-4 rounded-lg text-white hover:bg-[#0F4D73] transition-all duration-300"
+                                >
+                                    <span>Ritik</span>
+                                    <svg className={`w-4 h-4 transition-transform duration-200 ${isMobileRitikOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {isMobileRitikOpen && (
+                                    <div className="pl-4 mt-1 space-y-1 border-l border-[#0F4D73] ml-4">
+                                        <Link
+                                            href="/careers"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/careers') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            Careers
+                                        </Link>
+                                        <Link
+                                            href="/exams"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/exams') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            Exams
+                                        </Link>
+                                        <Link
+                                            href="/about"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/about') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            About
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
                             <Link
                                 href="/add-college"
                                 onClick={toggleMobileMenu}

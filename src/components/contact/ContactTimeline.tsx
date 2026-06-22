@@ -6,9 +6,8 @@ import SectionHeading from './SectionHeading';
 export default function ContactTimeline() {
     return (
         <section className="bg-white border-y border-gray-100">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8 md:py-10">
                 <SectionHeading
-                    eyebrow="How It Works"
                     title="What happens after you reach out"
                     description="A transparent, five-step journey from your first message to full resolution."
                 />

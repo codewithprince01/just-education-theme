@@ -17,9 +17,8 @@ const ICONS: Record<string, (p: { className?: string }) => React.ReactNode> = {
 
 export default function SocialSection() {
     return (
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8 md:py-10">
             <SectionHeading
-                eyebrow="Follow Us"
                 title="Join the conversation"
                 description="Stay connected for product news, study tips and community stories across your favourite platforms."
             />

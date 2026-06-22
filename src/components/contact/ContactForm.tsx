@@ -151,7 +151,7 @@ export default function ContactForm() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-8 pb-16 md:pt-10 md:pb-20">
                 <SectionHeading
                     title="Tell us how we can help"
-                    description="Fill in the form and the right specialist will get back to you. Fields marked with * are required."
+                    description="Fill in the form and the right specialist will get back to you."
                 />
 
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
@@ -361,7 +361,7 @@ export default function ContactForm() {
                                         className="flex items-center gap-1.5 text-sm font-semibold text-gray-700"
                                     >
                                         <MessageSquare className="w-4 h-4 text-gray-400" />
-                                        Message <span className="text-red-500">*</span>
+                                        Message
                                     </label>
                                     <span
                                         className={`text-xs font-medium tabular-nums ${
@@ -450,7 +450,6 @@ export default function ContactForm() {
 function Field({
     id,
     label,
-    required,
     icon,
     error,
     children,
@@ -466,7 +465,7 @@ function Field({
         <div>
             <label htmlFor={id} className="flex items-center gap-1.5 text-sm font-semibold text-gray-700 mb-1.5">
                 <span className="text-gray-400">{icon}</span>
-                {label} {required && <span className="text-red-500">*</span>}
+                {label}
             </label>
             {children}
             {error && (

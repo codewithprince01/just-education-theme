@@ -5,9 +5,8 @@ import SectionHeading from './SectionHeading';
 
 export default function OfficesSection() {
     return (
-        <section id="offices" className="scroll-mt-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+        <section id="offices" className="scroll-mt-24 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-8 pb-16 md:pt-10 md:pb-20">
             <SectionHeading
-                eyebrow="Our Offices"
                 title="10 offices across India"
                 description="From our New Delhi headquarters to regional hubs, a Just Education team is always close by."
             />

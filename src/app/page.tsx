@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BookOpen, Award, Compass, ChevronRight } from 'lucide-react';
 import { Suspense } from 'react';
 import JustDialSearchBar from '@/components/layout/JustDialSearchBar';
+import CategoryHotkeys from '@/components/home/CategoryHotkeys';
 import TopStudyPlacesSection from '@/components/home/TopStudyPlacesSection';
 import DirectorySection from '@/components/directory/DirectorySection';
 
@@ -33,6 +34,9 @@ export default function Home() {
                     </Suspense>
                 </div>
             </section>
+
+            {/* Category Hotkeys */}
+            <CategoryHotkeys />
 
             {/* Top Study Places Section */}
             <TopStudyPlacesSection />

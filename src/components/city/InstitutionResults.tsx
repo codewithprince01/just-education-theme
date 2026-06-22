@@ -69,9 +69,9 @@ export default function InstitutionResults({
                     </td>
                     <td className="px-5 py-6 align-top min-w-[340px]">
                       <div className="flex items-start gap-4">
-                        <img src={college.image} alt={college.name} className="w-14 h-14 rounded-2xl object-cover flex-shrink-0 border border-gray-100 shadow-sm" loading="lazy" />
+                        <img src={college.logo ?? college.image} alt={college.name} className="w-14 h-14 rounded-2xl object-cover flex-shrink-0 border border-gray-100 shadow-sm" loading="lazy" />
                         <div className="min-w-0 flex-1">
-                          <Link href={`/college/${college.id}`} className="font-bold text-blue-600 hover:text-blue-800 text-[15px] hover:underline leading-snug">{college.name}</Link>
+                          <Link href={college.detailHref || `/college/${college.id}`} className="font-bold text-blue-600 hover:text-blue-800 text-[15px] hover:underline leading-snug">{college.name}</Link>
                           <div className="text-xs text-gray-500 font-medium mt-0.5">{cityName}, {cityState} | <span className="text-gray-400">{college.accreditation || 'Govt Approved'}</span></div>
                           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mt-4 text-[11px] font-bold text-gray-400">
                             <button onClick={() => onApply(college, 'apply')} className="flex items-center gap-1 text-orange-600 hover:text-orange-700 hover:underline cursor-pointer"><ArrowRight size={13} className="text-orange-500" />Apply Now</button>
@@ -192,7 +192,7 @@ export default function InstitutionResults({
                 <div>
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <Link href={`/college/${college.id}`} className="font-bold text-[#0a2540] hover:text-blue-600 text-lg hover:underline leading-snug block">{college.name}</Link>
+                      <Link href={college.detailHref || `/college/${college.id}`} className="font-bold text-[#0a2540] hover:text-blue-600 text-lg hover:underline leading-snug block">{college.name}</Link>
                       <div className="text-xs text-gray-500 mt-1 font-medium">{cityName}, {cityState} | <span className="text-gray-400">{college.accreditation || 'Govt Approved'}</span></div>
                     </div>
                     <button onClick={() => onToggleSave(college.id)} className="w-8 h-8 border border-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-50 transition-all flex-shrink-0 cursor-pointer">
@@ -270,7 +270,7 @@ export default function InstitutionResults({
             <div className="p-4 flex-1 flex flex-col justify-between gap-4">
               <div>
                 <span className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">{typeInfo?.label.replace(/s$/, '') || college.type}</span>
-                <Link href={`/college/${college.id}`} className="font-bold text-[#0a2540] hover:text-blue-600 text-[15px] hover:underline leading-snug mt-2 block line-clamp-2">{college.name}</Link>
+                <Link href={college.detailHref || `/college/${college.id}`} className="font-bold text-[#0a2540] hover:text-blue-600 text-[15px] hover:underline leading-snug mt-2 block line-clamp-2">{college.name}</Link>
                 <div className="text-[11px] text-gray-500 mt-1 font-medium">{cityName}, {cityState} | {college.accreditation || 'Govt Approved'}</div>
                 <div className="text-[11px] text-purple-700 font-bold mt-2">{rankingStr}</div>
                 {compareMetricLabel && (

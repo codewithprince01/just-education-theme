@@ -9,6 +9,7 @@ export const TABLE_HEADER_CONFIG: Record<string, { institution: string; fees: st
   COACHING:             { institution: 'Institute Name',   fees: 'Course Fee',            metric: 'Selection Rate',        ranking: 'Success Ranking'  },
   TRAINING:             { institution: 'Training Center',  fees: 'Course Fee',            metric: 'Placement Assistance',  ranking: 'Industry Rating'  },
   TRAINING_CENTER:      { institution: 'Training Center',  fees: 'Course Fee',            metric: 'Placement Assistance',  ranking: 'Industry Rating'  },
+  LANGUAGE_CENTER:      { institution: 'Language Center',  fees: 'Course Fee',            metric: 'Languages Offered',     ranking: 'Popularity Rank'  },
   CONSULTANT:           { institution: 'Consultant Name',  fees: 'Service Fee',           metric: 'Success Rate',          ranking: 'Popularity Rank'  },
   RESEARCH:             { institution: 'Research Center',  fees: 'Research Funding',      metric: 'Projects Completed',    ranking: 'Research Ranking' },
   RESEARCH_CENTER:      { institution: 'Research Center',  fees: 'Research Funding',      metric: 'Projects Completed',    ranking: 'Research Ranking' },
@@ -67,6 +68,7 @@ export const getEnrichedData = (college: CollegeInCity): EnrichedData => {
   else if (college.institutionType === 'CONSULTANT')      courseName = 'Abroad Admission Consulting';
   else if (college.institutionType === 'RESEARCH' || college.institutionType === 'RESEARCH_CENTER')  courseName = 'Research Program';
   else if (college.institutionType === 'SCHOLARSHIP_PROVIDER') courseName = 'Merit Scholarship';
+  else if (college.institutionType === 'LANGUAGE_CENTER')      courseName = college.courses?.[0] ? `${college.courses[0]} & more` : 'Foreign Language Course';
   else if (college.courseTags && college.courseTags.length > 0) courseName = college.courseTags[0] + ' General';
   else if (college.courses && college.courses.length > 0) courseName = college.courses[0];
 
@@ -81,6 +83,7 @@ export const getEnrichedData = (college: CollegeInCity): EnrichedData => {
   else if (college.institutionType === 'UNIVERSITY')           feesSubtitle = '- Average Fee';
   else if (college.institutionType === 'TRAINING' || college.institutionType === 'TRAINING_CENTER') feesSubtitle = '- Course Fee';
   else if (college.institutionType === 'COACHING')             feesSubtitle = '- Course Fee';
+  else if (college.institutionType === 'LANGUAGE_CENTER')      feesSubtitle = '- Course Fee';
 
   // Metric / placement data
   const isAcademicOnly = ['SCHOOL', 'LIBRARY', 'HOSTEL', 'SCHOLARSHIP_PROVIDER', 'CONSULTANT'].includes(college.institutionType);
@@ -126,6 +129,12 @@ export const getEnrichedData = (college: CollegeInCity): EnrichedData => {
     placementSubtitle = 'Placement Assistance';
     highestSubtitle = 'Avg Starting Salary';
     compareMetricLabel = 'Compare Placements';
+  } else if (college.institutionType === 'LANGUAGE_CENTER') {
+    avgPkgStr = `${college.language?.length || (id % 5) + 5} Languages`;
+    highestPkgStr = `${(id % 900) + 600}+`;
+    placementSubtitle = 'Languages Offered';
+    highestSubtitle = 'Students Trained';
+    compareMetricLabel = 'Compare Centers';
   } else if (college.institutionType === 'CONSULTANT') {
     avgPkgStr = `${80 + (id % 15)}%`;
     highestPkgStr = `${(id % 300) + 500}+ Students`;
@@ -186,6 +195,10 @@ export const getEnrichedData = (college: CollegeInCity): EnrichedData => {
     rankNum = (id % 6) + 1;
     rankTotal = 150;
     rankSubject = 'Technical Skills';
+  } else if (college.institutionType === 'LANGUAGE_CENTER') {
+    rankNum = (id % 6) + 1;
+    rankTotal = 50;
+    rankSubject = 'Language Training';
   } else if (college.institutionType === 'CONSULTANT') {
     rankNum = (id % 8) + 1;
     rankTotal = 80;

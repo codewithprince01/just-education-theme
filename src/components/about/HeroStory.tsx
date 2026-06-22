@@ -1,98 +1,152 @@
 "use client";
 
 import Link from 'next/link';
-import { ArrowRight, GraduationCap } from 'lucide-react';
+import { ArrowRight, GraduationCap, Check, Search, Sparkles } from 'lucide-react';
+import Breadcrumbs from '../seo/Breadcrumbs';
 import Icon from './Icon';
-import { useParallax } from './useParallax';
-import { heroFloatingChips } from '../../data/about';
+import { trustIndicators } from '../../data/about';
+
+const PANEL_TILES = [
+    { icon: 'Building2', label: 'Colleges' },
+    { icon: 'BookOpen', label: 'Courses' },
+    { icon: 'ClipboardList', label: 'Entrance Exams' },
+    { icon: 'Wallet', label: 'Scholarships' },
+    { icon: 'FileText', label: 'Admissions' },
+    { icon: 'Briefcase', label: 'Careers' },
+];
+
+const INLINE_TRUST = ['Verified Listings', 'Direct Inquiry', 'Student Reviews'];
 
 const HeroStory = () => {
-    const { ref: artRef, offset } = useParallax(0.06);
-
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#0A2E49] text-white">
-            {/* Animated geometric / glow background */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-24 -left-24 w-[34rem] h-[34rem] rounded-full bg-orange-500/20 blur-3xl je-float-slow" />
-                <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] rounded-full bg-blue-400/20 blur-3xl je-float" />
-                <div className="absolute top-1/4 right-1/3 w-2 h-2 rounded-full bg-orange-300/60 je-float" />
-                <div className="absolute bottom-1/3 left-1/4 w-3 h-3 rounded-full bg-blue-200/50 je-float-slow" />
-                <svg className="absolute -right-10 top-10 w-72 h-72 text-white/[0.04] je-spin-slow" viewBox="0 0 100 100" fill="none">
-                    <circle cx="50" cy="50" r="48" stroke="currentColor" strokeWidth="0.5" />
-                    <circle cx="50" cy="50" r="34" stroke="currentColor" strokeWidth="0.5" />
-                    <circle cx="50" cy="50" r="20" stroke="currentColor" strokeWidth="0.5" />
-                </svg>
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white border-b border-gray-100">
+            {/* spotlight overlay + grids */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute -top-36 -left-36 w-[45rem] h-[45rem] rounded-full bg-orange-500/10 blur-[120px]" />
+                <div className="absolute top-1/2 -right-36 w-[40rem] h-[40rem] rounded-full bg-blue-400/10 blur-[120px]" />
+                <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[88vh] py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10 pt-5 pb-16 md:pb-20">
+                <div className="[&_a]:text-blue-100 [&_a:hover]:text-white [&_span]:text-white">
+                    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'About Us' }]} />
+                </div>
+
+                <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center mt-6 md:mt-10">
                     {/* Left — copy */}
-                    <div className="animate-fade-in">
-                        <span className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-orange-300 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full backdrop-blur-sm">
-                            <GraduationCap className="w-4 h-4" /> About JustEducation
+                    <div className="lg:col-span-7 animate-fade-in">
+                        <span className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-orange-300 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
+                            <Sparkles className="w-3.5 h-3.5 text-orange-400" /> India&apos;s Education Directory
                         </span>
-                        <h1 className="text-4xl sm:text-5xl xl:text-[4.1rem] font-black mt-6 leading-[1.05]">
-                            India&apos;s Trusted <br />
-                            <span className="bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent">Education Discovery</span> Platform
+                        
+                        <h1 className="text-4xl sm:text-5xl xl:text-[3.4rem] font-extrabold mt-6 leading-[1.12]">
+                            The Direct Discovery <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">Portal for Education</span>
                         </h1>
-                        <p className="mt-7 text-base md:text-lg text-blue-100/90 leading-relaxed max-w-xl">
-                            Helping students discover colleges, universities, schools, courses, entrance exams,
-                            scholarships, admissions, coaching institutes, and career opportunities through structured
-                            and reliable educational information.
+                        
+                        <p className="mt-6 text-base md:text-lg text-blue-100/90 leading-relaxed max-w-xl">
+                            Search, filter, and compare top-rated colleges, schools, coaching institutes, and universities near you. JustEducation connects you directly with official listings and verified details.
                         </p>
-                        <div className="mt-10 flex flex-wrap gap-4">
-                            <Link href="/exams" className="group px-7 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-900/30 transition-all duration-300 flex items-center gap-2 hover:-translate-y-0.5">
-                                Explore Colleges <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+
+                        {/* Interactive Directory Search Mockup */}
+                        <div className="mt-8 max-w-lg bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl p-3 flex items-center shadow-lg">
+                            <Search className="w-5 h-5 text-orange-400 mr-3 flex-shrink-0" />
+                            <span className="text-sm text-blue-100/80 select-none">
+                                Search Colleges, Coaching, Schools in <span className="text-orange-400 font-bold border-r-2 border-orange-400 pr-1 animate-pulse">Mumbai...</span>
+                            </span>
+                        </div>
+
+                        <div className="mt-8 flex flex-wrap gap-3.5">
+                            <Link href="/exams" className="group px-6 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-950/20 transition-all duration-300 flex items-center gap-2 hover:-translate-y-0.5">
+                                Search Directory <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                             </Link>
-                            <Link href="/exams" className="px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 hover:border-white/40 transition-all duration-300 backdrop-blur-sm">
-                                Explore Courses
+                            <Link href="/exams" className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/20 hover:border-white/40 transition-all duration-300 backdrop-blur-sm">
+                                Listing Registry
                             </Link>
-                            <a href="#contact" className="px-7 py-3.5 text-white/90 hover:text-white font-semibold rounded-xl transition-all duration-300 flex items-center gap-1.5">
-                                Contact Us <ArrowRight className="w-4 h-4" />
-                            </a>
+                        </div>
+
+                        <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+                            {INLINE_TRUST.map((t) => (
+                                <span key={t} className="flex items-center gap-2 text-sm font-medium text-blue-100">
+                                    <span className="w-5 h-5 rounded-full bg-orange-500/95 flex items-center justify-center shadow-sm">
+                                        <Check className="w-3 h-3 text-white" />
+                                    </span>
+                                    {t}
+                                </span>
+                            ))}
                         </div>
                     </div>
 
-                    {/* Right — illustration with parallax + floating chips */}
-                    <div className="relative hidden lg:block">
-                        <div
-                            ref={artRef as React.RefObject<HTMLDivElement>}
-                            className="relative aspect-square max-w-lg mx-auto"
-                            style={{ transform: `translateY(${offset}px)` }}
-                        >
-                            {/* concentric orbit rings */}
-                            <div className="absolute inset-0 rounded-full border border-white/10" />
-                            <div className="absolute inset-[12%] rounded-full border border-white/10" />
-                            <div className="absolute inset-[26%] rounded-full border border-dashed border-white/15 je-spin-slow" />
+                    {/* Right — clean ecosystem preview panel */}
+                    <div className="hidden lg:block lg:col-span-5 relative">
+                        {/* Floating Badges */}
+                        <div className="absolute top-[8%] -left-8 bg-white border border-gray-100 rounded-xl px-3.5 py-1.5 shadow-lg flex items-center gap-2 z-30 text-gray-800 je-float">
+                            <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping" />
+                            <span className="text-xs font-bold">100% Verified Profiles</span>
+                        </div>
+                        <div className="absolute bottom-[20%] -right-4 bg-white border border-gray-100 rounded-xl px-3.5 py-1.5 shadow-lg flex items-center gap-2 z-30 text-gray-800 je-float-slow">
+                            <span className="text-xs text-amber-500 font-black">★ 4.8</span>
+                            <span className="text-xs font-bold text-gray-600">Top Rated Tutors</span>
+                        </div>
 
-                            {/* center hub */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-[2rem] bg-gradient-to-br from-orange-500 to-orange-600 shadow-2xl shadow-orange-900/40 flex flex-col items-center justify-center text-center z-10">
-                                <GraduationCap className="w-12 h-12 text-white" />
-                                <span className="text-sm font-extrabold text-white mt-2 leading-tight">Just<br />Education</span>
-                            </div>
-
-                            {/* floating chips */}
-                            {heroFloatingChips.map((chip) => (
-                                <div
-                                    key={chip.label}
-                                    className={`absolute ${chip.pos} flex items-center gap-2 bg-white rounded-2xl px-3.5 py-2.5 shadow-xl je-float`}
-                                    style={{ animationDelay: `${chip.delay}ms` }}
-                                >
-                                    <span className="w-7 h-7 rounded-lg bg-[#0B3C5D]/5 flex items-center justify-center">
-                                        <Icon name={chip.icon} className="w-4 h-4 text-[#0B3C5D]" />
+                        <div className="relative max-w-md ml-auto je-float-slow">
+                            <div className="rounded-3xl bg-white/[0.07] border border-white/15 backdrop-blur-md p-6 shadow-2xl">
+                                <div className="flex items-center gap-3 mb-5">
+                                    <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-md">
+                                        <GraduationCap className="w-5 h-5 text-white" />
                                     </span>
-                                    <span className="text-xs font-bold text-gray-800 whitespace-nowrap">{chip.label}</span>
+                                    <div>
+                                        <p className="text-sm font-bold text-white leading-tight">JustEducation Listings</p>
+                                        <p className="text-xs text-blue-200">Search directory categories</p>
+                                    </div>
                                 </div>
-                            ))}
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    {PANEL_TILES.map((tile) => (
+                                        <div key={tile.label} className="flex items-center gap-2.5 bg-white rounded-xl px-3 py-2.5 shadow-sm border border-transparent hover:border-orange-400 hover:shadow-md transition-all duration-300">
+                                            <span className="w-8 h-8 rounded-lg bg-[#0B3C5D]/5 flex items-center justify-center flex-shrink-0">
+                                                <Icon name={tile.icon} className="w-4 h-4 text-[#0B3C5D]" />
+                                            </span>
+                                            <span className="text-xs font-bold text-gray-800 truncate">{tile.label}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-5 flex items-center justify-around rounded-2xl bg-white/[0.06] border border-white/10 py-3">
+                                    <div className="text-center">
+                                        <p className="text-lg font-black text-white leading-none">45,000+</p>
+                                        <p className="text-[11px] text-blue-200 mt-1">Institutions</p>
+                                    </div>
+                                    <span className="w-px h-8 bg-white/15" />
+                                    <div className="text-center">
+                                        <p className="text-lg font-black text-white leading-none">600+</p>
+                                        <p className="text-[11px] text-blue-200 mt-1">Cities</p>
+                                    </div>
+                                    <span className="w-px h-8 bg-white/15" />
+                                    <div className="text-center">
+                                        <p className="text-lg font-black text-white leading-none">1M+</p>
+                                        <p className="text-[11px] text-blue-200 mt-1">Daily Enquiries</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* bottom wave divider */}
-            <svg className="block w-full h-12 md:h-16 text-gray-50" viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
-                <path d="M0 80 L0 40 Q 360 0 720 40 T 1440 40 L1440 80 Z" fill="currentColor" />
-            </svg>
+            {/* trust strip */}
+            <div className="relative z-10 border-t border-white/10 bg-[#082A42]/40 backdrop-blur-sm">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-4">
+                    <ul className="flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-2.5">
+                        {trustIndicators.map((t) => (
+                            <li key={t.label} className="flex items-center gap-2 text-sm font-semibold text-blue-50">
+                                <Icon name={t.icon} className="w-4 h-4 text-orange-400 flex-shrink-0" />
+                                {t.label}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </section>
     );
 };

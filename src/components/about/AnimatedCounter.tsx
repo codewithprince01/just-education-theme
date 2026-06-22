@@ -15,7 +15,7 @@ interface AnimatedCounterProps {
 }
 
 const formatValue = (n: number, format: 'compact' | 'comma'): string => {
-    if (format === 'comma') return n.toLocaleString('en-IN');
+    if (format === 'comma') return n.toLocaleString('en-US');
     if (n >= 10_000_000) return `${(n / 10_000_000).toFixed(n % 10_000_000 === 0 ? 0 : 1)}Cr`;
     if (n >= 100_000) return `${(n / 100_000).toFixed(n % 100_000 === 0 ? 0 : 1)}L`;
     if (n >= 1_000) return `${Math.round(n / 1_000)}K`;

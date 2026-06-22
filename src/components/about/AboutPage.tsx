@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Mail, Headphones, Users, Target, ShieldCheck, Eye, Heart, Globe, CalendarCheck, Compass } from 'lucide-react';
 import SectionHeading from '@/components/blog/SectionHeading';
 import Reveal from './Reveal';
-import Icon from './Icon';
-import Illustration from './Illustrations';
 import HeroStory from './HeroStory';
 import StudentJourney from './StudentJourney';
 import EcosystemGraph from './EcosystemGraph';
@@ -54,20 +52,6 @@ const AboutPage = () => {
                                 <p>Comparing colleges, courses, exams, admissions, fees, scholarships, and career options quickly becomes overwhelming. It is easy to feel lost, and easy to make a decision based on incomplete information.</p>
                                 <p>JustEducation was created to change that — to simplify educational discovery and help students make informed decisions through structured, transparent, and trustworthy information.</p>
                             </div>
-                            <div className="mt-8 grid sm:grid-cols-3 gap-4">
-                                {[
-                                    { label: 'Scattered → Structured', desc: 'Consolidated info' },
-                                    { label: 'Confusion → Clarity', desc: 'No guesswork' },
-                                    { label: 'Guesswork → Confidence', desc: 'Verifiable details' }
-                                ].map((item) => (
-                                    <div key={item.label} className="p-4 bg-gray-50 rounded-xl border border-gray-200/60 hover:border-orange-200 transition-colors">
-                                        <span className="flex items-center gap-1.5 text-xs font-bold text-[#0B3C5D]">
-                                            <CheckCircle2 className="w-4 h-4 text-orange-500" /> {item.label}
-                                        </span>
-                                        <p className="text-[10px] text-gray-500 mt-1">{item.desc}</p>
-                                    </div>
-                                ))}
-                            </div>
                         </Reveal>
                     </div>
                 </div>
@@ -94,48 +78,43 @@ const AboutPage = () => {
 
             {/* ===== 8 · VISION ===== */}
             <section id="vision" className="relative overflow-hidden py-24 md:py-28 bg-gradient-to-br from-[#0B3C5D] via-[#0D4B75] to-[#126094] text-white">
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
-                    <div className="absolute -top-16 left-1/4 w-96 h-96 rounded-full bg-blue-400 blur-3xl je-float-slow" />
-                    <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-orange-500 blur-3xl je-float" />
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute -top-16 left-1/4 w-96 h-96 rounded-full bg-blue-400/15 blur-3xl je-float-slow" />
+                    <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-orange-500/15 blur-3xl je-float" />
                 </div>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-                    <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-                        <Reveal className="lg:col-span-7">
-                            <span className="inline-block text-xs font-bold uppercase tracking-widest text-orange-300 bg-white/10 px-3 py-1 rounded-full mb-5">Our Vision</span>
-                            <h2 className="text-3xl md:text-4xl xl:text-[2.75rem] font-extrabold leading-[1.14]">
-                                Building India&apos;s most trusted <span className="text-orange-400">education ecosystem</span>
+                    <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                        {/* Left — copy */}
+                        <Reveal className="lg:col-span-5">
+                            <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-orange-300 bg-white/[0.08] border border-white/15 px-3.5 py-1.5 rounded-full backdrop-blur-sm">
+                                <span className="w-1.5 h-1.5 rounded-full bg-orange-400" /> Our Vision
+                            </span>
+                            <h2 className="text-3xl md:text-4xl xl:text-[2.6rem] font-extrabold leading-[1.16] mt-6 tracking-tight">
+                                Building India&apos;s Most Trusted <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">Education Discovery Platform</span>
                             </h2>
-                            <p className="mt-6 text-base md:text-lg text-blue-100/90 leading-relaxed max-w-2xl">
-                                We envision a future where every student — in every city — can discover, compare, evaluate,
-                                and pursue educational opportunities with complete confidence. A transparent, comprehensive
-                                platform that closes the distance between learners and the institutions that shape their futures.
+                            <p className="mt-6 text-base md:text-lg text-blue-100/85 leading-relaxed max-w-md">
+                                Our vision is to become the place every student turns to — discovering, comparing, and
+                                choosing the right educational path with complete clarity and confidence.
                             </p>
-                            <div className="mt-8">
-                                <Link href="/exams" className="inline-flex items-center gap-2 px-7 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                                    Start Exploring <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            </div>
                         </Reveal>
 
-                        {/* vision pillars */}
-                        <Reveal delay={120} className="lg:col-span-5">
-                            <div className="space-y-4">
-                                {[
-                                    { icon: 'Globe2', title: 'Accessible to every student', text: 'Reliable information, within reach for all.' },
-                                    { icon: 'ShieldCheck', title: 'Transparent by default', text: 'Clear, honest, verifiable details.' },
-                                    { icon: 'TrendingUp', title: 'Built for the future', text: 'Connecting today\'s choice to tomorrow\'s career.' },
-                                ].map((p) => (
-                                    <div key={p.title} className="flex items-start gap-4 rounded-2xl bg-white/[0.07] border border-white/10 backdrop-blur-sm p-5 hover:bg-white/[0.12] transition-colors duration-300">
-                                        <span className="w-11 h-11 rounded-xl bg-orange-500/20 flex items-center justify-center flex-shrink-0">
-                                            <Icon name={p.icon} className="w-5 h-5 text-orange-300" />
-                                        </span>
-                                        <div>
-                                            <h3 className="font-bold text-white">{p.title}</h3>
-                                            <p className="text-sm text-blue-100/80 mt-0.5">{p.text}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                        {/* Right — editorial quote block */}
+                        <Reveal delay={120} className="lg:col-span-7">
+                            <figure className="relative lg:pl-12">
+                                {/* accent rule */}
+                                <span className="hidden lg:block absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-orange-400/70 via-white/20 to-transparent" />
+                                {/* oversized quotation mark */}
+                                <span className="block font-serif text-7xl md:text-8xl leading-none text-orange-400/40 select-none -mb-6 md:-mb-8">&ldquo;</span>
+                                <blockquote className="text-2xl md:text-3xl xl:text-[2.15rem] font-semibold text-white leading-[1.35] tracking-tight">
+                                    Every student deserves to choose their future with
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300"> clarity, not confusion</span>
+                                    — and we&apos;re building the platform that makes it possible.
+                                </blockquote>
+                                <figcaption className="mt-8 flex items-center gap-3 text-sm">
+                                    <span className="w-8 h-px bg-orange-400" />
+                                    <span className="font-semibold text-white">The JustEducation Vision</span>
+                                </figcaption>
+                            </figure>
                         </Reveal>
                     </div>
                 </div>

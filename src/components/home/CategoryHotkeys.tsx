@@ -26,7 +26,7 @@ export default function CategoryHotkeys() {
           {categories.map((cat) => (
             <Link
               key={cat.value}
-              href={`/category/${cat.value}`}
+              href={`/browse?type=${cat.value}`}
               className="flex flex-col items-center gap-2 shrink-0 group"
             >
               <div

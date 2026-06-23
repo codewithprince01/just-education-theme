@@ -35,7 +35,7 @@ export default function CityHero({ city, cityName }: CityHeroProps) {
         <nav className="flex items-center gap-2 text-blue-200/70 text-sm mb-6" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
           <ChevronRight size={14} />
-          <Link href="/city" className="hover:text-white transition-colors">Cities</Link>
+          <Link href="/browse" className="hover:text-white transition-colors">Browse</Link>
           <ChevronRight size={14} />
           <span className="text-white font-medium">{cityName}</span>
         </nav>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Calendar, MessageCircle, Clock, MapPin, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, MapPin, ShieldCheck } from 'lucide-react';
 import { heroContent, heroStats, type HeroStat } from '@/data/contactConfig';
 import { useCountUp } from './useCountUp';
 
@@ -30,7 +30,7 @@ function StatCounter({ stat, index }: { stat: HeroStat; index: number }) {
 }
 
 export default function ContactHero() {
-    const { badge, title, highlight, subtitle, description, primaryCta, secondaryCta } =
+    const { title, highlight, subtitle, description, primaryCta, secondaryCta } =
         heroContent;
     const [before, after] = title.split(highlight);
 
@@ -56,19 +56,11 @@ export default function ContactHero() {
                 }}
             />
 
-            <div className="container relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-28 lg:px-8">
-                <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-14">
+            <div className="container relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+                <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12">
                     {/* Left: copy + CTAs */}
                     <div className="je-animate-fade-up lg:col-span-7">
-                        <span className="inline-flex items-center gap-2.5 rounded-full border border-orange-400/30 bg-orange-500/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-orange-200 backdrop-blur-sm">
-                            <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-400" />
-                            </span>
-                            {badge}
-                        </span>
-
-                        <h1 className="mt-6 text-4xl font-black leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.25rem]">
+                        <h1 className="text-4xl font-black leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl xl:text-[4.25rem]">
                             {before}
                             <span className="bg-gradient-to-r from-orange-300 via-orange-400 to-amber-400 bg-clip-text text-transparent">
                                 {highlight}
@@ -76,14 +68,14 @@ export default function ContactHero() {
                             {after}
                         </h1>
 
-                        <p className="mt-6 max-w-xl text-lg font-semibold text-blue-50 sm:text-xl">
+                        <p className="mt-5 max-w-xl text-lg font-semibold text-blue-50 sm:text-xl">
                             {subtitle}
                         </p>
-                        <p className="mt-4 max-w-xl text-base leading-relaxed text-blue-100/80">
+                        <p className="mt-3 max-w-xl text-base leading-relaxed text-blue-100/80">
                             {description}
                         </p>
 
-                        <div className="mt-9 flex flex-wrap gap-4">
+                        <div className="mt-7 flex flex-wrap gap-4">
                             <a
                                 href={primaryCta.href}
                                 className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3.5 font-bold text-white shadow-lg shadow-orange-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-orange-900/40"
@@ -101,7 +93,7 @@ export default function ContactHero() {
                         </div>
 
                         {/* Trust signals */}
-                        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-7">
+                        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6">
                             {trustSignals.map(({ icon: Icon, label }) => (
                                 <div
                                     key={label}

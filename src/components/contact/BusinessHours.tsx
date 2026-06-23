@@ -8,9 +8,8 @@ import SectionHeading from './SectionHeading';
 export default function BusinessHours() {
     return (
         <section className="bg-white border-y border-gray-100">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-16 md:py-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl py-8 md:py-10">
                 <SectionHeading
-                    eyebrow="Business Hours"
                     title="When we're available"
                     description="Our teams operate across Indian time zones, with round-the-clock emergency cover."
                 />

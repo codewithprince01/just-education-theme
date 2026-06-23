@@ -14,9 +14,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
     Building2,
-    Map as MapIcon,
-    Users,
-    LifeBuoy,
     Search,
     MapPin,
     Phone,
@@ -34,12 +31,10 @@ import {
 
 import {
     offices,
-    mapStats,
     INDIA_VIEW,
     googleDirectionsLink,
     haversineKm,
     type Office,
-    type MapStat,
 } from '@/data/contactConfig';
 import { useCountUp } from './useCountUp';
 import Reveal from './Reveal';
@@ -71,12 +66,6 @@ const MAP_STYLE: StyleSpecification = {
     ],
 };
 
-const STAT_ICONS: Record<string, typeof Building2> = {
-    Building2,
-    Map: MapIcon,
-    Users,
-    LifeBuoy,
-};
 
 export default function OfficeLocator() {
     const headquarters = useMemo(
@@ -318,12 +307,9 @@ export default function OfficeLocator() {
             id="india-map"
             className="scroll-mt-24 bg-gradient-to-b from-gray-50 via-white to-gray-50"
         >
-            <div className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8">
+            <div className="container mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 md:pb-20 md:pt-10 lg:px-8">
                 {/* Heading */}
-                <Reveal className="mx-auto mb-10 max-w-2xl text-center">
-                    <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#F57C00]">
-                        <MapPin className="h-3.5 w-3.5" /> Find Us
-                    </span>
+                <Reveal className="mx-auto mb-6 max-w-2xl text-center">
                     <h2 className="text-2xl font-extrabold tracking-tight text-[#0B3C5D] md:text-4xl">
                         Visit a Just Education office near you
                     </h2>
@@ -332,13 +318,6 @@ export default function OfficeLocator() {
                         or state, or locate the office closest to you on the live map.
                     </p>
                 </Reveal>
-
-                {/* Animated statistics */}
-                <div className="mb-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-                    {mapStats.map((stat, i) => (
-                        <StatCard key={stat.id} stat={stat} index={i} />
-                    ))}
-                </div>
 
                 {/* Split layout: directory (30%) + interactive map (70%) */}
                 <div className="grid grid-cols-1 gap-5 lg:grid-cols-10">
@@ -399,7 +378,7 @@ export default function OfficeLocator() {
                             </span>
                         </div>
 
-                        <div className="flex-1 space-y-2.5 overflow-y-auto px-4 pb-4 pt-1">
+                        <div className="flex-1 space-y-2.5 overflow-y-auto scrollbar-hide px-4 pb-4 pt-1">
                             {filtered.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-12 text-center text-gray-400">
                                     <Search className="mb-2 h-7 w-7" />
@@ -485,38 +464,6 @@ export default function OfficeLocator() {
 // Sub-components
 // ===========================================================================
 
-function StatCard({ stat, index }: { stat: MapStat; index: number }) {
-    const { ref, value } = useCountUp(stat.value);
-    const Icon = STAT_ICONS[stat.icon] ?? Building2;
-    return (
-        <Reveal delay={index * 80} direction="up">
-            <div
-                ref={ref}
-                className="relative overflow-hidden rounded-2xl border border-white/70 bg-white/70 p-4 shadow-sm ring-1 ring-black/[0.03] backdrop-blur-md sm:p-5"
-            >
-                <div
-                    aria-hidden="true"
-                    className="absolute -right-5 -top-5 h-16 w-16 rounded-full bg-orange-100/70 blur-xl"
-                />
-                <div className="relative flex items-center gap-3">
-                    <span className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[#FF9838] to-[#E65100] text-white shadow-md">
-                        <Icon className="h-5 w-5" />
-                    </span>
-                    <div className="min-w-0">
-                        <div className="text-2xl font-black leading-none text-[#0B3C5D] sm:text-3xl">
-                            {stat.prefix}
-                            {value}
-                            {stat.suffix}
-                        </div>
-                        <div className="mt-1 truncate text-xs font-semibold text-gray-500">
-                            {stat.label}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Reveal>
-    );
-}
 
 function MarkerPin({
     office,

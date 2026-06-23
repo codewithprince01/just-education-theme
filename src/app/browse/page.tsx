@@ -5,17 +5,14 @@ interface PageProps {
   searchParams: Promise<{
     city?: string;
     type?: string;
-    state?: string;
-    affiliation?: string;
-    feeRange?: string;
-    minRating?: string;
+    q?: string;
   }>;
 }
 
 export const metadata: Metadata = {
   title: 'Browse Institutions in India – Fees, Rankings & Reviews | JustEducation',
   description:
-    'Browse top universities, colleges, schools, coaching centres and more across India. Filter by city, state, type, fees, affiliation and rating.',
+    'Browse top universities, colleges, schools, coaching centres and more across India. Filter by city, type and course.',
 };
 
 export default async function BrowsePage({ searchParams }: PageProps) {
@@ -24,12 +21,10 @@ export default async function BrowsePage({ searchParams }: PageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pb-16">
       <InstitutionsBrowserClient
+        key={`${params.city ?? ''}|${params.type ?? ''}|${params.q ?? ''}`}
         initialCity={params.city}
         initialType={params.type}
-        initialState={params.state}
-        initialAffiliation={params.affiliation}
-        initialFeeRange={params.feeRange}
-        initialMinRating={params.minRating}
+        initialSearch={params.q}
       />
     </div>
   );

@@ -28,6 +28,8 @@ interface InstitutionResultsProps {
   onApply: (college: CollegeInCity, mode: ActionModalMode) => void;
   onCompare: (college: CollegeInCity, highlight: CompareHighlight) => void;
   onShowRanking: (college: CollegeInCity) => void;
+  /** Rank offset for the current page (e.g. 10 on page 2 → ranks start at #11). */
+  startIndex?: number;
 }
 
 export default function InstitutionResults({
@@ -43,6 +45,7 @@ export default function InstitutionResults({
   onApply,
   onCompare,
   onShowRanking,
+  startIndex = 0,
 }: InstitutionResultsProps) {
   if (layout === 'table') {
     return (
@@ -65,7 +68,7 @@ export default function InstitutionResults({
                 return (
                   <tr key={college.id} className={`border-b border-gray-100 last:border-0 transition-colors hover:bg-blue-50/10 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/10'}`}>
                     <td className="px-5 py-6 align-top text-center w-20">
-                      <span className="font-extrabold text-[#0a2540] text-lg">#{index + 1}</span>
+                      <span className="font-extrabold text-[#0a2540] text-lg">#{startIndex + index + 1}</span>
                     </td>
                     <td className="px-5 py-6 align-top min-w-[340px]">
                       <div className="flex items-start gap-4">
@@ -186,7 +189,7 @@ export default function InstitutionResults({
             <div key={college.id} className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col md:flex-row gap-5 shadow-sm hover:shadow-md transition-all relative overflow-hidden">
               <div className="w-full md:w-48 h-32 flex-shrink-0 rounded-xl overflow-hidden border border-gray-200 relative bg-gray-50">
                 <img src={college.image} alt={college.name} className="w-full h-full object-cover" loading="lazy" />
-                <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm text-white font-bold text-[10px] rounded-full uppercase tracking-wider">Rank #{index + 1}</span>
+                <span className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 backdrop-blur-sm text-white font-bold text-[10px] rounded-full uppercase tracking-wider">Rank #{startIndex + index + 1}</span>
               </div>
               <div className="flex-1 flex flex-col justify-between min-w-0">
                 <div>
@@ -261,7 +264,7 @@ export default function InstitutionResults({
           <div key={college.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
             <div className="h-44 bg-gray-150 relative">
               <img src={college.image} alt={college.name} className="w-full h-full object-cover" loading="lazy" />
-              <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Rank #{index + 1}</div>
+              <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Rank #{startIndex + index + 1}</div>
               <button onClick={() => onToggleSave(college.id)} className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white shadow-sm transition-all cursor-pointer">
                 <Heart size={14} className={savedColleges.includes(college.id) ? 'fill-red-500 text-red-500' : 'text-gray-500'} />
               </button>

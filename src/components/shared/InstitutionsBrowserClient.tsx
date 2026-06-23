@@ -24,14 +24,8 @@ interface Props {
   initialCity?: string;
   /** Pre-select an institution type (e.g. 'UNIVERSITY'). Defaults to 'ALL'. */
   initialType?: string;
-  /** Pre-select a state (e.g. 'Maharashtra'). Defaults to 'ALL'. */
-  initialState?: string;
-  /** Pre-select an affiliation/accreditation (e.g. 'NAAC A+'). Defaults to 'ALL'. */
-  initialAffiliation?: string;
-  /** Pre-select a fee range bracket (e.g. '1l_3l'). Defaults to 'ALL'. */
-  initialFeeRange?: string;
-  /** Pre-select a minimum rating (e.g. '4'). Defaults to 'ALL'. */
-  initialMinRating?: string;
+  /** Pre-fill the name/course search box (e.g. from the global search bar). */
+  initialSearch?: string;
 }
 
 const INDIA_META = {
@@ -46,49 +40,6 @@ const INDIA_META = {
   heroImage: '',
 };
 
-const FEE_RANGES = [
-  { value: 'under_1l', label: 'Under ₹1 Lakh' },
-  { value: '1l_3l', label: '₹1L – ₹3L' },
-  { value: '3l_5l', label: '₹3L – ₹5L' },
-  { value: 'above_5l', label: 'Above ₹5L' },
-];
-
-const MIN_RATINGS = [
-  { value: '3', label: '3+ ★' },
-  { value: '3.5', label: '3.5+ ★' },
-  { value: '4', label: '4+ ★' },
-  { value: '4.5', label: '4.5+ ★' },
-];
-
-const REGIONS = [
-  { value: 'north', label: 'North India' },
-  { value: 'south', label: 'South India' },
-  { value: 'east',  label: 'East India' },
-  { value: 'west',  label: 'West India' },
-  { value: 'central', label: 'Central India' },
-  { value: 'northeast', label: 'Northeast India' },
-];
-
-const STATE_TO_REGION: Record<string, string> = {
-  // North
-  Delhi: 'north', Haryana: 'north', 'Himachal Pradesh': 'north',
-  'Jammu & Kashmir': 'north', Punjab: 'north', Rajasthan: 'north',
-  Uttarakhand: 'north', 'Uttar Pradesh': 'north', Ladakh: 'north',
-  // South
-  'Andhra Pradesh': 'south', Karnataka: 'south', Kerala: 'south',
-  'Tamil Nadu': 'south', Telangana: 'south',
-  // East
-  Bihar: 'east', Jharkhand: 'east', Odisha: 'east', 'West Bengal': 'east',
-  // West
-  Goa: 'west', Gujarat: 'west', Maharashtra: 'west',
-  // Central
-  Chhattisgarh: 'central', 'Madhya Pradesh': 'central',
-  // Northeast
-  Assam: 'northeast', Manipur: 'northeast', Meghalaya: 'northeast',
-  Mizoram: 'northeast', Nagaland: 'northeast', Sikkim: 'northeast',
-  Tripura: 'northeast', 'Arunachal Pradesh': 'northeast',
-};
-
 function matchesAdvFilter(item: CollegeInCity, key: string, value: string) {
   const fv = item[key as keyof CollegeInCity];
   return Array.isArray(fv) ? fv.includes(value) : fv === value;
@@ -97,37 +48,28 @@ function matchesAdvFilter(item: CollegeInCity, key: string, value: string) {
 export default function InstitutionsBrowserClient({
   initialCity,
   initialType,
-  initialState,
-  initialAffiliation,
-  initialFeeRange,
-  initialMinRating,
+  initialSearch,
 }: Props) {
-  /* ── global filter state ── */
+  /* ── city (controlled by the search bar / URL) ── */
   const [selectedCity, setSelectedCity] = useState(initialCity ?? 'ALL');
-  const [selectedRegion, setSelectedRegion] = useState('ALL');
-  const [selectedState, setSelectedState] = useState(initialState ?? 'ALL');
-  const [selectedAffiliation, setSelectedAffiliation] = useState(initialAffiliation ?? 'ALL');
-  const [selectedFeeRange, setSelectedFeeRange] = useState(initialFeeRange ?? 'ALL');
-  const [selectedMinRating, setSelectedMinRating] = useState(initialMinRating ?? 'ALL');
-
-  /* ── global filter dropdown ── */
-  const [openGlobalFilter, setOpenGlobalFilter] = useState<string | null>(null);
-  const [globalFilterPos, setGlobalFilterPos] = useState<{ top: number; left: number } | null>(null);
 
   /* ── category filter state ── */
   const [selectedType, setSelectedType] = useState(initialType ?? 'ALL');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialSearch ?? '');
   const [advancedFilters, setAdvancedFilters] = useState<Record<string, string | null>>({});
   const [openFilterKey, setOpenFilterKey] = useState<string | null>(null);
   const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number } | null>(null);
   const [sortBy, setSortBy] = useState('popularity');
   const [layout, setLayout] = useState<'table' | 'list' | 'grid'>('table');
 
+  /* ── pagination (single-type view) ── */
+  const PAGE_SIZE_OPTIONS = [10, 20, 30, 50, 100];
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+
   /* ── close all dropdowns on scroll ── */
   useEffect(() => {
     const closeAll = () => {
-      setOpenGlobalFilter(null);
-      setGlobalFilterPos(null);
       setOpenFilterKey(null);
       setDropdownPos(null);
     };
@@ -176,52 +118,6 @@ export default function InstitutionsBrowserClient({
   const clearAdvFilters = () => setAdvancedFilters({});
   const advFilterCount = Object.values(advancedFilters).filter(Boolean).length;
 
-  /* ── global filter dropdown helpers ── */
-  const openGF = (key: string, e: React.MouseEvent<HTMLButtonElement>) => {
-    if (openGlobalFilter === key) { setOpenGlobalFilter(null); setGlobalFilterPos(null); return; }
-    const rect = e.currentTarget.getBoundingClientRect();
-    setGlobalFilterPos({ top: rect.bottom + 8, left: rect.left });
-    setOpenGlobalFilter(key);
-  };
-  const closeGF = () => { setOpenGlobalFilter(null); setGlobalFilterPos(null); };
-
-  const globalFilterCount = [
-    selectedCity !== 'ALL',
-    selectedRegion !== 'ALL',
-    selectedState !== 'ALL',
-    selectedAffiliation !== 'ALL',
-    selectedFeeRange !== 'ALL',
-    selectedMinRating !== 'ALL',
-  ].filter(Boolean).length;
-
-  const clearGlobalFilters = () => {
-    setSelectedCity('ALL');
-    setSelectedRegion('ALL');
-    setSelectedState('ALL');
-    setSelectedAffiliation('ALL');
-    setSelectedFeeRange('ALL');
-    setSelectedMinRating('ALL');
-    closeGF();
-  };
-
-  /* ── derived options for global filters ── */
-  const availableStates = useMemo(() => {
-    const states = new Set<string>();
-    topCollegesInCity.forEach((item) => {
-      const state = item.state ?? (item.city ? cityMeta[item.city]?.state : undefined);
-      if (state) states.add(state);
-    });
-    return Array.from(states).sort();
-  }, []);
-
-  const availableAffiliations = useMemo(() => {
-    const vals = new Set<string>();
-    topCollegesInCity.forEach((item) => {
-      if (item.accreditation) vals.add(item.accreditation);
-    });
-    return Array.from(vals).sort();
-  }, []);
-
   /* ── display strings ── */
   const cityName = selectedCity === 'ALL' ? 'India' : (cityMeta[selectedCity]?.name ?? 'India');
   const cityState = selectedCity === 'ALL' ? 'All States' : (cityMeta[selectedCity]?.state ?? '');
@@ -237,16 +133,6 @@ export default function InstitutionsBrowserClient({
       { ALL: base.length },
     );
   }, [selectedCity]);
-
-  const cityCounts = useMemo(() => {
-    const base = selectedType === 'ALL'
-      ? topCollegesInCity
-      : topCollegesInCity.filter((c) => c.institutionType === selectedType);
-    return Object.keys(cityMeta).reduce<Record<string, number>>(
-      (acc, slug) => { acc[slug] = base.filter((c) => (c.city ?? 'pune') === slug).length; return acc; },
-      { ALL: base.length },
-    );
-  }, [selectedType]);
 
   /* ── advanced filter config (type-dependent) ── */
   const activeFilterConfig = institutionFilterConfig[selectedType] ?? [];
@@ -281,32 +167,13 @@ export default function InstitutionsBrowserClient({
       if (selectedType !== 'ALL' && item.institutionType !== selectedType) return false;
       if (selectedCity !== 'ALL' && (item.city ?? 'pune') !== selectedCity) return false;
 
-      // Global filters
-      if (selectedRegion !== 'ALL') {
-        const itemState = item.state ?? (item.city ? cityMeta[item.city]?.state : undefined);
-        if (!itemState || STATE_TO_REGION[itemState] !== selectedRegion) return false;
-      }
-      if (selectedState !== 'ALL') {
-        const itemState = item.state ?? (item.city ? cityMeta[item.city]?.state : undefined);
-        if (itemState !== selectedState) return false;
-      }
-      if (selectedAffiliation !== 'ALL' && item.accreditation !== selectedAffiliation) return false;
-      if (selectedMinRating !== 'ALL' && item.rating < parseFloat(selectedMinRating)) return false;
-      if (selectedFeeRange !== 'ALL') {
-        const minFee = getMinFee(item.fees);
-        if (selectedFeeRange === 'under_1l' && minFee >= 100000) return false;
-        if (selectedFeeRange === '1l_3l' && (minFee < 100000 || minFee >= 300000)) return false;
-        if (selectedFeeRange === '3l_5l' && (minFee < 300000 || minFee >= 500000)) return false;
-        if (selectedFeeRange === 'above_5l' && minFee < 500000) return false;
-      }
-
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         if (!item.name.toLowerCase().includes(q) && !item.courses?.some((c) => c.toLowerCase().includes(q))) return false;
       }
       return Object.entries(advancedFilters).every(([k, v]) => !v || matchesAdvFilter(item, k, v));
     });
-  }, [selectedType, selectedCity, selectedRegion, selectedState, selectedAffiliation, selectedMinRating, selectedFeeRange, searchQuery, advancedFilters]);
+  }, [selectedType, selectedCity, searchQuery, advancedFilters]);
 
   const sortedInstitutions = useMemo(() => {
     return [...filteredInstitutions].sort((a, b) => {
@@ -316,6 +183,25 @@ export default function InstitutionsBrowserClient({
       return 0;
     });
   }, [filteredInstitutions, sortBy]);
+
+  /* ── pagination math (single-type view) ── */
+  const totalPages = Math.max(1, Math.ceil(sortedInstitutions.length / pageSize));
+
+  // Reset to the first page whenever the result set or page size changes
+  // (adjust-state-during-render — no effect, no cascading renders).
+  const resetKey = `${selectedType}|${selectedCity}|${searchQuery}|${JSON.stringify(advancedFilters)}|${sortBy}|${pageSize}`;
+  const [prevResetKey, setPrevResetKey] = useState(resetKey);
+  if (resetKey !== prevResetKey) {
+    setPrevResetKey(resetKey);
+    setCurrentPage(1);
+  }
+
+  const safePage = Math.min(currentPage, totalPages);
+  const pageStart = (safePage - 1) * pageSize;
+  const paginatedInstitutions = useMemo(
+    () => sortedInstitutions.slice(pageStart, pageStart + pageSize),
+    [sortedInstitutions, pageStart, pageSize]
+  );
 
   /* ── grouped view (when type=ALL) ── */
   const groupedInstitutions = useMemo(() => {
@@ -341,11 +227,6 @@ export default function InstitutionsBrowserClient({
   const activePill = 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20';
   const inactivePill = 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600';
   const pillCount = (active: boolean) => `text-xs px-1.5 py-0.5 rounded-full ${active ? 'bg-white/20' : 'bg-gray-100'}`;
-
-  /* ── global filter pill classes ── */
-  const gfActive = 'bg-blue-50 text-blue-700 border-blue-300';
-  const gfInactive = 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600';
-  const gfBase = 'flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-semibold border transition-all duration-200 cursor-pointer shadow-sm';
 
   /* ── heading text ── */
   const headingText = (() => {
@@ -391,134 +272,6 @@ export default function InstitutionsBrowserClient({
               {searchQuery && (
                 <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
                   <X size={14} />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* ── GLOBAL FILTERS ── */}
-          <div className="relative mb-5">
-            {/* Backdrop for global filter dropdowns */}
-            {openGlobalFilter && (
-              <div className="fixed inset-0 z-[998]" onClick={closeGF} />
-            )}
-
-            {/* Global filter dropdown panel */}
-            {openGlobalFilter && globalFilterPos && (() => {
-              const configs: Record<string, { options: { value: string; label: string }[]; current: string; onSelect: (v: string) => void }> = {
-                city: {
-                  options: [
-                    { value: 'ALL', label: 'All Cities' },
-                    ...Object.entries(cityMeta).map(([slug, city]) => ({
-                      value: slug,
-                      label: `${city.name}  (${cityCounts[slug] ?? 0})`,
-                    })),
-                  ],
-                  current: selectedCity,
-                  onSelect: (v) => { setSelectedCity(v); closeGF(); },
-                },
-                region: {
-                  options: [{ value: 'ALL', label: 'All India' }, ...REGIONS],
-                  current: selectedRegion,
-                  onSelect: (v) => { setSelectedRegion(v); closeGF(); },
-                },
-                state: {
-                  options: [
-                    { value: 'ALL', label: 'All States' },
-                    ...availableStates.map((s) => ({ value: s, label: s })),
-                  ],
-                  current: selectedState,
-                  onSelect: (v) => { setSelectedState(v); closeGF(); },
-                },
-                affiliation: {
-                  options: [
-                    { value: 'ALL', label: 'All Affiliations' },
-                    ...availableAffiliations.map((a) => ({ value: a, label: a })),
-                  ],
-                  current: selectedAffiliation,
-                  onSelect: (v) => { setSelectedAffiliation(v); closeGF(); },
-                },
-                feeRange: {
-                  options: [{ value: 'ALL', label: 'Any Fee' }, ...FEE_RANGES],
-                  current: selectedFeeRange,
-                  onSelect: (v) => { setSelectedFeeRange(v); closeGF(); },
-                },
-                minRating: {
-                  options: [{ value: 'ALL', label: 'Any Rating' }, ...MIN_RATINGS],
-                  current: selectedMinRating,
-                  onSelect: (v) => { setSelectedMinRating(v); closeGF(); },
-                },
-              };
-              const cfg = configs[openGlobalFilter];
-              if (!cfg) return null;
-              return (
-                <div
-                  className="fixed z-[999] w-52 bg-white rounded-xl border border-gray-200 shadow-xl p-1.5 max-h-72 overflow-y-auto [scrollbar-width:thin]"
-                  style={{ top: globalFilterPos.top, left: globalFilterPos.left }}
-                >
-                  {cfg.options.map((opt) => (
-                    <button
-                      key={opt.value}
-                      onClick={() => cfg.onSelect(opt.value)}
-                      className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm transition-colors cursor-pointer ${cfg.current === opt.value ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-700 hover:bg-gray-50'
-                        }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              );
-            })()}
-
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider flex-shrink-0 mr-1">Filters:</span>
-
-              {/* City */}
-              <button onClick={(e) => openGF('city', e)} className={`${gfBase} ${selectedCity !== 'ALL' ? gfActive : gfInactive}`}>
-                {selectedCity === 'ALL' ? 'City' : cityMeta[selectedCity]?.name}
-                {selectedCity !== 'ALL' && (
-                  <span className="text-xs bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded-full">{cityCounts[selectedCity] ?? 0}</span>
-                )}
-                <ChevronDown size={13} className={`transition-transform ${openGlobalFilter === 'city' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Region */}
-              <button onClick={(e) => openGF('region', e)} className={`${gfBase} ${selectedRegion !== 'ALL' ? gfActive : gfInactive}`}>
-                {selectedRegion === 'ALL' ? 'Region' : REGIONS.find((r) => r.value === selectedRegion)?.label}
-                <ChevronDown size={13} className={`transition-transform ${openGlobalFilter === 'region' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* State */}
-              <button onClick={(e) => openGF('state', e)} className={`${gfBase} ${selectedState !== 'ALL' ? gfActive : gfInactive}`}>
-                {selectedState === 'ALL' ? 'State' : selectedState}
-                <ChevronDown size={13} className={`transition-transform ${openGlobalFilter === 'state' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Affiliation */}
-              <button onClick={(e) => openGF('affiliation', e)} className={`${gfBase} ${selectedAffiliation !== 'ALL' ? gfActive : gfInactive}`}>
-                {selectedAffiliation === 'ALL' ? 'Affiliation' : selectedAffiliation}
-                <ChevronDown size={13} className={`transition-transform ${openGlobalFilter === 'affiliation' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Fee Range */}
-              <button onClick={(e) => openGF('feeRange', e)} className={`${gfBase} ${selectedFeeRange !== 'ALL' ? gfActive : gfInactive}`}>
-                {selectedFeeRange === 'ALL' ? 'Fee Range' : FEE_RANGES.find((r) => r.value === selectedFeeRange)?.label}
-                <ChevronDown size={13} className={`transition-transform ${openGlobalFilter === 'feeRange' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Min Rating */}
-              <button onClick={(e) => openGF('minRating', e)} className={`${gfBase} ${selectedMinRating !== 'ALL' ? gfActive : gfInactive}`}>
-                {selectedMinRating === 'ALL' ? 'Rating' : `${selectedMinRating}+ ★`}
-                <ChevronDown size={13} className={`transition-transform ${openGlobalFilter === 'minRating' ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Clear global filters */}
-              {globalFilterCount > 0 && (
-                <button
-                  onClick={clearGlobalFilters}
-                  className="flex items-center gap-1 px-3 py-2 text-sm font-semibold text-red-600 hover:text-red-700 flex-shrink-0 cursor-pointer bg-transparent border-0"
-                >
-                  <X size={13} /> Clear ({globalFilterCount})
                 </button>
               )}
             </div>
@@ -613,6 +366,23 @@ export default function InstitutionsBrowserClient({
                     ))}
                   </div>
                 </div>
+                {selectedType !== 'ALL' && (
+                  <>
+                    <div className="hidden md:block h-6 w-px bg-gray-200" />
+                    <label className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 font-semibold">
+                      <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Show:</span>
+                      <select
+                        value={pageSize}
+                        onChange={(e) => setPageSize(Number(e.target.value))}
+                        className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 cursor-pointer"
+                      >
+                        {PAGE_SIZE_OPTIONS.map((n) => (
+                          <option key={n} value={n}>{n}</option>
+                        ))}
+                      </select>
+                    </label>
+                  </>
+                )}
                 <div className="hidden md:block h-6 w-px bg-gray-200" />
                 <div className="flex items-center bg-gray-100 rounded-xl p-1 gap-1">
                   {[{ value: 'table', icon: Table, tooltip: 'Table View' }, { value: 'list', icon: List, tooltip: 'List View' }, { value: 'grid', icon: LayoutGrid, tooltip: 'Grid View' }].map((btn) => (
@@ -634,16 +404,15 @@ export default function InstitutionsBrowserClient({
               <p className="text-gray-500 font-medium">
                 No {selectedType === 'ALL' ? 'institutions' : typeLabel.toLowerCase()}
                 {selectedCity !== 'ALL' ? ` found in ${cityName}` : ''}
-                {(advFilterCount + globalFilterCount) > 0 ? ' matching the selected filters' : ''}.
+                {advFilterCount > 0 ? ' matching the selected filters' : ''}.
               </p>
-              {(selectedCity !== 'ALL' || selectedType !== 'ALL' || advFilterCount > 0 || searchQuery || globalFilterCount > 0) && (
+              {(selectedCity !== 'ALL' || selectedType !== 'ALL' || advFilterCount > 0 || searchQuery) && (
                 <button
                   onClick={() => {
                     setSelectedCity('ALL');
                     setSelectedType('ALL');
                     clearAdvFilters();
                     setSearchQuery('');
-                    clearGlobalFilters();
                   }}
                   className="mt-4 text-blue-600 font-semibold text-sm hover:underline"
                 >
@@ -704,20 +473,75 @@ export default function InstitutionsBrowserClient({
 
           ) : (
             /* single-type view */
-            <InstitutionResults
-              layout={layout}
-              items={sortedInstitutions}
-              headers={TABLE_HEADER_CONFIG[selectedType] ?? TABLE_HEADER_CONFIG.COLLEGE}
-              cityName={cityName}
-              cityState={cityState}
-              savedColleges={savedColleges}
-              checkedCollegesForCompare={checkedCollegesForCompare}
-              onToggleSave={toggleSave}
-              onToggleCompareCheckbox={handleCompareCheckbox}
-              onApply={openActionModal}
-              onCompare={openCompareForCollege}
-              onShowRanking={setSelectedCollegeForRanking}
-            />
+            <>
+              <InstitutionResults
+                layout={layout}
+                items={paginatedInstitutions}
+                startIndex={pageStart}
+                headers={TABLE_HEADER_CONFIG[selectedType] ?? TABLE_HEADER_CONFIG.COLLEGE}
+                cityName={cityName}
+                cityState={cityState}
+                savedColleges={savedColleges}
+                checkedCollegesForCompare={checkedCollegesForCompare}
+                onToggleSave={toggleSave}
+                onToggleCompareCheckbox={handleCompareCheckbox}
+                onApply={openActionModal}
+                onCompare={openCompareForCollege}
+                onShowRanking={setSelectedCollegeForRanking}
+              />
+
+              {/* ── Pagination ── */}
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p className="text-sm text-gray-500">
+                  Showing <span className="font-semibold text-gray-700">{pageStart + 1}</span>–
+                  <span className="font-semibold text-gray-700">{Math.min(pageStart + pageSize, sortedInstitutions.length)}</span>
+                  {' '}of <span className="font-semibold text-gray-700">{sortedInstitutions.length}</span>
+                </p>
+
+                {totalPages > 1 && (
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => setCurrentPage(Math.max(1, safePage - 1))}
+                      disabled={safePage === 1}
+                      className="px-3 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-600 enabled:hover:border-blue-300 enabled:hover:text-blue-600 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                    >
+                      Prev
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1)
+                      .filter((p) => p === 1 || p === totalPages || Math.abs(p - safePage) <= 1)
+                      .reduce<(number | 'gap')[]>((acc, p, idx, arr) => {
+                        if (idx > 0 && p - (arr[idx - 1] as number) > 1) acc.push('gap');
+                        acc.push(p);
+                        return acc;
+                      }, [])
+                      .map((p, i) =>
+                        p === 'gap' ? (
+                          <span key={`gap-${i}`} className="px-2 text-gray-400">…</span>
+                        ) : (
+                          <button
+                            key={p}
+                            onClick={() => setCurrentPage(p)}
+                            className={`min-w-[2.25rem] px-3 py-2 rounded-lg text-sm font-semibold border transition-colors cursor-pointer ${
+                              safePage === p
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:text-blue-600'
+                            }`}
+                          >
+                            {p}
+                          </button>
+                        )
+                      )}
+                    <button
+                      onClick={() => setCurrentPage(Math.min(totalPages, safePage + 1))}
+                      disabled={safePage === totalPages}
+                      className="px-3 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-600 enabled:hover:border-blue-300 enabled:hover:text-blue-600 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
 

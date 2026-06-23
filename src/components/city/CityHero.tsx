@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { MapPin, ChevronRight } from 'lucide-react';
 import { CityMetaItem } from '@/data/cityData';
+import JustDialSearchBar from '@/components/layout/JustDialSearchBar';
 
 interface CityHeroProps {
   city: CityMetaItem;
@@ -9,7 +11,7 @@ interface CityHeroProps {
 
 export default function CityHero({ city, cityName }: CityHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#0a2540] via-[#0d3868] to-[#1a5276]" id="city-hero">
+    <section className="relative z-30 bg-gradient-to-br from-[#0a2540] via-[#0d3868] to-[#1a5276]" id="city-hero">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse" />
@@ -53,6 +55,13 @@ export default function CityHero({ city, cityName }: CityHeroProps) {
             <p className="text-lg text-blue-100/80 mb-2 font-medium italic">&quot;{city.tagline}&quot;</p>
             <p className="text-blue-200/70 text-base max-w-2xl leading-relaxed">{city.description}</p>
           </div>
+        </div>
+
+        {/* Editable search — change city / category right from the browse page */}
+        <div className="relative z-20">
+          <Suspense fallback={<div className="h-16 bg-white/10 rounded-2xl animate-pulse max-w-4xl mx-auto" />}>
+            <JustDialSearchBar />
+          </Suspense>
         </div>
       </div>
     </section>

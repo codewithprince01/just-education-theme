@@ -19,13 +19,31 @@ export default function AboutInstitute() {
     <section id="section-overview" className="py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-start">
-          {/* Image column (40%) */}
-          <div className="lg:col-span-2">
+          {/* Image + Mission/Vision column (40%) */}
+          <div className="lg:col-span-2 flex flex-col gap-5">
             <img
               src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop"
               alt="APEX Coaching classroom"
               className="w-full rounded-2xl object-cover shadow-md aspect-[4/3]"
             />
+
+            {/* Our Mission */}
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/60 p-5">
+              <h3 className="font-bold text-[#0a2540] text-base mb-2">Our Mission</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                To democratise access to quality coaching and empower every student — regardless of background —
+                with the knowledge, skills, and mindset required to excel in India&rsquo;s most competitive examinations.
+              </p>
+            </div>
+
+            {/* Our Vision */}
+            <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+              <h3 className="font-bold text-[#0a2540] text-base mb-2">Our Vision</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                To be India&rsquo;s most impactful education organisation — one that not only produces toppers,
+                but cultivates lifelong learners who contribute meaningfully to society and the nation.
+              </p>
+            </div>
           </div>
 
           {/* Content column (60%) */}
@@ -48,13 +66,6 @@ export default function AboutInstitute() {
               we bring real-world achievement into every classroom, inspiring students to reach their full potential.
             </p>
 
-            {/* Our Mission */}
-            <h3 className="font-bold text-[#0a2540] text-lg mb-2">Our Mission</h3>
-            <p className="text-gray-600 leading-relaxed mb-5">
-              To democratise access to quality coaching and empower every student — regardless of background —
-              with the knowledge, skills, and mindset required to excel in India&rsquo;s most competitive examinations.
-            </p>
-
             {/* Teaching Methodology */}
             <h3 className="font-bold text-[#0a2540] text-lg mb-3">Teaching Methodology</h3>
             <div className="flex flex-wrap gap-2 mb-6">
@@ -67,7 +78,7 @@ export default function AboutInstitute() {
 
             {/* Why Choose Us */}
             <h3 className="font-bold text-[#0a2540] text-lg mb-3">Why Choose Us</h3>
-            <ul className="flex flex-col gap-2.5 mb-6">
+            <ul className="flex flex-col gap-2.5">
               {WHY_CHOOSE.map((point) => (
                 <li key={point} className="flex items-start gap-2.5 text-sm text-gray-600">
                   <CheckCircle2 size={18} className="text-green-500 shrink-0 mt-0.5" />
@@ -75,13 +86,6 @@ export default function AboutInstitute() {
                 </li>
               ))}
             </ul>
-
-            {/* Our Vision */}
-            <h3 className="font-bold text-[#0a2540] text-lg mb-2">Our Vision</h3>
-            <p className="text-gray-600 leading-relaxed">
-              To be India&rsquo;s most impactful education organisation — one that not only produces toppers,
-              but cultivates lifelong learners who contribute meaningfully to society and the nation.
-            </p>
           </div>
         </div>
       </div>

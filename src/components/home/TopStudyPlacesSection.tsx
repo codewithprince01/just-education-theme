@@ -55,7 +55,7 @@ const TopStudyPlacesSection = () => {
                         <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full"></div>
                     </h2>
                     <Link
-                        href="/city"
+                        href="/browse"
                         className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 backdrop-blur-sm border border-blue-100 text-blue-600 rounded-xl text-sm font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 group shadow-sm self-start sm:self-auto cursor-pointer"
                         id="view-all-cities-btn"
                     >
@@ -84,7 +84,7 @@ const TopStudyPlacesSection = () => {
                             return (
                                 <Link
                                     key={place.slug}
-                                    href={`/city/${place.slug}`}
+                                    href={`/browse?city=${place.slug}`}
                                     className="flex-shrink-0 w-[150px] md:w-[160px] aspect-square flex flex-col items-center justify-center gap-4 p-5 rounded-xl border border-white/60 bg-white/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:bg-white/60 hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden"
                                 >
                                     {/* Glass reflection highlight */}

@@ -61,7 +61,7 @@ const Header = () => {
                         <div className="relative group py-2">
                             <button
                                 className={`text-sm font-semibold flex items-center gap-1 transition-all duration-300 ${
-                                    isActive('/careers') || isActive('/exams') || isActive('/about')
+                                    isActive('/careers') || isActive('/exams') || isActive('/about') || isActive('/library')
                                         ? 'text-orange-400'
                                         : 'text-white hover:text-orange-400'
                                 }`}
@@ -89,6 +89,12 @@ const Header = () => {
                                     className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
                                 >
                                     About
+                                </Link>
+                                <Link
+                                    href="/library"
+                                    className="block px-4 py-2 text-sm text-[#0B3C5D] hover:bg-gray-50 hover:text-orange-500 font-medium transition-colors"
+                                >
+                                    Library
                                 </Link>
                             </div>
                         </div>
@@ -238,6 +244,13 @@ const Header = () => {
                                             className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/about') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
                                         >
                                             About
+                                        </Link>
+                                        <Link
+                                            href="/library"
+                                            onClick={toggleMobileMenu}
+                                            className={`block text-xs font-semibold py-2 px-4 rounded-lg transition-all duration-300 ${isActive('/library') ? 'bg-orange-500 text-white' : 'text-white hover:bg-[#0F4D73]'}`}
+                                        >
+                                            Library
                                         </Link>
                                     </div>
                                 )}
